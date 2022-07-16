@@ -7,7 +7,7 @@ import (
 )
 
 func main() {
-	numbers := []string{"1", "12121212", "3", "4", "5"}
+	numbers := "add, 12121212 , 3, 4, 5"
 	result, err := sum.Add(numbers)
 
 	if err != nil {

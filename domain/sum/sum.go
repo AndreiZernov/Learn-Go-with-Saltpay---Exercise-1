@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"strconv"
+	"strings"
 )
 
 const maxInt = math.MaxInt64
@@ -12,10 +13,12 @@ const minInt = math.MinInt64
 
 var ErrOverflow = errors.New("integer overflow")
 
-func Add(n []string) (string, error) {
+func Add(n string) (string, error) {
 	sum := 0
 
-	for _, number := range n {
+	newArray := strings.Split(n, ", ")
+
+	for _, number := range newArray {
 		x, err := strconv.Atoi(number)
 
 		if err == nil {

@@ -8,6 +8,8 @@
 - [x] Part 3
 - [x] Part 4
 - [ ] Part 5
+  - [x] Part 5.1 Run ```go build -o add cmd/main.go``` to build the binary
+  - [x] Part 5.2 Run ```cp add /usr/local/bin``` to set the 'add' for global usage
 - [ ] Part 6
 - [ ] Part 7
 - [ ] Part 8
