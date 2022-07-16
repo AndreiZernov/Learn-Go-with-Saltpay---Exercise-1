@@ -1,5 +1,9 @@
 package sum
 
-func add(x, y int) int {
-	return x + y
+func add(numbers []int) int {
+	sum := 0
+	for _, number := range numbers {
+		sum += number
+	}
+	return sum
 }
