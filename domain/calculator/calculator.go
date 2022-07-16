@@ -8,14 +8,20 @@ import (
 	"strings"
 )
 
+type Calculator struct {
+}
+
+func New() *Calculator {
+	return &Calculator{}
+}
+
 const maxInt = math.MaxInt64
 const minInt = math.MinInt64
 
 var ErrOverflow = errors.New("integer overflow")
 
-func Add(n string) (string, error) {
+func (c Calculator) Add(n string) (string, error) {
 	sum := 0
-
 	newArray := strings.Split(n, ", ")
 
 	for _, number := range newArray {
@@ -34,5 +40,6 @@ func Add(n string) (string, error) {
 			sum += x
 		}
 	}
+
 	return fmt.Sprint(sum), nil
 }

@@ -4,7 +4,14 @@ import (
 	"strconv"
 )
 
-func Formatter(number string) string {
+type Formatter struct {
+}
+
+func New() *Formatter {
+	return &Formatter{}
+}
+
+func (f Formatter) GroupsOfThousands(number string) string {
 	max := 9999
 	min := -9999
 	intNumber, _ := strconv.Atoi(number)

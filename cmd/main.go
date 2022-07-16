@@ -11,8 +11,11 @@ func main() {
 	commandLine := commandLine.New()
 	numbers := commandLine.GetArguments()
 
+	calculator := calculator.New()
 	result, err := calculator.Add(numbers)
-	formattedResult := formatter.Formatter(result)
+
+	formatter := formatter.New()
+	formattedResult := formatter.GroupsOfThousands(result)
 
 	if err != nil {
 		fmt.Println(err.Error())
