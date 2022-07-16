@@ -1,4 +1,4 @@
-package sum
+package calculator
 
 import (
 	"errors"
@@ -34,7 +34,5 @@ func Add(n string) (string, error) {
 			sum += x
 		}
 	}
-	sumStr := fmt.Sprint(sum)
-
-	return sumStr, nil
+	return fmt.Sprint(sum), nil
 }
