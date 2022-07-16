@@ -1,8 +1,11 @@
 package commandLine
 
 import (
+	"io/ioutil"
 	"log"
 	"os"
+	"path/filepath"
+	"runtime"
 	"strings"
 )
 
@@ -13,12 +16,18 @@ func New() *CommandLine {
 	return &CommandLine{}
 }
 
+var (
+	_, b, _, _ = runtime.Caller(0)
+	Root       = filepath.Join(filepath.Dir(b), "../..")
+	numbers    string
+)
+
 func (c CommandLine) GetArguments() string {
 	toGetAllArgs := os.Args[1:]
-	var numbers string
+	filepath := filepath.Join(Root, "/data/input.txt")
 
 	if len(toGetAllArgs) == 0 {
-		content, err := os.ReadFile("data/input.txt")
+		content, err := ioutil.ReadFile(filepath)
 		if err != nil {
 			log.Fatal(err)
 		}

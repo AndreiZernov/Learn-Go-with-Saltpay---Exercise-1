@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/commandLine"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/calculator"
-	formatter "github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
 )
 
 func main() {
