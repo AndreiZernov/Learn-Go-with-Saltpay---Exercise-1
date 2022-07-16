@@ -3,6 +3,7 @@ package sum_test
 import (
 	"fmt"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/sum"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -24,17 +25,10 @@ func TestAdder(t *testing.T) {
 	for _, tt := range adderTest {
 		t.Run(tt.name, func(t *testing.T) {
 			got, err := sum.Add(tt.numbers)
-			checkAdder(t, err, tt.sum, got)
+			if err != nil {
+				fmt.Println(err)
+			}
+			assert.Equal(t, tt.sum, got)
 		})
-	}
-}
-
-func checkAdder(t testing.TB, err error, expected, sum string) {
-	t.Helper()
-	if err != nil {
-		fmt.Println(err)
-	}
-	if expected != sum {
-		t.Errorf("expected %s sum %s", expected, sum)
 	}
 }

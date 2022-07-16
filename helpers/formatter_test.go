@@ -2,6 +2,7 @@ package formatter_test
 
 import (
 	formatter "github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -22,9 +23,7 @@ func TestFormatter(t *testing.T) {
 	for _, tt := range formaterTest {
 		t.Run(tt.name, func(t *testing.T) {
 			got := formatter.Formatter(tt.number)
-			if tt.formattedNumber != got {
-				t.Errorf("expected %s formatted to %s", tt.formattedNumber, got)
-			}
+			assert.Equal(t, tt.formattedNumber, got)
 		})
 	}
 }
