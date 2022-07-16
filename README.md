@@ -3,7 +3,7 @@
 [Github Link](https://github.com/saltpay/learn-go-with-salt/blob/master/book/exercise1.md) 
 
 ### Progress: 
-- [ ] Part 1
+- [x] Part 1
 - [ ] Part 2
 - [ ] Part 3
 - [ ] Part 4
