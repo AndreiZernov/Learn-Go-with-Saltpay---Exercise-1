@@ -10,20 +10,90 @@ import (
 )
 
 func TestCommandLine_GetArguments(t *testing.T) {
+	var cmd *exec.Cmd
+
+	dir, err := os.Getwd()
+	if err != nil {
+		panic(err)
+	}
+	cmdPath := filepath.Join(dir, binName)
+
 	t.Run("Given a one number", func(t *testing.T) {
-		sum := cmdRunner("2")
+		cmd = exec.Command(cmdPath, "2")
+
+		cmdStdIn, err := cmd.StdinPipe()
+		if err != nil {
+			panic(err)
+		}
+
+		cmdStdIn.Close()
+
+		out, err := cmd.CombinedOutput()
+		if err != nil {
+			panic(err)
+		}
+
+		sum := string(out)
 
 		assert.Equal(t, "Sum of 2 equal 2 \n", sum)
 	})
 
-	t.Run("Given a one number", func(t *testing.T) {
-		sum := cmdRunner("2, 3, 5")
+	t.Run("Given a multiple number", func(t *testing.T) {
+		cmd = exec.Command(cmdPath, "2, 3, 5")
+
+		cmdStdIn, err := cmd.StdinPipe()
+		if err != nil {
+			panic(err)
+		}
+
+		cmdStdIn.Close()
+
+		out, err := cmd.CombinedOutput()
+		if err != nil {
+			panic(err)
+		}
+
+		sum := string(out)
 
 		assert.Equal(t, "Sum of 2, 3, 5 equal 10 \n", sum)
 	})
 
 	t.Run("No arg passed", func(t *testing.T) {
-		sum := cmdRunner("")
+		cmd = exec.Command(cmdPath)
+
+		cmdStdIn, err := cmd.StdinPipe()
+		if err != nil {
+			panic(err)
+		}
+
+		cmdStdIn.Close()
+
+		out, err := cmd.CombinedOutput()
+		if err != nil {
+			panic(err)
+		}
+
+		sum := string(out)
+
+		assert.Equal(t, "Sum of 4, 5, 32, 100, 867543 equal 867,684 \n", sum)
+	})
+
+	t.Run("Given the --input-file data/input.txt should return the calculation of numbers inside the file input.txt", func(t *testing.T) {
+		cmd = exec.Command(cmdPath, "--input-file", "data/input.txt")
+
+		cmdStdIn, err := cmd.StdinPipe()
+		if err != nil {
+			panic(err)
+		}
+
+		cmdStdIn.Close()
+
+		out, err := cmd.CombinedOutput()
+		if err != nil {
+			panic(err)
+		}
+
+		sum := string(out)
 
 		assert.Equal(t, "Sum of 4, 5, 32, 100, 867543 equal 867,684 \n", sum)
 	})
@@ -50,35 +120,4 @@ func TestMain(m *testing.M) {
 	os.Remove(binName)
 
 	os.Exit(result)
-}
-
-func cmdRunner(arg string) string {
-	var cmd *exec.Cmd
-
-	dir, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
-
-	cmdPath := filepath.Join(dir, binName)
-
-	if arg != "" {
-		cmd = exec.Command(cmdPath, arg)
-	} else {
-		cmd = exec.Command(cmdPath)
-	}
-
-	cmdStdIn, err := cmd.StdinPipe()
-	if err != nil {
-		panic(err)
-	}
-
-	cmdStdIn.Close()
-
-	out, err := cmd.CombinedOutput()
-	if err != nil {
-		panic(err)
-	}
-
-	return string(out)
 }
