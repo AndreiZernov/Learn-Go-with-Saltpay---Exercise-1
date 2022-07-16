@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	sum "github.com/AndreiZernov/learn_go_with_saltpay_exercise_one"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/sum"
 )
 
 func main() {
@@ -12,6 +12,6 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
-		fmt.Printf("Sum of %s equal %d \n", numbers, result)
+		fmt.Printf("Sum of %s equal %s \n", numbers, result)
 	}
 }
