@@ -7,13 +7,13 @@ import (
 )
 
 func main() {
-	numbers := []string{"1", "1", "3", "4", "5"}
+	numbers := []string{"1", "12121212", "3", "4", "5"}
 	result, err := sum.Add(numbers)
-	formatter.Formatter(result)
 
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
-		fmt.Printf("Sum of %s equal %s \n", numbers, result)
+		formattedResult := formatter.Formatter(result)
+		fmt.Printf("Sum of %s equal %s \n", numbers, formattedResult)
 	}
 }
