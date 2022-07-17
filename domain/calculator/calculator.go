@@ -22,7 +22,7 @@ var ErrOverflow = errors.New("integer overflow")
 
 func (c Calculator) Add(n string) (string, error) {
 	sum := 0
-	newArray := strings.Split(n, ", ")
+	newArray := strings.Split(n, ",")
 
 	for _, number := range newArray {
 		x, err := strconv.Atoi(number)

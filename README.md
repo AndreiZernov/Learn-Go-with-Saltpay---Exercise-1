@@ -11,9 +11,9 @@
   - [x] Part 5.1 Run ```go build -o add cmd/main.go``` to build the binary
   - [x] Part 5.2 Run ```cp add /usr/local/bin``` to set the 'add' for global usage
 - [x] Part 6 Partially completed
-  - [] Part 6.1 Find the way to get the file from anywhere in the file system
-- [ ] Part 7
-- [ ] Part 8
+  - [ ] Part 6.1 Find the way to get the file from anywhere in the file system
+- [x] Part 7
+- [x] Part 8
 - [ ] Part 9
 - [ ] Part 10
 - [ ] Part 11
