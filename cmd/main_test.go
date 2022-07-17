@@ -115,7 +115,7 @@ func TestCommandLine_GetArguments(t *testing.T) {
 
 		sum := string(out)
 
-		assert.Equal(t, "Sum of 4,5,32,100,867543,4,5,32,100,867543, equal 1,735,368 \n", sum)
+		assert.Equal(t, "Sum of 4,5,32,100,867543, equal 867,684 \n", sum)
 	})
 }
 
