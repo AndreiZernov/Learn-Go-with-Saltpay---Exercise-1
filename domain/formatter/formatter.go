@@ -1,7 +1,7 @@
 package formatter
 
 import (
-	"strconv"
+	"fmt"
 )
 
 type Formatter struct {
@@ -11,14 +11,16 @@ func New() *Formatter {
 	return &Formatter{}
 }
 
-func (f Formatter) GroupsOfThousands(number string) string {
+func (f Formatter) GroupsOfThousands(number int) string {
 	max := 9999
 	min := -9999
-	intNumber, _ := strconv.Atoi(number)
-	if intNumber > max || intNumber < min {
-		for i := len(number) - 3; i > 0; i -= 3 {
-			number = number[:i] + "," + number[i:]
+	strNumber := fmt.Sprint(number)
+	if number > max || number < min {
+		for i := len(strNumber) - 3; i > 0; i -= 3 {
+			if strNumber[:i] != "-" {
+				strNumber = strNumber[:i] + "," + strNumber[i:]
+			}
 		}
 	}
-	return number
+	return strNumber
 }
