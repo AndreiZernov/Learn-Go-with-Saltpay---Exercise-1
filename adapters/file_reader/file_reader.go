@@ -1,7 +1,6 @@
 package file_reader
 
 import (
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/string_replace"
 	"log"
 	"os"
 	"path/filepath"
@@ -13,7 +12,7 @@ func ReadFile(filepath string) string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string_replace.StringReplace(string(content))
+	return string(content)
 }
 
 var (

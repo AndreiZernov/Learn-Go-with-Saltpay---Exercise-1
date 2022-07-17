@@ -9,9 +9,9 @@ import (
 
 func TestReadFile(t *testing.T) {
 	t.Run("Should read file located at data/input.txt", func(t *testing.T) {
-		filepath := file_reader.GetFilePathname("data/input.txt")
-		expected := "4,5,32,100,867543"
-		got := file_reader.ReadFile(filepath)
+		path := file_reader.GetFilePathname("data/input.txt")
+		expected := "4\n5\n32\n100\n867543"
+		got := file_reader.ReadFile(path)
 
 		if got != expected {
 			t.Errorf("got %q, want %q", got, expected)
@@ -19,9 +19,9 @@ func TestReadFile(t *testing.T) {
 	})
 
 	t.Run("Should read file located at data/input2.csv", func(t *testing.T) {
-		filepath := file_reader.GetFilePathname("data/input2.csv")
+		path := file_reader.GetFilePathname("data/input2.csv")
 		expected := "4,5,32,100,867543"
-		got := file_reader.ReadFile(filepath)
+		got := file_reader.ReadFile(path)
 
 		if got != expected {
 			t.Errorf("got %q, want %q", got, expected)
