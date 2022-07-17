@@ -13,26 +13,38 @@ func New() *DataRetriever {
 }
 
 func (dr DataRetriever) GetData(arguments []string) string {
-	var numbers string
-
 	switch {
 	case len(arguments) == 0:
-		filepath := file_reader.GetFilePathname("/data/input.txt")
-		numbers = file_reader.ReadFile(filepath)
+		return dr.retrieveWithNoArgumentGiven()
 
 	case array_contains.ArrayContains(arguments, "--input-file"):
-		for i := 0; i < len(arguments); i++ {
-			if arguments[i] == "--input-file" && i+1 < len(arguments) {
-				filepath := file_reader.GetFilePathname("/" + arguments[i+1])
-				numbers += file_reader.ReadFile(filepath) + ","
-			}
-		}
+		return dr.retrieveWithInputFilesArguments(arguments)
 
 	default:
-		for _, v := range arguments {
-			numbers += v + ","
+		return dr.retrieveWithStringOfNumbersArguments(arguments)
+	}
+}
+
+func (dr DataRetriever) retrieveWithNoArgumentGiven() string {
+	filepath := file_reader.GetFilePathname("/data/input.txt")
+	return file_reader.ReadFile(filepath)
+}
+
+func (dr DataRetriever) retrieveWithInputFilesArguments(arguments []string) string {
+	numbers := ""
+	for i := 0; i < len(arguments); i++ {
+		if arguments[i] == "--input-file" && i+1 < len(arguments) {
+			filepath := file_reader.GetFilePathname("/" + arguments[i+1])
+			numbers += file_reader.ReadFile(filepath) + ","
 		}
 	}
+	return numbers
+}
 
+func (dr DataRetriever) retrieveWithStringOfNumbersArguments(arguments []string) string {
+	numbers := ""
+	for _, v := range arguments {
+		numbers += v + ","
+	}
 	return numbers
 }
