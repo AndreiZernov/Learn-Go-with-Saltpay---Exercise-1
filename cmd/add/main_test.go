@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-func TestCommandLine_GetArguments(t *testing.T) {
+func TestMainAdd(t *testing.T) {
 	var cmd *exec.Cmd
 
 	dir, err := os.Getwd()

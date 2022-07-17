@@ -89,9 +89,9 @@ If you make any assumptions about the feature (e.g. negative numbers are not sup
 
 ## Part 12
 
-Create a new program `math` so when it is invoked as `math --web-server`, it starts a web server with an endpoint `POST /add?num=4&num=5&num=32` that returns the response `41` as text.
+- [x] Create a new program `math` so when it is invoked as `math --web-server`, it starts a web server with an endpoint `POST /add?num=4&num=5&num=32` that returns the response `41` as text.
 
-(Ignore why it is a POST method, for now)
+  <em>(Ignore why it is a POST method, for now)</em>
 
 ## Part 13
 
