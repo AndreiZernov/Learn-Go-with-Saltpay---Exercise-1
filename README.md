@@ -75,15 +75,13 @@ If you make any assumptions about the feature (e.g. negative numbers are not sup
 
 ## Part 9
 
-Change the program so it accepts multiple files as input, each of which can be any supported format.
+- [x] Change the program so it accepts multiple files as input, each of which can be any supported format.
 
-e.g. `add --input-file one.txt --input-file data/two.txt`
-
-The output is the sum of all the numbers from all the specified files.
+  <em>e.g. `add --input-file one.txt --input-file data/two.txt`. The output is the sum of all the numbers from all the specified files.</em>
 
 ## Part 10
 
-Write a CI pipeline in Github Actions to run all your tests when you push code to the trunk.
+- [x] Write a CI pipeline in Github Actions to run all your tests when you push code to the trunk.
 
 ## Part 11
 
