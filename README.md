@@ -85,7 +85,7 @@ If you make any assumptions about the feature (e.g. negative numbers are not sup
 
 ## Part 11
 
-Change the program so it discards any duplicate numbers. e.g. `add 2 2 2 3 4 4 4` will output `9` (2+3+4).
+- [x] Change the program so it discards any duplicate numbers. e.g. `add 2 2 2 3 4 4 4` will output `9` (2+3+4).
 
 ## Part 12
 
