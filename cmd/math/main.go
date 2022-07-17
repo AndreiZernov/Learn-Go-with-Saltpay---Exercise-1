@@ -11,30 +11,44 @@ import (
 	"strings"
 )
 
-func HelloHandler(w http.ResponseWriter, req *http.Request) {
+func main() {
+	http.HandleFunc("/add", New().processes)
+
+	if array_contains.ArrayContains(os.Args[1:], "--web-server") {
+		fmt.Print("Web server is running on port 8080 \n")
+		log.Fatal(http.ListenAndServe(":8080", nil))
+	}
+}
+
+type handlers struct{}
+
+func New() *handlers {
+	return &handlers{}
+}
+
+func (h handlers) processes(w http.ResponseWriter, req *http.Request) {
+	headerContentTtype := req.Header.Get("Content-Type")
 	q := req.URL.Query()
-	numbers := strings.Join(q["num"][:], ",")
 
+	if len(q["num"]) > 0 {
+		h.response(w, q["num"])
+	} else if headerContentTtype == "application/x-www-form-urlencoded" {
+		req.ParseForm()
+		h.response(w, req.PostForm["num"])
+	}
+}
+
+func (h handlers) response(w http.ResponseWriter, data []string) {
+	numbers := strings.Join(data[:], ",")
 	calculator := calculator.New()
-	result, err := calculator.Add(numbers)
-
 	formatter := formatter.New()
+
+	result, err := calculator.Add(numbers)
 	formattedResult := formatter.GroupsOfThousands(result)
 
 	if err != nil {
 		fmt.Println(err.Error())
 	} else {
 		fmt.Fprintf(w, "Sum of %s equal %s \n", numbers, formattedResult)
-	}
-}
-
-func main() {
-	toGetAllArgs := os.Args[1:]
-
-	http.HandleFunc("/add", HelloHandler)
-
-	if array_contains.ArrayContains(toGetAllArgs, "--web-server") {
-		fmt.Print("Web server is running on port 8080 \n")
-		log.Fatal(http.ListenAndServe(":8080", nil))
 	}
 }

@@ -95,17 +95,16 @@ If you make any assumptions about the feature (e.g. negative numbers are not sup
 
 ## Part 13
 
-Change the math web server so it can also read a form-urlencoded body from the request.
+- [x] Change the math web server, so it can also read a form-urlencoded body from the request.
 
-Example request:
+  <em>Example request will still return `41` as text:</em>
+  
+  ```
+  POST /add
+  
+  num=4&num=5&num=32
+  ```
 
-```
-POST /add
-
-num=4&num=5&num=32
-```
-
-will still return `41` as text.
 
 ## Part 14
 
