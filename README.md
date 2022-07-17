@@ -108,19 +108,19 @@ If you make any assumptions about the feature (e.g. negative numbers are not sup
 
 ## Part 14
 
-Change the math web server so it can also accept numbers as a JSON array.
+- [x] Change the math web server, so it can also accept numbers as a JSON array.
 
-Example request:
+  Example request:
+  
+  ```
+  POST /add
+  
+  {
+      "nums": [4, 5, 32]
+  }
+  ```
 
-```
-POST /add
-
-{
-    "nums": [4, 5, 32]
-}
-```
-
-Research the request headers that a client will send that will allow different forms of the request body to be accepted by the server.
+  <em>Research the request headers that a client will send that will allow different forms of the request body to be accepted by the server.</em>
 
 
 ## Part 15
