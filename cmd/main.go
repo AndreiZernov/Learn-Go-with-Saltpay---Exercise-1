@@ -8,11 +8,16 @@ import (
 )
 
 func main() {
-	commandLine := commandLine.New()
 	numbers := commandLine.GetArguments()
-
 	calculator := calculator.New()
-	result, err := calculator.Add(numbers)
+
+	var result, summary int
+	var err error
+
+	for _, number := range numbers {
+		summary, err = calculator.Add(number)
+		result += summary
+	}
 
 	formatter := formatter.New()
 	formattedResult := formatter.GroupsOfThousands(result)
