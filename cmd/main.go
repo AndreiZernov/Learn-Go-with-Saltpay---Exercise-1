@@ -2,22 +2,20 @@ package main
 
 import (
 	"fmt"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/commandLine"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/data_retriever"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/calculator"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
+	"os"
 )
 
 func main() {
-	numbers := commandLine.GetArguments()
+	toGetAllArgs := os.Args[1:]
+
+	dataRetriever := data_retriever.New()
+	numbers := dataRetriever.GetData(toGetAllArgs)
+
 	calculator := calculator.New()
-
-	var result, summary int
-	var err error
-
-	for _, number := range numbers {
-		summary, err = calculator.Add(number)
-		result += summary
-	}
+	result, err := calculator.Add(numbers)
 
 	formatter := formatter.New()
 	formattedResult := formatter.GroupsOfThousands(result)

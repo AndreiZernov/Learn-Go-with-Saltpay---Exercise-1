@@ -35,7 +35,7 @@ func TestCommandLine_GetArguments(t *testing.T) {
 
 		sum := string(out)
 
-		assert.Equal(t, "Sum of [2] equal 2 \n", sum)
+		assert.Equal(t, "Sum of 2, equal 2 \n", sum)
 	})
 
 	t.Run("Given a multiple number", func(t *testing.T) {
@@ -55,7 +55,7 @@ func TestCommandLine_GetArguments(t *testing.T) {
 
 		sum := string(out)
 
-		assert.Equal(t, "Sum of [2 3 5] equal 10 \n", sum)
+		assert.Equal(t, "Sum of 2,3,5, equal 10 \n", sum)
 	})
 
 	t.Run("No arg passed", func(t *testing.T) {
@@ -75,7 +75,7 @@ func TestCommandLine_GetArguments(t *testing.T) {
 
 		sum := string(out)
 
-		assert.Equal(t, "Sum of [4,5,32,100,867543] equal 867,684 \n", sum)
+		assert.Equal(t, "Sum of 4,5,32,100,867543 equal 867,684 \n", sum)
 	})
 
 	t.Run("Given the --input-file data/input.txt should return the calculation of numbers inside the file input.txt", func(t *testing.T) {
@@ -95,7 +95,7 @@ func TestCommandLine_GetArguments(t *testing.T) {
 
 		sum := string(out)
 
-		assert.Equal(t, "Sum of [4,5,32,100,867543] equal 867,684 \n", sum)
+		assert.Equal(t, "Sum of 4,5,32,100,867543, equal 867,684 \n", sum)
 	})
 
 	t.Run("Given the few files should return the sum of the all files", func(t *testing.T) {
@@ -115,7 +115,7 @@ func TestCommandLine_GetArguments(t *testing.T) {
 
 		sum := string(out)
 
-		assert.Equal(t, "Sum of [4,5,32,100,867543 4,5,32,100,867543] equal 1,735,368 \n", sum)
+		assert.Equal(t, "Sum of 4,5,32,100,867543,4,5,32,100,867543, equal 1,735,368 \n", sum)
 	})
 }
 
