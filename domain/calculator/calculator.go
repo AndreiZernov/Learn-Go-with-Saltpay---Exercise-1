@@ -2,7 +2,6 @@ package calculator
 
 import (
 	"errors"
-	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -20,7 +19,7 @@ const minInt = math.MinInt64
 
 var ErrOverflow = errors.New("integer overflow")
 
-func (c Calculator) Add(n string) (string, error) {
+func (c Calculator) Add(n string) (int, error) {
 	sum := 0
 	newArray := strings.Split(n, ",")
 
@@ -30,16 +29,16 @@ func (c Calculator) Add(n string) (string, error) {
 		if err == nil {
 			if x > 0 {
 				if sum > maxInt-x {
-					return "0", ErrOverflow
+					return 0, ErrOverflow
 				}
 			} else {
 				if sum < minInt-x {
-					return "0", ErrOverflow
+					return 0, ErrOverflow
 				}
 			}
 			sum += x
 		}
 	}
 
-	return fmt.Sprint(sum), nil
+	return sum, nil
 }
