@@ -8,56 +8,72 @@ import (
 
 func TestDataCleaner(t *testing.T) {
 	formaterTest := []struct {
-		name     string
-		str      string
-		expected string
+		Name     string
+		Str      string
+		Expected string
 	}{
-		{name: "Given a strings_helper with comma and space between items should return formatted strings_helper", str: "10, 20, 30, 40, 50", expected: "10,20,30,40,50"},
-		{name: "Given a strings_helper with correct format should return the same strings_helper", str: "10,20,30,40,50", expected: "10,20,30,40,50"},
-		{name: "Given a strings_helper with new line between items should return just numbers divided by commas", str: "10\n20\n30\n40\n50", expected: "10,20,30,40,50"},
-		{name: "Given a strings_helper with duplicated numbers should return the strings_helper without duplication", str: "10,10,20,20,30,30", expected: "10,20,30"},
+		{
+			Name:     "Given a strings_helper with comma and space between items should return formatted strings_helper",
+			Str:      "10, 20, 30, 40, 50",
+			Expected: "10,20,30,40,50",
+		},
+		{
+			Name:     "Given a strings_helper with correct format should return the same strings_helper",
+			Str:      "10,20,30,40,50",
+			Expected: "10,20,30,40,50",
+		},
+		{
+			Name:     "Given a strings_helper with new line between items should return just numbers divided by commas",
+			Str:      "10\n20\n30\n40\n50",
+			Expected: "10,20,30,40,50",
+		},
+		{
+			Name:     "Given a strings_helper with duplicated numbers should return the strings_helper without duplication",
+			Str:      "10,10,20,20,30,30",
+			Expected: "10,20,30",
+		},
 	}
 
 	for _, tt := range formaterTest {
-		t.Run(tt.name, func(t *testing.T) {
-			newStr := strings_helper.DataCleaner(tt.str)
-			assert.Equal(t, tt.expected, newStr)
+		t.Run(tt.Name, func(t *testing.T) {
+			newStr := strings_helper.DataCleaner(tt.Str)
+			assert.Equal(t, tt.Expected, newStr)
 		})
 	}
 }
 
 func TestRemoveDuplicates(t *testing.T) {
 	formaterTest := []struct {
-		name     string
-		str      string
-		expected string
+		Name     string
+		Str      string
+		Expected string
 	}{
 		{
-			name:     "Given a string and a slice which contains a string should return true",
-			str:      "1,2,2,4,5,5,7,8,9,10",
-			expected: "1,2,4,5,7,8,9,10",
+			Name:     "Given a string and a slice which contains a string should return true",
+			Str:      "1,2,2,4,5,5,7,8,9,10",
+			Expected: "1,2,4,5,7,8,9,10",
 		},
 		{
-			name:     "Given a sting and a slice which no contains a string should return false",
-			str:      "1,1,1,1",
-			expected: "1",
+			Name:     "Given a sting and a slice which no contains a string should return false",
+			Str:      "1,1,1,1",
+			Expected: "1",
 		},
 		{
-			name:     "Given a sting and a slice with few values which contains a string should return true",
-			str:      "add,add,2",
-			expected: "add,2",
+			Name:     "Given a sting and a slice with few values which contains a string should return true",
+			Str:      "add,add,2",
+			Expected: "add,2",
 		},
 		{
-			name:     "Given a sting and a slice with few values which not contains a string should return false",
-			str:      "1",
-			expected: "1",
+			Name:     "Given a sting and a slice with few values which not contains a string should return false",
+			Str:      "1",
+			Expected: "1",
 		},
 	}
 
 	for _, tt := range formaterTest {
-		t.Run(tt.name, func(t *testing.T) {
-			newString := strings_helper.RemoveDuplicates(tt.str)
-			assert.Equal(t, tt.expected, newString)
+		t.Run(tt.Name, func(t *testing.T) {
+			newString := strings_helper.RemoveDuplicates(tt.Str)
+			assert.Equal(t, tt.Expected, newString)
 		})
 	}
 }

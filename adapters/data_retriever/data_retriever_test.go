@@ -8,42 +8,42 @@ import (
 
 func TestDataRetriever_GetData(t *testing.T) {
 	adderTest := []struct {
-		name      string
-		arguments []string
-		numbers   string
+		Name      string
+		Arguments []string
+		Numbers   string
 	}{
 		{
-			name:      "Given an arguments --input-file data/input.txt should return numbers inside",
-			arguments: []string{"--input-file", "data/input.txt"},
-			numbers:   "4\n5\n32\n100\n867543,",
+			Name:      "Given an Arguments --input-file data/input.txt should return Numbers inside",
+			Arguments: []string{"--input-file", "data/input.txt"},
+			Numbers:   "4\n5\n32\n100\n867543,",
 		},
 		{
-			name:      "Given an arguments --input-file twice should return string of numbers merged from both files",
-			arguments: []string{"--input-file", "data/input.txt", "--input-file", "data/input2.csv"},
-			numbers:   "4\n5\n32\n100\n867543,4,5,32,100,867543,",
+			Name:      "Given an Arguments --input-file twice should return string of Numbers merged from both files",
+			Arguments: []string{"--input-file", "data/input.txt", "--input-file", "data/input2.csv"},
+			Numbers:   "4\n5\n32\n100\n867543,4,5,32,100,867543,",
 		},
 		{
-			name:      "Given an arguments as numbers in one string should return string of numbers as it is",
-			arguments: []string{"-2, 3, 4"},
-			numbers:   "-2, 3, 4,",
+			Name:      "Given an Arguments as Numbers in one string should return string of Numbers as it is",
+			Arguments: []string{"-2, 3, 4"},
+			Numbers:   "-2, 3, 4,",
 		},
 		{
-			name:      "Given an arguments as numbers in wto string should return merged string of numbers",
-			arguments: []string{"-2, 3, 4", "-2, 3, 4"},
-			numbers:   "-2, 3, 4,-2, 3, 4,",
+			Name:      "Given an Arguments as Numbers in wto string should return merged string of Numbers",
+			Arguments: []string{"-2, 3, 4", "-2, 3, 4"},
+			Numbers:   "-2, 3, 4,-2, 3, 4,",
 		},
 		{
-			name:      "Given no arguments should return default numbers from data/input.txt file",
-			arguments: []string{},
-			numbers:   "4\n5\n32\n100\n867543",
+			Name:      "Given no Arguments should return default Numbers from data/input.txt file",
+			Arguments: []string{},
+			Numbers:   "4\n5\n32\n100\n867543",
 		},
 	}
 
 	for _, tt := range adderTest {
-		t.Run(tt.name, func(t *testing.T) {
+		t.Run(tt.Name, func(t *testing.T) {
 			dataRetriever := data_retriever.New()
-			got := dataRetriever.GetData(tt.arguments)
-			assert.Equal(t, tt.numbers, got)
+			got := dataRetriever.GetData(tt.Arguments)
+			assert.Equal(t, tt.Numbers, got)
 		})
 	}
 }

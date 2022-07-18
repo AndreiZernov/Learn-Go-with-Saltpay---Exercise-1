@@ -16,41 +16,41 @@ func TestMainAdd(t *testing.T) {
 	cmdPath := filepath.Join(dir, binName)
 
 	adderTest := []struct {
-		name            string
-		commandExecuted *exec.Cmd
-		expected        string
+		Name            string
+		CommandExecuted *exec.Cmd
+		Expected        string
 	}{
 		{
-			name:            "Given a one number",
-			commandExecuted: exec.Command(cmdPath, "2"),
-			expected:        "Sum of 2, equal 2 \n",
+			Name:            "Given a one number",
+			CommandExecuted: exec.Command(cmdPath, "2"),
+			Expected:        "Sum of 2, equal 2 \n",
 		},
 		{
-			name:            "Given a multiple number",
-			commandExecuted: exec.Command(cmdPath, "2", "3", "5"),
-			expected:        "Sum of 2,3,5, equal 10 \n",
+			Name:            "Given a multiple number",
+			CommandExecuted: exec.Command(cmdPath, "2", "3", "5"),
+			Expected:        "Sum of 2,3,5, equal 10 \n",
 		},
 		{
-			name:            "Given the --input-file data/input.txt should return the calculation from input.txt",
-			commandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt"),
-			expected:        "Sum of 4,5,32,100,867543, equal 867,684 \n",
+			Name:            "Given the --input-file data/input.txt should return the calculation from input.txt",
+			CommandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt"),
+			Expected:        "Sum of 4,5,32,100,867543, equal 867,684 \n",
 		},
 		{
-			name:            "Given the few files should return the sum of the all numbers in files",
-			commandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt", "--input-file", "data/input2.csv"),
-			expected:        "Sum of 4,5,32,100,867543, equal 867,684 \n",
+			Name:            "Given the few files should return the sum of the all numbers in files",
+			CommandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt", "--input-file", "data/input2.csv"),
+			Expected:        "Sum of 4,5,32,100,867543, equal 867,684 \n",
 		},
 		{
-			name:            "Given no arguments should return calculation from data/input.txt file",
-			commandExecuted: exec.Command(cmdPath),
-			expected:        "Sum of 4,5,32,100,867543 equal 867,684 \n",
+			Name:            "Given no arguments should return calculation from data/input.txt file",
+			CommandExecuted: exec.Command(cmdPath),
+			Expected:        "Sum of 4,5,32,100,867543 equal 867,684 \n",
 		},
 	}
 
 	for _, tt := range adderTest {
-		t.Run(tt.name, func(t *testing.T) {
-			sum := CommandLineOutput(tt.commandExecuted)
-			assert.Equal(t, tt.expected, sum)
+		t.Run(tt.Name, func(t *testing.T) {
+			sum := CommandLineOutput(tt.CommandExecuted)
+			assert.Equal(t, tt.Expected, sum)
 		})
 	}
 }

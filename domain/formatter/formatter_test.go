@@ -8,47 +8,47 @@ import (
 
 func TestFormatter(t *testing.T) {
 	formaterTest := []struct {
-		name            string
-		number          int
-		formattedNumber string
+		Name            string
+		Number          int
+		FormattedNumber string
 	}{
 		{
-			name:            "Given a number bigger than 9999 should return formatted number with comma for groups of thousands",
-			number:          200000,
-			formattedNumber: "200,000",
+			Name:            "Given a Number bigger than 9999 should return formatted Number with comma for groups of thousands",
+			Number:          200000,
+			FormattedNumber: "200,000",
 		},
 		{
-			name:            "Given a number smaller than -9999 should return formatted number with comma for groups of thousands",
-			number:          -200000,
-			formattedNumber: "-200,000",
+			Name:            "Given a Number smaller than -9999 should return formatted Number with comma for groups of thousands",
+			Number:          -200000,
+			FormattedNumber: "-200,000",
 		},
 		{
-			name:            "Given a number equal 9999 should return the same number",
-			number:          9999,
-			formattedNumber: "9999",
+			Name:            "Given a Number equal 9999 should return the same Number",
+			Number:          9999,
+			FormattedNumber: "9999",
 		},
 		{
-			name:            "Given a number equal -9999 should return the same number",
-			number:          -9999,
-			formattedNumber: "-9999",
+			Name:            "Given a Number equal -9999 should return the same Number",
+			Number:          -9999,
+			FormattedNumber: "-9999",
 		},
 		{
-			name:            "Given a number smaller than 9999 and bigger than -9999 should return the same number",
-			number:          10,
-			formattedNumber: "10",
+			Name:            "Given a Number smaller than 9999 and bigger than -9999 should return the same Number",
+			Number:          10,
+			FormattedNumber: "10",
 		},
 		{
-			name:            "Given a number equal 0 should return 0",
-			number:          0,
-			formattedNumber: "0",
+			Name:            "Given a Number equal 0 should return 0",
+			Number:          0,
+			FormattedNumber: "0",
 		},
 	}
 
 	for _, tt := range formaterTest {
-		t.Run(tt.name, func(t *testing.T) {
+		t.Run(tt.Name, func(t *testing.T) {
 			format := formatter.New()
-			got := format.GroupsOfThousands(tt.number)
-			assert.Equal(t, tt.formattedNumber, got)
+			got := format.GroupsOfThousands(tt.Number)
+			assert.Equal(t, tt.FormattedNumber, got)
 		})
 	}
 }

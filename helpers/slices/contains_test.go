@@ -8,82 +8,82 @@ import (
 
 func TestContains(t *testing.T) {
 	formaterStringsTest := []struct {
-		name           string
-		sliceOfStrings []string
+		Name           string
+		SliceOfStrings []string
 		str            string
-		expected       bool
+		Expected       bool
 	}{
 		{
-			name:           "Given a string and a slice of strings which contains a string should return true",
-			sliceOfStrings: []string{"10"},
+			Name:           "Given a string and a slice of strings which contains a string should return true",
+			SliceOfStrings: []string{"10"},
 			str:            "10",
-			expected:       true,
+			Expected:       true,
 		},
 		{
-			name:           "Given a string and a slice of strings which no contains a string should return false",
-			sliceOfStrings: []string{"10"},
+			Name:           "Given a string and a slice of strings which no contains a string should return false",
+			SliceOfStrings: []string{"10"},
 			str:            "20",
-			expected:       false,
+			Expected:       false,
 		},
 
 		{
-			name:           "Given a string and a slice of strings with few values which contains a string should return true",
-			sliceOfStrings: []string{"10", "20"},
+			Name:           "Given a string and a slice of strings with few values which contains a string should return true",
+			SliceOfStrings: []string{"10", "20"},
 			str:            "20",
-			expected:       true,
+			Expected:       true,
 		},
 		{
-			name:           "Given a string and a slice of strings with few values which not contains a string should return false",
-			sliceOfStrings: []string{"10", "20"},
+			Name:           "Given a string and a slice of strings with few values which not contains a string should return false",
+			SliceOfStrings: []string{"10", "20"},
 			str:            "30",
-			expected:       false,
+			Expected:       false,
 		},
 	}
 
 	for _, tt := range formaterStringsTest {
-		t.Run(tt.name, func(t *testing.T) {
-			ok := slices.Contains(tt.sliceOfStrings, tt.str)
-			assert.Equal(t, tt.expected, ok)
+		t.Run(tt.Name, func(t *testing.T) {
+			ok := slices.Contains(tt.SliceOfStrings, tt.str)
+			assert.Equal(t, tt.Expected, ok)
 		})
 	}
 
 	formaterIntegersTest := []struct {
-		name            string
-		sliceOfIntegers []int
-		integer         int
-		expected        bool
+		Name            string
+		SliceOfIntegers []int
+		Integer         int
+		Expected        bool
 	}{
 		{
-			name:            "Given a integer and a slice of integers which contains a integer should return true",
-			sliceOfIntegers: []int{10},
-			integer:         10,
-			expected:        true,
+			Name:            "Given a Integer and a slice of Integers which contains a Integer should return true",
+			SliceOfIntegers: []int{10},
+			Integer:         10,
+			Expected:        true,
 		},
 		{
-			name:            "Given a integer and a slice of integers which no contains a integer should return false",
-			sliceOfIntegers: []int{10},
-			integer:         20,
-			expected:        false,
+			Name:            "Given a Integer and a slice of Integers which no contains a Integer should return false",
+			SliceOfIntegers: []int{10},
+			Integer:         20,
+			Expected:        false,
 		},
 
 		{
-			name:            "Given a integer and a slice of integers with few values which contains a integer should return true",
-			sliceOfIntegers: []int{10, 20},
-			integer:         20,
-			expected:        true,
+			Name:            "Given a Integer and a slice of Integers with few values which contains a Integer should return true",
+			SliceOfIntegers: []int{10, 20},
+			Integer:         20,
+			Expected:        true,
 		},
 		{
-			name:            "Given a integer and a slice of integers with few values which not contains a integer should return false",
-			sliceOfIntegers: []int{10, 20},
-			integer:         30,
-			expected:        false,
+			Name:            "Given a Integer and a slice of Integers with few values which not contains a Integer should return false",
+			SliceOfIntegers: []int{10, 20},
+			Integer:         30,
+			Expected:        false,
 		},
 	}
 
 	for _, tt := range formaterIntegersTest {
-		t.Run(tt.name, func(t *testing.T) {
-			ok := slices.Contains(tt.sliceOfIntegers, tt.integer)
-			assert.Equal(t, tt.expected, ok)
+		t.Run(tt.Name, func(t *testing.T) {
+			ok := slices.Contains(tt.SliceOfIntegers, tt.Integer)
+			assert.Equal(t, tt.Expected, ok)
 		})
 	}
 }
