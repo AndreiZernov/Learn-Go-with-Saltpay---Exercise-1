@@ -22,8 +22,8 @@ func TestFormatter(t *testing.T) {
 
 	for _, tt := range formaterTest {
 		t.Run(tt.name, func(t *testing.T) {
-			formatter := formatter.New()
-			got := formatter.GroupsOfThousands(tt.number)
+			format := formatter.New()
+			got := format.GroupsOfThousands(tt.number)
 			assert.Equal(t, tt.formattedNumber, got)
 		})
 	}

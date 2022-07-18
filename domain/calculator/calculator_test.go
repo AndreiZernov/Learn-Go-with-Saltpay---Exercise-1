@@ -25,8 +25,8 @@ func TestAdder(t *testing.T) {
 
 	for _, tt := range adderTest {
 		t.Run(tt.name, func(t *testing.T) {
-			calculator := calculator.New()
-			got, err := calculator.Add(tt.numbers)
+			calculate := calculator.New()
+			got, err := calculate.Add(tt.numbers)
 			if err != nil {
 				fmt.Println(err)
 			}

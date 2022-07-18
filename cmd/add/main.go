@@ -17,11 +17,11 @@ func main() {
 
 	cleanData := data_cleaner.DataCleaner(numbers)
 
-	calculator := calculator.New()
-	result, err := calculator.Add(cleanData)
+	calculate := calculator.New()
+	result, err := calculate.Add(cleanData)
 
-	formatter := formatter.New()
-	formattedResult := formatter.GroupsOfThousands(result)
+	format := formatter.New()
+	formattedResult := format.GroupsOfThousands(result)
 
 	if err != nil {
 		fmt.Println(err.Error())
