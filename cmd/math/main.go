@@ -6,6 +6,7 @@ import (
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/calculator"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/array_contains"
+	"github.com/gorilla/mux"
 	"io"
 	"log"
 	"net/http"
@@ -15,11 +16,16 @@ import (
 )
 
 func main() {
-	http.HandleFunc("/add", new().processes)
+	router := mux.NewRouter()
+	httpRequestsHandler := newRequestHandlers()
+
+	router.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForQueries).Methods(http.MethodPost).Queries("num", "{[0-9]*?}")
+	router.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForFormUrlEncoded).Methods(http.MethodPost).Headers("Content-Type", "application/x-www-form-urlencoded")
+	router.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForJson).Methods(http.MethodPost).Headers("Content-Type", "application/json")
 
 	if array_contains.ArrayContains(os.Args[1:], "--web-server") {
 		fmt.Print("Web server is running on port 8080 \n")
-		log.Fatal(http.ListenAndServe(":8080", nil))
+		log.Fatal(http.ListenAndServe(":8080", router))
 	} else {
 		fmt.Print("Web server did not start. Please check the command, should contain --web-server \n")
 	}
@@ -27,43 +33,25 @@ func main() {
 
 type handlers struct{}
 
-func new() *handlers {
+func newRequestHandlers() *handlers {
 	return &handlers{}
 }
 
-func (h handlers) processes(w http.ResponseWriter, req *http.Request) {
-	headerContentTtype := req.Header.Get("Content-Type")
-	q := req.URL.Query()
-
-	if len(q["num"]) > 0 {
-		h.response(w, q["num"])
-	} else if headerContentTtype == "application/x-www-form-urlencoded" {
-		req.ParseForm()
-		h.response(w, req.PostForm["num"])
-	} else if headerContentTtype == "application/json" {
-		data := h.RetrieveJsonArray(req)
-		h.response(w, data)
-	} else {
-		w.WriteHeader(http.StatusBadRequest)
-	}
+func (h handlers) addRequestHandlerForQueries(w http.ResponseWriter, req *http.Request) {
+	data := req.URL.Query()["num"]
+	h.addResponseHandler(w, data)
 }
 
-func (h handlers) response(w http.ResponseWriter, data []string) {
-	numbers := strings.Join(data[:], ",")
-	calculator := calculator.New()
-	formatter := formatter.New()
-
-	result, err := calculator.Add(numbers)
-	formattedResult := formatter.GroupsOfThousands(result)
-
+func (h handlers) addRequestHandlerForFormUrlEncoded(w http.ResponseWriter, req *http.Request) {
+	err := req.ParseForm()
 	if err != nil {
-		fmt.Println(err.Error())
-	} else {
-		fmt.Fprintf(w, "Sum of %s equal %s \n", numbers, formattedResult)
+		panic(err)
 	}
+	data := req.PostForm["num"]
+	h.addResponseHandler(w, data)
 }
 
-func (h handlers) RetrieveJsonArray(req *http.Request) []string {
+func (h handlers) addRequestHandlerForJson(w http.ResponseWriter, req *http.Request) {
 	var t struct {
 		Nums []int
 	}
@@ -77,5 +65,20 @@ func (h handlers) RetrieveJsonArray(req *http.Request) []string {
 	for _, num := range t.Nums {
 		data = append(data, strconv.Itoa(num))
 	}
-	return data
+	h.addResponseHandler(w, data)
+}
+
+func (h handlers) addResponseHandler(w http.ResponseWriter, data []string) {
+	numbers := strings.Join(data[:], ",")
+	calculate := calculator.New()
+	format := formatter.New()
+
+	result, err := calculate.Add(numbers)
+	formattedResult := format.GroupsOfThousands(result)
+
+	_, err = fmt.Fprintf(w, "Sum of %s equal %s \n", numbers, formattedResult)
+
+	if err != nil {
+		panic(err)
+	}
 }
