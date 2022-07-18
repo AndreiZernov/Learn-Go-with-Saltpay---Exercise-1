@@ -20,11 +20,31 @@ func TestMainAdd(t *testing.T) {
 		commandExecuted *exec.Cmd
 		expected        string
 	}{
-		{name: "Given a one number", commandExecuted: exec.Command(cmdPath, "2"), expected: "Sum of 2, equal 2 \n"},
-		{name: "Given a multiple number", commandExecuted: exec.Command(cmdPath, "2", "3", "5"), expected: "Sum of 2,3,5, equal 10 \n"},
-		{name: "Given the --input-file data/input.txt should return the calculation from input.txt", commandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt"), expected: "Sum of 4,5,32,100,867543, equal 867,684 \n"},
-		{name: "Given the few files should return the sum of the all numbers in files", commandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt", "--input-file", "data/input2.csv"), expected: "Sum of 4,5,32,100,867543, equal 867,684 \n"},
-		{name: "Given no arguments should return calculation from data/input.txt file", commandExecuted: exec.Command(cmdPath), expected: "Sum of 4,5,32,100,867543 equal 867,684 \n"},
+		{
+			name:            "Given a one number",
+			commandExecuted: exec.Command(cmdPath, "2"),
+			expected:        "Sum of 2, equal 2 \n",
+		},
+		{
+			name:            "Given a multiple number",
+			commandExecuted: exec.Command(cmdPath, "2", "3", "5"),
+			expected:        "Sum of 2,3,5, equal 10 \n",
+		},
+		{
+			name:            "Given the --input-file data/input.txt should return the calculation from input.txt",
+			commandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt"),
+			expected:        "Sum of 4,5,32,100,867543, equal 867,684 \n",
+		},
+		{
+			name:            "Given the few files should return the sum of the all numbers in files",
+			commandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt", "--input-file", "data/input2.csv"),
+			expected:        "Sum of 4,5,32,100,867543, equal 867,684 \n",
+		},
+		{
+			name:            "Given no arguments should return calculation from data/input.txt file",
+			commandExecuted: exec.Command(cmdPath),
+			expected:        "Sum of 4,5,32,100,867543 equal 867,684 \n",
+		},
 	}
 
 	for _, tt := range adderTest {
