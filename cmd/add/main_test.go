@@ -11,96 +11,41 @@ import (
 )
 
 func TestMainAdd(t *testing.T) {
-	var cmd *exec.Cmd
-
 	dir, err := os.Getwd()
 	error_handler.HandlePanic(err)
 	cmdPath := filepath.Join(dir, binName)
 
-	t.Run("Given a one number", func(t *testing.T) {
-		cmd = exec.Command(cmdPath, "2")
+	adderTest := []struct {
+		name            string
+		commandExecuted *exec.Cmd
+		expected        string
+	}{
+		{name: "Given a one number", commandExecuted: exec.Command(cmdPath, "2"), expected: "Sum of 2, equal 2 \n"},
+		{name: "Given a multiple number", commandExecuted: exec.Command(cmdPath, "2", "3", "5"), expected: "Sum of 2,3,5, equal 10 \n"},
+		{name: "Given the --input-file data/input.txt should return the calculation from input.txt", commandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt"), expected: "Sum of 4,5,32,100,867543, equal 867,684 \n"},
+		{name: "Given the few files should return the sum of the all numbers in files", commandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt", "--input-file", "data/input2.csv"), expected: "Sum of 4,5,32,100,867543, equal 867,684 \n"},
+		{name: "Given no arguments should return calculation from data/input.txt file", commandExecuted: exec.Command(cmdPath), expected: "Sum of 4,5,32,100,867543 equal 867,684 \n"},
+	}
 
-		cmdStdIn, err := cmd.StdinPipe()
-		error_handler.HandlePanic(err)
+	for _, tt := range adderTest {
+		t.Run(tt.name, func(t *testing.T) {
+			sum := CommandLineOutput(tt.commandExecuted)
+			assert.Equal(t, tt.expected, sum)
+		})
+	}
+}
 
-		err = cmdStdIn.Close()
-		error_handler.HandlePanic(err)
+func CommandLineOutput(cmd *exec.Cmd) string {
+	cmdStdIn, err := cmd.StdinPipe()
+	error_handler.HandlePanic(err)
 
-		out, err := cmd.CombinedOutput()
-		error_handler.HandlePanic(err)
+	err = cmdStdIn.Close()
+	error_handler.HandlePanic(err)
 
-		sum := string(out)
+	out, err := cmd.CombinedOutput()
+	error_handler.HandlePanic(err)
 
-		assert.Equal(t, "Sum of 2, equal 2 \n", sum)
-	})
-
-	t.Run("Given a multiple number", func(t *testing.T) {
-		cmd = exec.Command(cmdPath, "2", "3", "5")
-
-		cmdStdIn, err := cmd.StdinPipe()
-		error_handler.HandlePanic(err)
-
-		err = cmdStdIn.Close()
-		error_handler.HandlePanic(err)
-
-		out, err := cmd.CombinedOutput()
-		error_handler.HandlePanic(err)
-
-		sum := string(out)
-
-		assert.Equal(t, "Sum of 2,3,5, equal 10 \n", sum)
-	})
-
-	t.Run("No arg passed", func(t *testing.T) {
-		cmd = exec.Command(cmdPath)
-
-		cmdStdIn, err := cmd.StdinPipe()
-		error_handler.HandlePanic(err)
-
-		err = cmdStdIn.Close()
-		error_handler.HandlePanic(err)
-
-		out, err := cmd.CombinedOutput()
-		error_handler.HandlePanic(err)
-
-		sum := string(out)
-
-		assert.Equal(t, "Sum of 4,5,32,100,867543 equal 867,684 \n", sum)
-	})
-
-	t.Run("Given the --input-file data/input.txt should return the calculation of numbers inside the file input.txt", func(t *testing.T) {
-		cmd = exec.Command(cmdPath, "--input-file", "data/input.txt")
-
-		cmdStdIn, err := cmd.StdinPipe()
-		error_handler.HandlePanic(err)
-
-		err = cmdStdIn.Close()
-		error_handler.HandlePanic(err)
-
-		out, err := cmd.CombinedOutput()
-		error_handler.HandlePanic(err)
-
-		sum := string(out)
-
-		assert.Equal(t, "Sum of 4,5,32,100,867543, equal 867,684 \n", sum)
-	})
-
-	t.Run("Given the few files should return the sum of the all files", func(t *testing.T) {
-		cmd = exec.Command(cmdPath, "--input-file", "data/input.txt", "--input-file", "data/input2.csv")
-
-		cmdStdIn, err := cmd.StdinPipe()
-		error_handler.HandlePanic(err)
-
-		err = cmdStdIn.Close()
-		error_handler.HandlePanic(err)
-
-		out, err := cmd.CombinedOutput()
-		error_handler.HandlePanic(err)
-
-		sum := string(out)
-
-		assert.Equal(t, "Sum of 4,5,32,100,867543, equal 867,684 \n", sum)
-	})
+	return string(out)
 }
 
 var (

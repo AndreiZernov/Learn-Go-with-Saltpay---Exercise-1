@@ -6,6 +6,7 @@ import (
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/calculator"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/strings_helper"
 	"github.com/gorilla/mux"
 	"io"
 	"net/http"
@@ -60,10 +61,12 @@ func (svr server) addRequestHandlerForJson(w http.ResponseWriter, req *http.Requ
 
 func (svr server) addResponseHandler(w http.ResponseWriter, data []string) {
 	numbers := strings.Join(data[:], ",")
+	cleanData := strings_helper.DataCleaner(numbers)
+
 	calculate := calculator.New()
 	format := formatter.New()
 
-	result, err := calculate.Add(numbers)
+	result, err := calculate.Add(cleanData)
 	formattedResult := format.GroupsOfThousands(result)
 
 	_, err = fmt.Fprintf(w, "Sum of %s equal %s \n", numbers, formattedResult)
