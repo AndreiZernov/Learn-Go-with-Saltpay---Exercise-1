@@ -2,6 +2,7 @@ package main_test
 
 import (
 	"fmt"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"os/exec"
@@ -13,25 +14,20 @@ func TestMainAdd(t *testing.T) {
 	var cmd *exec.Cmd
 
 	dir, err := os.Getwd()
-	if err != nil {
-		panic(err)
-	}
+	error_handler.HandlePanic(err)
 	cmdPath := filepath.Join(dir, binName)
 
 	t.Run("Given a one number", func(t *testing.T) {
 		cmd = exec.Command(cmdPath, "2")
 
 		cmdStdIn, err := cmd.StdinPipe()
-		if err != nil {
-			panic(err)
-		}
+		error_handler.HandlePanic(err)
 
-		cmdStdIn.Close()
+		err = cmdStdIn.Close()
+		error_handler.HandlePanic(err)
 
 		out, err := cmd.CombinedOutput()
-		if err != nil {
-			panic(err)
-		}
+		error_handler.HandlePanic(err)
 
 		sum := string(out)
 
@@ -42,16 +38,13 @@ func TestMainAdd(t *testing.T) {
 		cmd = exec.Command(cmdPath, "2", "3", "5")
 
 		cmdStdIn, err := cmd.StdinPipe()
-		if err != nil {
-			panic(err)
-		}
+		error_handler.HandlePanic(err)
 
-		cmdStdIn.Close()
+		err = cmdStdIn.Close()
+		error_handler.HandlePanic(err)
 
 		out, err := cmd.CombinedOutput()
-		if err != nil {
-			panic(err)
-		}
+		error_handler.HandlePanic(err)
 
 		sum := string(out)
 
@@ -62,16 +55,13 @@ func TestMainAdd(t *testing.T) {
 		cmd = exec.Command(cmdPath)
 
 		cmdStdIn, err := cmd.StdinPipe()
-		if err != nil {
-			panic(err)
-		}
+		error_handler.HandlePanic(err)
 
-		cmdStdIn.Close()
+		err = cmdStdIn.Close()
+		error_handler.HandlePanic(err)
 
 		out, err := cmd.CombinedOutput()
-		if err != nil {
-			panic(err)
-		}
+		error_handler.HandlePanic(err)
 
 		sum := string(out)
 
@@ -82,16 +72,13 @@ func TestMainAdd(t *testing.T) {
 		cmd = exec.Command(cmdPath, "--input-file", "data/input.txt")
 
 		cmdStdIn, err := cmd.StdinPipe()
-		if err != nil {
-			panic(err)
-		}
+		error_handler.HandlePanic(err)
 
-		cmdStdIn.Close()
+		err = cmdStdIn.Close()
+		error_handler.HandlePanic(err)
 
 		out, err := cmd.CombinedOutput()
-		if err != nil {
-			panic(err)
-		}
+		error_handler.HandlePanic(err)
 
 		sum := string(out)
 
@@ -102,16 +89,13 @@ func TestMainAdd(t *testing.T) {
 		cmd = exec.Command(cmdPath, "--input-file", "data/input.txt", "--input-file", "data/input2.csv")
 
 		cmdStdIn, err := cmd.StdinPipe()
-		if err != nil {
-			panic(err)
-		}
+		error_handler.HandlePanic(err)
 
-		cmdStdIn.Close()
+		err = cmdStdIn.Close()
+		error_handler.HandlePanic(err)
 
 		out, err := cmd.CombinedOutput()
-		if err != nil {
-			panic(err)
-		}
+		error_handler.HandlePanic(err)
 
 		sum := string(out)
 
@@ -129,7 +113,8 @@ func TestMain(m *testing.M) {
 	build := exec.Command("go", "build", "-o", binName)
 
 	if err := build.Run(); err != nil {
-		fmt.Fprintf(os.Stderr, "Cannot build tool %s: %s", binName, err)
+		_, err := fmt.Fprintf(os.Stderr, "Cannot build tool %s: %s", binName, err)
+		error_handler.HandlePanic(err)
 		os.Exit(1)
 	}
 
@@ -137,7 +122,7 @@ func TestMain(m *testing.M) {
 	result := m.Run()
 
 	fmt.Println("Cleaning up...")
-	os.Remove(binName)
-
+	err := os.Remove(binName)
+	error_handler.HandlePanic(err)
 	os.Exit(result)
 }

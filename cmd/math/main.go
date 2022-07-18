@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/calculator"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/array_contains"
@@ -44,9 +45,8 @@ func (h handlers) addRequestHandlerForQueries(w http.ResponseWriter, req *http.R
 
 func (h handlers) addRequestHandlerForFormUrlEncoded(w http.ResponseWriter, req *http.Request) {
 	err := req.ParseForm()
-	if err != nil {
-		panic(err)
-	}
+	error_handler.HandlePanic(err)
+
 	data := req.PostForm["num"]
 	h.addResponseHandler(w, data)
 }
@@ -57,9 +57,7 @@ func (h handlers) addRequestHandlerForJson(w http.ResponseWriter, req *http.Requ
 	}
 	body, err := io.ReadAll(req.Body)
 	err = json.Unmarshal(body, &t)
-	if err != nil {
-		panic(err)
-	}
+	error_handler.HandlePanic(err)
 
 	var data []string
 	for _, num := range t.Nums {
@@ -78,7 +76,5 @@ func (h handlers) addResponseHandler(w http.ResponseWriter, data []string) {
 
 	_, err = fmt.Fprintf(w, "Sum of %s equal %s \n", numbers, formattedResult)
 
-	if err != nil {
-		panic(err)
-	}
+	error_handler.HandlePanic(err)
 }

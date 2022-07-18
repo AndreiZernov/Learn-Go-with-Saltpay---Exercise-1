@@ -2,6 +2,7 @@ package main_test
 
 import (
 	"fmt"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"os"
 	"os/exec"
 	"testing"
@@ -75,9 +76,6 @@ func TestMain(m *testing.M) {
 	fmt.Println("Cleaning up...")
 	err := os.Remove(binName)
 
-	if err != nil {
-		panic(err)
-	}
-
+	error_handler.HandlePanic(err)
 	os.Exit(result)
 }
