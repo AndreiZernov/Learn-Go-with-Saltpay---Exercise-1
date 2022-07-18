@@ -27,7 +27,7 @@ import (
 //	cmd := exec.Command(cmdPath, "--web-server")
 //	assert.NoError(t, cmd.Start())
 //
-//	newreq := func(method, url string, body io.Reader) *http.Request {
+//	newreq := func(method, url strings_helper, body io.Reader) *http.Request {
 //		r, err := http.NewRequest(method, url, body)
 //		if err != nil {
 //			t.Fatal(err)
@@ -36,7 +36,7 @@ import (
 //	}
 //
 //	tests := []struct {
-//		name string
+//		name strings_helper
 //		r    *http.Request
 //	}{
 //		{name: "2: testing post", r: newreq("POST", ts.URL+"/add?num=2&num=3", nil)},
@@ -48,7 +48,7 @@ import (
 //			if err != nil {
 //				t.Fatal(err)
 //			}
-//			assert.Equal(t, "Sum of 2,3, equal 5 \n", string(body))
+//			assert.Equal(t, "Sum of 2,3, equal 5 \n", strings_helper(body))
 //		})
 //	}
 //}

@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 	router "github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/http"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/array_contains"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/slices"
 	"log"
 	"net/http"
 	"os"
@@ -12,7 +12,7 @@ import (
 func main() {
 	r := router.NewRouter()
 
-	if array_contains.ArrayContains(os.Args[1:], "--web-server") {
+	if slices.Contains(os.Args[1:], "--web-server") {
 		fmt.Print("Web server is running on port 8080 \n")
 		log.Fatal(http.ListenAndServe(":8080", r))
 	} else {

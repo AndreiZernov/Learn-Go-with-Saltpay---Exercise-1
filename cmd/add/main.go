@@ -5,7 +5,7 @@ import (
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/data_retriever"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/calculator"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/data_cleaner"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/strings_helper"
 	"os"
 )
 
@@ -15,7 +15,7 @@ func main() {
 	dataRetriever := data_retriever.New()
 	numbers := dataRetriever.GetData(toGetAllArgs)
 
-	cleanData := data_cleaner.DataCleaner(numbers)
+	cleanData := strings_helper.DataCleaner(numbers)
 
 	calculate := calculator.New()
 	result, err := calculate.Add(cleanData)

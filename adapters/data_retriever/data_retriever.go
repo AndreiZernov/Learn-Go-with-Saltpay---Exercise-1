@@ -2,7 +2,7 @@ package data_retriever
 
 import (
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/file_reader"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/array_contains"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/slices"
 )
 
 type DataRetriever struct {
@@ -17,7 +17,7 @@ func (dr DataRetriever) GetData(arguments []string) string {
 	case len(arguments) == 0:
 		return dr.retrieveWithNoArgumentGiven()
 
-	case array_contains.ArrayContains(arguments, "--input-file"):
+	case slices.Contains(arguments, "--input-file"):
 		return dr.retrieveWithInputFilesArguments(arguments)
 
 	default:

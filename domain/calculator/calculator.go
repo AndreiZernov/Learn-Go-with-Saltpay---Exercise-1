@@ -14,8 +14,10 @@ func New() *Calculator {
 	return &Calculator{}
 }
 
-const maxInt = math.MaxInt64
-const minInt = math.MinInt64
+const (
+	maxInt = math.MaxInt64
+	minInt = math.MinInt64
+)
 
 var ErrOverflow = errors.New("integer overflow")
 
