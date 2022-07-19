@@ -5,13 +5,6 @@ import (
 	"strings"
 )
 
-func DataCleaner(stringToClean string) string {
-	stringNoNewLine := strings.Replace(stringToClean, "\n", ",", -1)
-	stringNoWhiteSpace := strings.Replace(stringNoNewLine, " ", "", -1)
-	cleanedString := RemoveDuplicates(stringNoWhiteSpace)
-	return cleanedString
-}
-
 func RemoveDuplicates(stringToClean string) string {
 	var list []string
 	newArray := strings.Split(stringToClean, ",")
