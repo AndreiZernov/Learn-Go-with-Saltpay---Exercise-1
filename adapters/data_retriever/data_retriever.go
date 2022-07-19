@@ -5,8 +5,7 @@ import (
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/slices"
 )
 
-type DataRetriever struct {
-}
+type DataRetriever struct{}
 
 func New() *DataRetriever {
 	return &DataRetriever{}
@@ -26,16 +25,14 @@ func (dr DataRetriever) GetData(arguments []string) string {
 }
 
 func (dr DataRetriever) retrieveWithNoArgumentGiven() string {
-	filepath := file_reader.GetFilePathname("/data/input.txt")
-	return file_reader.ReadFile(filepath)
+	return file_reader.ReadFile("/data/input.txt")
 }
 
 func (dr DataRetriever) retrieveWithInputFilesArguments(arguments []string) string {
-	numbers := ""
+	var numbers string
 	for i := 0; i < len(arguments); i++ {
 		if arguments[i] == "--input-file" && i+1 < len(arguments) {
-			filepath := file_reader.GetFilePathname("/" + arguments[i+1])
-			numbers += file_reader.ReadFile(filepath) + ","
+			numbers += file_reader.ReadFile("/"+arguments[i+1]) + ","
 		}
 	}
 	return numbers

@@ -8,7 +8,8 @@ import (
 )
 
 func ReadFile(filepath string) string {
-	content, err := os.ReadFile(filepath)
+	path := GetFilePathname(filepath)
+	content, err := os.ReadFile(path)
 	if err != nil {
 		log.Fatal(err)
 	}
