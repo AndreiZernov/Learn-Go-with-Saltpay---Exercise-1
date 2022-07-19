@@ -125,12 +125,12 @@ If you make any assumptions about the feature (e.g. negative numbers are not sup
 
 ## Part 15
 
-Add a naive authentication to the endpoint. Only requests containing a header `Authorization: Bearer SUPER_SECRET_API_KEY` (that exact API key) should be allowed in.
+- [x] Add a naive authentication to the endpoint. Only requests containing a header `Authorization: Bearer SUPER_SECRET_API_KEY` (that exact API key) should be allowed in.
 
-Research and implement the behaviour for when:
+  <em>Research and implement the behaviour for when:</em>
 
-1. The header is not present
-2. The API key is incorrect
+  1. The header is not present
+  2. The API key is incorrect
 
 ## Part 16
 

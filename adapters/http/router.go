@@ -1,4 +1,4 @@
-package router
+package http
 
 import (
 	"encoding/json"
@@ -23,6 +23,8 @@ func newRequestHandlers() *server {
 func NewRouter() http.Handler {
 	router := mux.NewRouter()
 	httpRequestsHandler := newRequestHandlers()
+
+	router.Use(VerifyToken)
 
 	router.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForQueries).Methods(http.MethodPost).Queries("num", "{[0-9]*?}")
 	router.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForFormUrlEncoded).Methods(http.MethodPost).Headers("Content-Type", "application/x-www-form-urlencoded")
@@ -70,6 +72,8 @@ func (svr server) addResponseHandler(w http.ResponseWriter, data []string) {
 	formattedResult := format.GroupsOfThousands(result)
 
 	_, err = fmt.Fprintf(w, "Sum of %s equal %s \n", numbers, formattedResult)
+	//w.WriteHeader(http.StatusOK)
+	//w.Header().Set("Content-Type", "application/json")
 
 	error_handler.HandlePanic(err)
 }
