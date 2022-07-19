@@ -134,7 +134,7 @@ If you make any assumptions about the feature (e.g. negative numbers are not sup
 
 ## Part 16
 
-Instead of a hard-coded API key (should have never committed the API key to source control anyway), read in a list of API keys from an environment variable. Any request with one of those API keys should be allowed; all other requests should be rejected.
+- [x] Instead of a hard-coded API key (should have never committed the API key to source control anyway), read in a list of API keys from an environment variable. Any request with one of those API keys should be allowed; all other requests should be rejected.
 
 ## Part 17
 
