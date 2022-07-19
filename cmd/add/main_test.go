@@ -49,13 +49,14 @@ func TestMainAdd(t *testing.T) {
 
 	for _, tt := range adderTest {
 		t.Run(tt.Name, func(t *testing.T) {
-			sum := CommandLineOutput(tt.CommandExecuted)
+			sum := CommandLineOutput(t, tt.CommandExecuted)
 			assert.Equal(t, tt.Expected, sum)
 		})
 	}
 }
 
-func CommandLineOutput(cmd *exec.Cmd) string {
+func CommandLineOutput(t testing.TB, cmd *exec.Cmd) string {
+	t.Helper()
 	cmdStdIn, err := cmd.StdinPipe()
 	error_handler.HandlePanic(err)
 

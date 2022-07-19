@@ -5,16 +5,16 @@ import (
 	"strings"
 )
 
-func DataCleaner(str string) string {
-	stringNoNewLine := strings.Replace(str, "\n", ",", -1)
+func DataCleaner(stringToClean string) string {
+	stringNoNewLine := strings.Replace(stringToClean, "\n", ",", -1)
 	stringNoWhiteSpace := strings.Replace(stringNoNewLine, " ", "", -1)
-	stringNoDuplicates := RemoveDuplicates(stringNoWhiteSpace)
-	return stringNoDuplicates
+	cleanedString := RemoveDuplicates(stringNoWhiteSpace)
+	return cleanedString
 }
 
-func RemoveDuplicates(str string) string {
+func RemoveDuplicates(stringToClean string) string {
 	var list []string
-	newArray := strings.Split(str, ",")
+	newArray := strings.Split(stringToClean, ",")
 
 	for _, item := range newArray {
 		if slices.Contains(list, item) == false {
