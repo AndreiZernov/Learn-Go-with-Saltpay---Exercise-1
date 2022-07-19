@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/calculator"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/fibonacci"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/strings_helper"
 	"github.com/gorilla/mux"
@@ -24,13 +25,28 @@ func NewRouter() http.Handler {
 	router := mux.NewRouter()
 	httpRequestsHandler := newRequestHandlers()
 
-	router.Use(VerifyToken)
+	protectedRoutes := router.PathPrefix("/").Subrouter()
+	protectedRoutes.Use(VerifyToken)
 
-	router.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForQueries).Methods(http.MethodPost).Queries("num", "{[0-9]*?}")
-	router.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForFormUrlEncoded).Methods(http.MethodPost).Headers("Content-Type", "application/x-www-form-urlencoded")
-	router.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForJson).Methods(http.MethodPost).Headers("Content-Type", "application/json")
+	router.HandleFunc("/fibonacci/{id}", httpRequestsHandler.fibonacciRequestHandler).Methods(http.MethodGet)
+	protectedRoutes.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForQueries).Methods(http.MethodPost).Queries("num", "{[0-9]*?}")
+	protectedRoutes.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForFormUrlEncoded).Methods(http.MethodPost).Headers("Content-Type", "application/x-www-form-urlencoded")
+	protectedRoutes.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForJson).Methods(http.MethodPost).Headers("Content-Type", "application/json")
 
 	return router
+}
+
+func (svr server) fibonacciRequestHandler(w http.ResponseWriter, req *http.Request) {
+	trimedPath := strings.TrimPrefix(req.URL.Path, "/fibonacci/")
+	n, err := strconv.ParseInt(trimedPath, 10, 64)
+	error_handler.HandlePanic(err)
+
+	fib := fibonacci.New()
+	fibNumber, err := fib.GetNumberFromNumericPosition(n)
+	error_handler.HandlePanic(err)
+
+	_, err = fmt.Fprintf(w, "Fibonacci of %d is %d \n", n, fibNumber)
+	error_handler.HandlePanic(err)
 }
 
 func (svr server) addRequestHandlerForQueries(w http.ResponseWriter, req *http.Request) {
@@ -72,8 +88,5 @@ func (svr server) addResponseHandler(w http.ResponseWriter, data []string) {
 	formattedResult := format.GroupsOfThousands(result)
 
 	_, err = fmt.Fprintf(w, "Sum of %s equal %s \n", numbers, formattedResult)
-	//w.WriteHeader(http.StatusOK)
-	//w.Header().Set("Content-Type", "application/json")
-
 	error_handler.HandlePanic(err)
 }
