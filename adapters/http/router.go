@@ -46,7 +46,7 @@ func (svr server) fibonacciRequestHandler(w http.ResponseWriter, req *http.Reque
 	fibNumber, err := fib.GetNumberFromNumericPosition(n)
 	error_handler.HandlePanic(err)
 
-	_, err = fmt.Fprintf(w, "Fibonacci of %d is %d \n", n, fibNumber)
+	_, err = fmt.Fprintf(w, "%d \n", fibNumber)
 	error_handler.HandlePanic(err)
 }
 
