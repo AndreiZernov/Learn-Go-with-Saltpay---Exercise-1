@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	router "github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/http"
+	router "github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/temphttp"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/slices"
 	"log"
 	"math/rand"

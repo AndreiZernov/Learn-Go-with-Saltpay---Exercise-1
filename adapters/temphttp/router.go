@@ -33,22 +33,14 @@ func NewRouter() http.Handler {
 func FibonacciRequestHandler(w http.ResponseWriter, req *http.Request) {
 	trimmedPath := strings.TrimPrefix(req.URL.Path, "/fibonacci/")
 	n, err := strconv.ParseInt(trimmedPath, 10, 64)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	error_handler.HandleStatusBadRequest(w, err)
 
 	fib := fibonacci.New()
 	fibNumber, err := fib.GetNumberFromNumericPosition(n)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	error_handler.HandleStatusBadRequest(w, err)
+
 	_, err = fmt.Fprintf(w, "%d \n", fibNumber)
-	if err != nil {
-		w.WriteHeader(http.StatusBadRequest)
-		return
-	}
+	error_handler.HandleStatusBadRequest(w, err)
 }
 
 func AddRequestHandlerForQueries(w http.ResponseWriter, req *http.Request) {
@@ -58,7 +50,7 @@ func AddRequestHandlerForQueries(w http.ResponseWriter, req *http.Request) {
 
 func AddRequestHandlerForFormUrlEncoded(w http.ResponseWriter, req *http.Request) {
 	err := req.ParseForm()
-	error_handler.HandlePanic(err)
+	error_handler.HandleStatusBadRequest(w, err)
 
 	data := req.PostForm["num"]
 	AddResponseHandler(w, data)
@@ -70,7 +62,7 @@ func AddRequestHandlerForJson(w http.ResponseWriter, req *http.Request) {
 	}
 	body, err := io.ReadAll(req.Body)
 	err = json.Unmarshal(body, &t)
-	error_handler.HandlePanic(err)
+	error_handler.HandleStatusBadRequest(w, err)
 
 	var data []string
 	for _, num := range t.Nums {
@@ -90,5 +82,5 @@ func AddResponseHandler(w http.ResponseWriter, data []string) {
 	formattedResult := format.GroupsOfThousands(result)
 
 	_, err = fmt.Fprintf(w, "Sum of %s equal %s \n", numbers, formattedResult)
-	error_handler.HandlePanic(err)
+	error_handler.HandleStatusBadRequest(w, err)
 }
