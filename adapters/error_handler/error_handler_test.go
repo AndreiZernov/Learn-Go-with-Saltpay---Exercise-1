@@ -28,10 +28,9 @@ func TestHandleStatusBadRequest(t *testing.T) {
 		response := httptest.NewRecorder()
 
 		err := errors.New("400 Bad Request")
-
 		error_handler.HandleStatusBadRequest(response, err)
-		got := response.Code
 
+		got := response.Code
 		assert.Equal(t, http.StatusBadRequest, got)
 	})
 
@@ -39,8 +38,8 @@ func TestHandleStatusBadRequest(t *testing.T) {
 		response := httptest.NewRecorder()
 
 		error_handler.HandleStatusBadRequest(response, nil)
-		got := response.Code
 
+		got := response.Code
 		assert.Equal(t, http.StatusOK, got)
 	})
 }
