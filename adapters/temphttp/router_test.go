@@ -1,6 +1,7 @@
 package temphttp_test
 
 import (
+	"bytes"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/temphttp"
 	"github.com/stretchr/testify/assert"
 	"net/http"
@@ -147,6 +148,66 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 			request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 
 			temphttp.AddRequestHandlerForFormUrlEncoded(response, request)
+
+			gotBody := response.Body.String()
+			gotCode := response.Code
+
+			assert.Equal(t, tt.responseBody, gotBody)
+			assert.Equal(t, tt.responseCode, gotCode)
+		})
+	}
+}
+
+func TestAddRequestHandlerForJson(t *testing.T) {
+	AddRequestHandlerForJsonTests := []struct {
+		Name         string
+		body         []byte
+		responseBody string
+		responseCode int
+	}{
+		{
+			Name:         "Given one number in query should return the message with the same number",
+			body:         []byte(`{"nums": [2]}`),
+			responseBody: "Sum of 2 equal 2 \n",
+			responseCode: 200,
+		},
+		{
+			Name:         "Given two numbers in query should return the message with the correct sum of them",
+			body:         []byte(`{"nums": [2, 3]}`),
+			responseBody: "Sum of 2,3 equal 5 \n",
+			responseCode: 200,
+		},
+		{
+			Name:         "Given the wrong query key should ignore it and give the sum of correct one",
+			body:         []byte(`{"nums": [2, 3], "wrongNums": 20}`),
+			responseBody: "Sum of 2,3 equal 5 \n",
+			responseCode: 200,
+		},
+		{
+			Name:         "Given the wrong query key only should return 400",
+			body:         []byte(`{"wrongNums": ["2", "3"]}`),
+			responseBody: "",
+			responseCode: 400,
+		},
+		{
+			Name:         "Given and empty query should return 400",
+			body:         []byte(`{"nums": []}`),
+			responseBody: "",
+			responseCode: 400,
+		},
+	}
+
+	for _, tt := range AddRequestHandlerForJsonTests {
+		t.Run(tt.Name, func(t *testing.T) {
+			jsonBody := tt.body
+			bodyReader := bytes.NewReader(jsonBody)
+
+			request, _ := http.NewRequest(http.MethodPost, "/add", bodyReader)
+			response := httptest.NewRecorder()
+
+			request.Header.Set("Content-Type", "application/json")
+
+			temphttp.AddRequestHandlerForJson(response, request)
 
 			gotBody := response.Body.String()
 			gotCode := response.Code
