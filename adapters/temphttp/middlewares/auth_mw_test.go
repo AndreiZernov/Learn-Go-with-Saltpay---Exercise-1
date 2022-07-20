@@ -51,7 +51,7 @@ func TestAuthenticationMiddleware(t *testing.T) {
 			response := httptest.NewRecorder()
 
 			request.Header.Set("Authorization", "Bearer "+tt.AuthKey)
-			middlewares.AuthenticationMiddleware(http.HandlerFunc(handlers.AddRequestHandlerForQueries)).ServeHTTP(response, request)
+			middlewares.AuthenticationMiddleware(http.HandlerFunc(handlers.AddRequestHandler)).ServeHTTP(response, request)
 
 			gotCode := response.Code
 
@@ -62,7 +62,7 @@ func TestAuthenticationMiddleware(t *testing.T) {
 		request, _ := http.NewRequest(http.MethodPost, "/add?num=2&num=3", nil)
 		response := httptest.NewRecorder()
 
-		middlewares.AuthenticationMiddleware(http.HandlerFunc(handlers.AddRequestHandlerForQueries)).ServeHTTP(response, request)
+		middlewares.AuthenticationMiddleware(http.HandlerFunc(handlers.AddRequestHandler)).ServeHTTP(response, request)
 
 		gotCode := response.Code
 

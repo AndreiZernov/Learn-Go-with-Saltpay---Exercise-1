@@ -36,21 +36,9 @@ func TestFlakinessMiddleware(t *testing.T) {
 			expectedDuraction: 0,
 		},
 		{
-			Name:              "Given the flakiness with specific error 400 should return 400 response",
-			queries:           "?num=2&num=3&flakiness=1,400",
-			responseCode:      http.StatusBadRequest,
-			expectedDuraction: 0,
-		},
-		{
-			Name:              "Given a delay of 2s should be delayed for 2s",
-			queries:           "?flakiness=1,404,2s",
+			Name:              "Given a delay of 1s should be delayed for 1s",
+			queries:           "?flakiness=1,404,1s",
 			responseCode:      http.StatusNotFound,
-			expectedDuraction: 2,
-		},
-		{
-			Name:              "Given a delay and the OK response should be delayed for 1s and then return 200",
-			queries:           "?num=2&num=3&flakiness=1,200,1s",
-			responseCode:      http.StatusOK,
 			expectedDuraction: 1,
 		},
 	}
@@ -61,7 +49,7 @@ func TestFlakinessMiddleware(t *testing.T) {
 			request, _ := http.NewRequest(http.MethodPost, "/add/"+tt.queries, nil)
 			response := httptest.NewRecorder()
 
-			middlewares.FlakinessMiddleware(http.HandlerFunc(handlers.AddRequestHandlerForQueries)).ServeHTTP(response, request)
+			middlewares.FlakinessMiddleware(http.HandlerFunc(handlers.AddRequestHandler)).ServeHTTP(response, request)
 
 			gotCode := response.Code
 			duration := int(time.Since(start).Seconds())
