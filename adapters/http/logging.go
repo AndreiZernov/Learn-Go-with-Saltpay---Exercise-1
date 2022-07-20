@@ -29,13 +29,13 @@ func loggingMiddleware(next http.Handler) http.Handler {
 			lrw           = newLoggingResponseWriter(w)
 			statusCode    = lrw.statusCode
 			authorization = r.Header.Get("Authorization")
-			token         = strings.TrimPrefix(authorization, "Bearer ")
+			key           = strings.TrimPrefix(authorization, "Bearer ")
 		)
 
 		log.Println(
 			r.Method,
 			r.RequestURI,
-			token[0:9],
+			key[0:9],
 			strconv.FormatInt(r.ContentLength, 10),
 			strconv.Itoa(statusCode),
 			time.Since(start).Milliseconds(),
