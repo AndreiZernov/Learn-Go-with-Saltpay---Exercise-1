@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 const (
@@ -25,6 +26,12 @@ func flakinessMiddleware(next http.Handler) http.Handler {
 
 			if len(flakinessSlice) == 2 {
 				responseStatus, _ = strconv.Atoi(flakinessSlice[1])
+			}
+
+			if len(flakinessSlice) == 3 {
+				delay := flakinessSlice[2]
+				parsedDelay, _ := time.ParseDuration(delay)
+				time.Sleep(parsedDelay)
 			}
 
 			if random <= probability {
