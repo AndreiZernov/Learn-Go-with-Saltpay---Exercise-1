@@ -46,12 +46,7 @@ func FibonacciRequestHandler(w http.ResponseWriter, req *http.Request) {
 
 func AddRequestHandlerForQueries(w http.ResponseWriter, req *http.Request) {
 	data := req.URL.Query()["num"]
-	if len(data) == 0 {
-		err := errors.New("400 Bad Request")
-		error_handler.HandleStatusBadRequest(w, err)
-	} else {
-		AddResponseHandler(w, data)
-	}
+	AddResponseHandler(w, data)
 }
 
 func AddRequestHandlerForFormUrlEncoded(w http.ResponseWriter, req *http.Request) {
@@ -59,12 +54,7 @@ func AddRequestHandlerForFormUrlEncoded(w http.ResponseWriter, req *http.Request
 	error_handler.HandleStatusBadRequest(w, err)
 
 	data := req.PostForm["num"]
-	if len(data) == 0 {
-		err := errors.New("400 Bad Request")
-		error_handler.HandleStatusBadRequest(w, err)
-	} else {
-		AddResponseHandler(w, data)
-	}
+	AddResponseHandler(w, data)
 }
 
 func AddRequestHandlerForJson(w http.ResponseWriter, req *http.Request) {
@@ -79,15 +69,16 @@ func AddRequestHandlerForJson(w http.ResponseWriter, req *http.Request) {
 	for _, num := range t.Nums {
 		data = append(data, strconv.Itoa(num))
 	}
-	if len(data) == 0 {
-		err := errors.New("400 Bad Request")
-		error_handler.HandleStatusBadRequest(w, err)
-	} else {
-		AddResponseHandler(w, data)
-	}
+	AddResponseHandler(w, data)
 }
 
 func AddResponseHandler(w http.ResponseWriter, data []string) {
+	if len(data) == 0 {
+		err := errors.New("400 Bad Request")
+		error_handler.HandleStatusBadRequest(w, err)
+		return
+	}
+
 	numbers := strings.Join(data[:], ",")
 	cleanData := strings_helper.DataCleaner(numbers)
 

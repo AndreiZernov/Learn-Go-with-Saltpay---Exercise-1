@@ -95,7 +95,7 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 		responseCode int
 	}{
 		{
-			Name: "Given one number in query should return the message with the same number",
+			Name: "Given one number in body should return the message with the same number",
 			body: url.Values{
 				"num": []string{"2"},
 			},
@@ -103,7 +103,7 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 			responseCode: 200,
 		},
 		{
-			Name: "Given two numbers in query should return the message with the correct sum of them",
+			Name: "Given two numbers in body should return the message with the correct sum of them",
 			body: url.Values{
 				"num": []string{"2", "3"},
 			},
@@ -111,7 +111,7 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 			responseCode: 200,
 		},
 		{
-			Name: "Given the wrong query key should ignore it and give the sum of correct one",
+			Name: "Given the wrong body key should ignore it and give the sum of correct one",
 			body: url.Values{
 				"num":      []string{"2", "3"},
 				"wrongNum": []string{"20"},
@@ -120,7 +120,7 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 			responseCode: 200,
 		},
 		{
-			Name: "Given the wrong query key only should return 400",
+			Name: "Given the wrong body key only should return 400",
 			body: url.Values{
 				"wrongNum": []string{"2", "3"},
 			},
@@ -128,7 +128,7 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 			responseCode: 400,
 		},
 		{
-			Name: "Given and empty query should return 400",
+			Name: "Given and empty body should return 400",
 			body: url.Values{
 				"wrongNum": []string{},
 			},
@@ -166,31 +166,31 @@ func TestAddRequestHandlerForJson(t *testing.T) {
 		responseCode int
 	}{
 		{
-			Name:         "Given one number in query should return the message with the same number",
+			Name:         "Given one number in body should return the message with the same number",
 			body:         []byte(`{"nums": [2]}`),
 			responseBody: "Sum of 2 equal 2 \n",
 			responseCode: 200,
 		},
 		{
-			Name:         "Given two numbers in query should return the message with the correct sum of them",
+			Name:         "Given two numbers in body should return the message with the correct sum of them",
 			body:         []byte(`{"nums": [2, 3]}`),
 			responseBody: "Sum of 2,3 equal 5 \n",
 			responseCode: 200,
 		},
 		{
-			Name:         "Given the wrong query key should ignore it and give the sum of correct one",
+			Name:         "Given the wrong body key should ignore it and give the sum of correct one",
 			body:         []byte(`{"nums": [2, 3], "wrongNums": 20}`),
 			responseBody: "Sum of 2,3 equal 5 \n",
 			responseCode: 200,
 		},
 		{
-			Name:         "Given the wrong query key only should return 400",
+			Name:         "Given the wrong body key only should return 400",
 			body:         []byte(`{"wrongNums": ["2", "3"]}`),
 			responseBody: "",
 			responseCode: 400,
 		},
 		{
-			Name:         "Given and empty query should return 400",
+			Name:         "Given and empty body should return 400",
 			body:         []byte(`{"nums": []}`),
 			responseBody: "",
 			responseCode: 400,
@@ -208,6 +208,47 @@ func TestAddRequestHandlerForJson(t *testing.T) {
 			request.Header.Set("Content-Type", "application/json")
 
 			temphttp.AddRequestHandlerForJson(response, request)
+
+			gotBody := response.Body.String()
+			gotCode := response.Code
+
+			assert.Equal(t, tt.responseBody, gotBody)
+			assert.Equal(t, tt.responseCode, gotCode)
+		})
+	}
+}
+
+func TestAddResponseHandler(t *testing.T) {
+	AddResponseHandlerTests := []struct {
+		Name         string
+		Data         []string
+		responseBody string
+		responseCode int
+	}{
+		{
+			Name:         "Given one number in body should return the message with the same number",
+			Data:         []string{"2"},
+			responseBody: "Sum of 2 equal 2 \n",
+			responseCode: 200,
+		},
+		{
+			Name:         "Given two numbers in body should return the message with the correct sum of them",
+			Data:         []string{"2", "3"},
+			responseBody: "Sum of 2,3 equal 5 \n",
+			responseCode: 200,
+		},
+		{
+			Name:         "Given and empty body should return 400",
+			Data:         []string{},
+			responseBody: "",
+			responseCode: 400,
+		},
+	}
+
+	for _, tt := range AddResponseHandlerTests {
+		t.Run(tt.Name, func(t *testing.T) {
+			response := httptest.NewRecorder()
+			temphttp.AddResponseHandler(response, tt.Data)
 
 			gotBody := response.Body.String()
 			gotCode := response.Code
