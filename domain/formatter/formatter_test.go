@@ -47,8 +47,14 @@ func TestFormatter(t *testing.T) {
 	for _, tt := range formaterTest {
 		t.Run(tt.Name, func(t *testing.T) {
 			format := formatter.New()
-			got := format.GroupsOfThousands(tt.Number)
+			got := format.GroupsOfThousands(tt.Number, true)
 			assert.Equal(t, tt.FormattedNumber, got)
 		})
 	}
+
+	t.Run("Given the format boolean false should return the same number", func(t *testing.T) {
+		format := formatter.New()
+		got := format.GroupsOfThousands(10000000, false)
+		assert.Equal(t, "10000000", got)
+	})
 }

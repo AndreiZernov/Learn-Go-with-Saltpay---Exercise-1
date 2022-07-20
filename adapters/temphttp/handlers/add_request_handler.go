@@ -15,12 +15,13 @@ import (
 
 func AddRequestHandler(w http.ResponseWriter, req *http.Request) {
 	contentType := req.Header.Get("Content-Type")
-	queries := req.URL.Query()["num"]
+	numQueries := req.URL.Query()["num"]
+	formatQuery := req.URL.Query()["format"]
 	var data []string
 
 	switch {
-	case len(queries) > 0:
-		data = req.URL.Query()["num"]
+	case len(numQueries) > 0:
+		data = numQueries
 
 	case strings.Contains(contentType, "application/x-www-form-urlencoded"):
 		err := req.ParseForm()
@@ -54,7 +55,7 @@ func AddRequestHandler(w http.ResponseWriter, req *http.Request) {
 	result, err := calculate.Add(cleanData)
 	error_handler.HandleStatusBadRequest(w, err)
 
-	formattedResult := format.GroupsOfThousands(result)
+	formattedResult := format.GroupsOfThousands(result, len(formatQuery) > 0 && formatQuery[0] == "thousands")
 	responseMessage := fmt.Sprintf("Sum of %s equal %s \n", cleanData, formattedResult)
 
 	_, err = w.Write([]byte(responseMessage))

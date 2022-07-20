@@ -21,7 +21,7 @@ func main() {
 	result, err := calculate.Add(cleanData)
 
 	format := formatter.New()
-	formattedResult := format.GroupsOfThousands(result)
+	formattedResult := format.GroupsOfThousands(result, true)
 
 	if err != nil {
 		fmt.Println(err.Error())

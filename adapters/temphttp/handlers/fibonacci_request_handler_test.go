@@ -14,9 +14,9 @@ func TestFibonacciRequestHandler(t *testing.T) {
 		Queries      string
 		ResponseBody string
 	}{
-		{Name: "Given the position of the first number in the Fibonacci sequence should return 0", Queries: "1", ResponseBody: "0 \n"},
-		{Name: "Given the position of the third number in the Fibonacci sequence should return 1", Queries: "3", ResponseBody: "1 \n"},
-		{Name: "Given the position 93  should be able to calculate based on int64 limitation", Queries: "93", ResponseBody: "7540113804746346429 \n"},
+		{Name: "Given the position of the first number in the Fibonacci sequence should return 0", Queries: "1", ResponseBody: "0"},
+		{Name: "Given the position of the third number in the Fibonacci sequence should return 1", Queries: "3", ResponseBody: "1"},
+		{Name: "Given the position 93  should be able to calculate based on int64 limitation", Queries: "93", ResponseBody: "7540113804746346429"},
 	}
 
 	for _, tt := range fibonacciStatus200Tests {
