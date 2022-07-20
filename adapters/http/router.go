@@ -22,13 +22,14 @@ func newRequestHandlers() *server {
 }
 
 func NewRouter() http.Handler {
-	router := mux.NewRouter()
+	router := mux.NewRouter().StrictSlash(true)
 	httpRequestsHandler := newRequestHandlers()
 
+	router.Use(loggingMiddleware)
 	protectedRoutes := router.PathPrefix("/").Subrouter()
 	protectedRoutes.Use(VerifyToken)
 
-	protectedRoutes.HandleFunc("/fibonacci/{id}", httpRequestsHandler.fibonacciRequestHandler).Methods(http.MethodGet)
+	protectedRoutes.HandleFunc("/fibonacci/{position}", httpRequestsHandler.fibonacciRequestHandler).Methods(http.MethodGet)
 	protectedRoutes.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForQueries).Methods(http.MethodPost).Queries("num", "{[0-9]*?}")
 	protectedRoutes.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForFormUrlEncoded).Methods(http.MethodPost).Headers("Content-Type", "application/x-www-form-urlencoded")
 	protectedRoutes.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForJson).Methods(http.MethodPost).Headers("Content-Type", "application/json")

@@ -12,7 +12,7 @@ func VerifyToken(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var (
 			authorization = r.Header.Get("Authorization")
-			token         = strings.Replace(authorization, "Bearer ", "", -1)
+			token         = strings.TrimPrefix(authorization, "Bearer ")
 			stringOfKeys  = os.Getenv("AUTH_TOKEN")
 			sliceOfKeys   = strings.Split(stringOfKeys, ",")
 		)
