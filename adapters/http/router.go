@@ -25,9 +25,9 @@ func NewRouter() http.Handler {
 	router := mux.NewRouter().StrictSlash(true)
 	httpRequestsHandler := newRequestHandlers()
 
-	router.Use(loggingMiddleware)
+	router.Use(flakinessMiddleware)
 	protectedRoutes := router.PathPrefix("/").Subrouter()
-	protectedRoutes.Use(VerifyToken)
+	protectedRoutes.Use(VerifyTokenMiddleware, loggingMiddleware)
 
 	protectedRoutes.HandleFunc("/fibonacci/{position}", httpRequestsHandler.fibonacciRequestHandler).Methods(http.MethodGet)
 	protectedRoutes.HandleFunc("/add", httpRequestsHandler.addRequestHandlerForQueries).Methods(http.MethodPost).Queries("num", "{[0-9]*?}")
@@ -38,8 +38,8 @@ func NewRouter() http.Handler {
 }
 
 func (svr server) fibonacciRequestHandler(w http.ResponseWriter, req *http.Request) {
-	trimedPath := strings.TrimPrefix(req.URL.Path, "/fibonacci/")
-	n, err := strconv.ParseInt(trimedPath, 10, 64)
+	trimmedPath := strings.TrimPrefix(req.URL.Path, "/fibonacci/")
+	n, err := strconv.ParseInt(trimmedPath, 10, 64)
 	error_handler.HandlePanic(err)
 
 	fib := fibonacci.New()

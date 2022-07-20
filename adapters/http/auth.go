@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func VerifyToken(next http.Handler) http.Handler {
+func VerifyTokenMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var (
 			authorization = r.Header.Get("Authorization")
