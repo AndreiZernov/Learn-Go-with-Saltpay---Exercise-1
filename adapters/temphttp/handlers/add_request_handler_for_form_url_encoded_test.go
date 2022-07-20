@@ -13,56 +13,56 @@ import (
 func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 	addRequestHandlerForFormUrlEncodedTests := []struct {
 		Name         string
-		body         url.Values
-		responseBody string
-		responseCode int
+		Body         url.Values
+		ResponseBody string
+		ResponseCode int
 	}{
 		{
-			Name: "Given one number in body should return the message with the same number",
-			body: url.Values{
+			Name: "Given one number in Body should return the message with the same number",
+			Body: url.Values{
 				"num": []string{"2"},
 			},
-			responseBody: "Sum of 2 equal 2 \n",
-			responseCode: http.StatusOK,
+			ResponseBody: "Sum of 2 equal 2 \n",
+			ResponseCode: http.StatusOK,
 		},
 		{
-			Name: "Given two numbers in body should return the message with the correct sum of them",
-			body: url.Values{
+			Name: "Given two numbers in Body should return the message with the correct sum of them",
+			Body: url.Values{
 				"num": []string{"2", "3"},
 			},
-			responseBody: "Sum of 2,3 equal 5 \n",
-			responseCode: http.StatusOK,
+			ResponseBody: "Sum of 2,3 equal 5 \n",
+			ResponseCode: http.StatusOK,
 		},
 		{
-			Name: "Given the wrong body key should ignore it and give the sum of correct one",
-			body: url.Values{
+			Name: "Given the wrong Body key should ignore it and give the sum of correct one",
+			Body: url.Values{
 				"num":      []string{"2", "3"},
 				"wrongNum": []string{"20"},
 			},
-			responseBody: "Sum of 2,3 equal 5 \n",
-			responseCode: http.StatusOK,
+			ResponseBody: "Sum of 2,3 equal 5 \n",
+			ResponseCode: http.StatusOK,
 		},
 		{
-			Name: "Given the wrong body key only should return 400",
-			body: url.Values{
+			Name: "Given the wrong Body key only should return 400",
+			Body: url.Values{
 				"wrongNum": []string{"2", "3"},
 			},
-			responseBody: "",
-			responseCode: http.StatusBadRequest,
+			ResponseBody: "",
+			ResponseCode: http.StatusBadRequest,
 		},
 		{
-			Name: "Given and empty body should return 400",
-			body: url.Values{
+			Name: "Given and empty Body should return 400",
+			Body: url.Values{
 				"num": []string{},
 			},
-			responseBody: "",
-			responseCode: http.StatusBadRequest,
+			ResponseBody: "",
+			ResponseCode: http.StatusBadRequest,
 		},
 	}
 
 	for _, tt := range addRequestHandlerForFormUrlEncodedTests {
 		t.Run(tt.Name, func(t *testing.T) {
-			data := tt.body
+			data := tt.Body
 			bodyReader := strings.NewReader(data.Encode())
 
 			request, _ := http.NewRequest(http.MethodPost, "/add", bodyReader)
@@ -75,8 +75,8 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 			gotBody := response.Body.String()
 			gotCode := response.Code
 
-			assert.Equal(t, tt.responseBody, gotBody)
-			assert.Equal(t, tt.responseCode, gotCode)
+			assert.Equal(t, tt.ResponseBody, gotBody)
+			assert.Equal(t, tt.ResponseCode, gotCode)
 		})
 	}
 }

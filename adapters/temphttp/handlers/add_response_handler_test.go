@@ -12,26 +12,26 @@ func TestAddResponseHandler(t *testing.T) {
 	addResponseHandlerTests := []struct {
 		Name         string
 		Data         []string
-		responseBody string
-		responseCode int
+		ResponseBody string
+		ResponseCode int
 	}{
 		{
 			Name:         "Given one number in body should return the message with the same number",
 			Data:         []string{"2"},
-			responseBody: "Sum of 2 equal 2 \n",
-			responseCode: http.StatusOK,
+			ResponseBody: "Sum of 2 equal 2 \n",
+			ResponseCode: http.StatusOK,
 		},
 		{
 			Name:         "Given two numbers in body should return the message with the correct sum of them",
 			Data:         []string{"2", "3"},
-			responseBody: "Sum of 2,3 equal 5 \n",
-			responseCode: http.StatusOK,
+			ResponseBody: "Sum of 2,3 equal 5 \n",
+			ResponseCode: http.StatusOK,
 		},
 		{
 			Name:         "Given and empty body should return 400",
 			Data:         []string{},
-			responseBody: "",
-			responseCode: http.StatusBadRequest,
+			ResponseBody: "",
+			ResponseCode: http.StatusBadRequest,
 		},
 	}
 
@@ -43,8 +43,8 @@ func TestAddResponseHandler(t *testing.T) {
 			gotBody := response.Body.String()
 			gotCode := response.Code
 
-			assert.Equal(t, tt.responseBody, gotBody)
-			assert.Equal(t, tt.responseCode, gotCode)
+			assert.Equal(t, tt.ResponseBody, gotBody)
+			assert.Equal(t, tt.ResponseCode, gotCode)
 		})
 	}
 }

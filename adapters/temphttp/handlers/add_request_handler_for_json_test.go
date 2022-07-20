@@ -12,45 +12,45 @@ import (
 func TestAddRequestHandlerForJson(t *testing.T) {
 	addRequestHandlerForJsonTests := []struct {
 		Name         string
-		body         []byte
-		responseBody string
-		responseCode int
+		Body         []byte
+		ResponseBody string
+		ResponseCode int
 	}{
 		{
-			Name:         "Given one number in body should return the message with the same number",
-			body:         []byte(`{"nums": [2]}`),
-			responseBody: "Sum of 2 equal 2 \n",
-			responseCode: http.StatusOK,
+			Name:         "Given one number in Body should return the message with the same number",
+			Body:         []byte(`{"nums": [2]}`),
+			ResponseBody: "Sum of 2 equal 2 \n",
+			ResponseCode: http.StatusOK,
 		},
 		{
-			Name:         "Given two numbers in body should return the message with the correct sum of them",
-			body:         []byte(`{"nums": [2, 3]}`),
-			responseBody: "Sum of 2,3 equal 5 \n",
-			responseCode: http.StatusOK,
+			Name:         "Given two numbers in Body should return the message with the correct sum of them",
+			Body:         []byte(`{"nums": [2, 3]}`),
+			ResponseBody: "Sum of 2,3 equal 5 \n",
+			ResponseCode: http.StatusOK,
 		},
 		{
-			Name:         "Given the wrong body key should ignore it and give the sum of correct one",
-			body:         []byte(`{"nums": [2, 3], "wrongNums": 20}`),
-			responseBody: "Sum of 2,3 equal 5 \n",
-			responseCode: http.StatusOK,
+			Name:         "Given the wrong Body key should ignore it and give the sum of correct one",
+			Body:         []byte(`{"nums": [2, 3], "wrongNums": 20}`),
+			ResponseBody: "Sum of 2,3 equal 5 \n",
+			ResponseCode: http.StatusOK,
 		},
 		{
-			Name:         "Given the wrong body key only should return 400",
-			body:         []byte(`{"wrongNums": ["2", "3"]}`),
-			responseBody: "",
-			responseCode: 400,
+			Name:         "Given the wrong Body key only should return 400",
+			Body:         []byte(`{"wrongNums": ["2", "3"]}`),
+			ResponseBody: "",
+			ResponseCode: 400,
 		},
 		{
-			Name:         "Given and empty body should return 400",
-			body:         []byte(`{"nums": []}`),
-			responseBody: "",
-			responseCode: 400,
+			Name:         "Given and empty Body should return 400",
+			Body:         []byte(`{"nums": []}`),
+			ResponseBody: "",
+			ResponseCode: 400,
 		},
 	}
 
 	for _, tt := range addRequestHandlerForJsonTests {
 		t.Run(tt.Name, func(t *testing.T) {
-			jsonBody := tt.body
+			jsonBody := tt.Body
 			bodyReader := bytes.NewReader(jsonBody)
 
 			request, _ := http.NewRequest(http.MethodPost, "/add", bodyReader)
@@ -63,8 +63,8 @@ func TestAddRequestHandlerForJson(t *testing.T) {
 			gotBody := response.Body.String()
 			gotCode := response.Code
 
-			assert.Equal(t, tt.responseBody, gotBody)
-			assert.Equal(t, tt.responseCode, gotCode)
+			assert.Equal(t, tt.ResponseBody, gotBody)
+			assert.Equal(t, tt.ResponseCode, gotCode)
 		})
 	}
 }

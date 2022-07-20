@@ -11,7 +11,7 @@ import (
 )
 
 func TestFlakinessMiddleware(t *testing.T) {
-	addRequestsHandlersForQueriesTests := []struct {
+	flakinessMiddlewareTests := []struct {
 		Name              string
 		queries           string
 		responseCode      int
@@ -55,7 +55,7 @@ func TestFlakinessMiddleware(t *testing.T) {
 		},
 	}
 
-	for _, tt := range addRequestsHandlersForQueriesTests {
+	for _, tt := range flakinessMiddlewareTests {
 		t.Run(tt.Name, func(t *testing.T) {
 			start := time.Now()
 			request, _ := http.NewRequest(http.MethodPost, "/add/"+tt.queries, nil)
