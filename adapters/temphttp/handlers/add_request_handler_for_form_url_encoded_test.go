@@ -23,7 +23,7 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 				"num": []string{"2"},
 			},
 			responseBody: "Sum of 2 equal 2 \n",
-			responseCode: 200,
+			responseCode: http.StatusOK,
 		},
 		{
 			Name: "Given two numbers in body should return the message with the correct sum of them",
@@ -31,7 +31,7 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 				"num": []string{"2", "3"},
 			},
 			responseBody: "Sum of 2,3 equal 5 \n",
-			responseCode: 200,
+			responseCode: http.StatusOK,
 		},
 		{
 			Name: "Given the wrong body key should ignore it and give the sum of correct one",
@@ -40,7 +40,7 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 				"wrongNum": []string{"20"},
 			},
 			responseBody: "Sum of 2,3 equal 5 \n",
-			responseCode: 200,
+			responseCode: http.StatusOK,
 		},
 		{
 			Name: "Given the wrong body key only should return 400",
@@ -48,15 +48,15 @@ func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
 				"wrongNum": []string{"2", "3"},
 			},
 			responseBody: "",
-			responseCode: 400,
+			responseCode: http.StatusBadRequest,
 		},
 		{
 			Name: "Given and empty body should return 400",
 			body: url.Values{
-				"wrongNum": []string{},
+				"num": []string{},
 			},
 			responseBody: "",
-			responseCode: 400,
+			responseCode: http.StatusBadRequest,
 		},
 	}
 

@@ -36,9 +36,9 @@ func TestFibonacciRequestHandler(t *testing.T) {
 		queries          string
 		responseBodyCode int
 	}{
-		{Name: "Given the any number below or equal 0 should return code 400", queries: "0", responseBodyCode: 400},
-		{Name: "Given the position 94  should return overflow error and return code 400", queries: "94", responseBodyCode: 400},
-		{Name: "Given negative number should return code 400", queries: "-2", responseBodyCode: 400},
+		{Name: "Given the any number below or equal 0 should return code 400", queries: "0", responseBodyCode: http.StatusBadRequest},
+		{Name: "Given the position 94  should return overflow error and return code 400", queries: "94", responseBodyCode: http.StatusBadRequest},
+		{Name: "Given negative number should return code 400", queries: "-2", responseBodyCode: http.StatusBadRequest},
 	}
 
 	for _, tt := range fibonacciTestsBadRequests {

@@ -20,19 +20,19 @@ func TestAddRequestHandlerForJson(t *testing.T) {
 			Name:         "Given one number in body should return the message with the same number",
 			body:         []byte(`{"nums": [2]}`),
 			responseBody: "Sum of 2 equal 2 \n",
-			responseCode: 200,
+			responseCode: http.StatusOK,
 		},
 		{
 			Name:         "Given two numbers in body should return the message with the correct sum of them",
 			body:         []byte(`{"nums": [2, 3]}`),
 			responseBody: "Sum of 2,3 equal 5 \n",
-			responseCode: 200,
+			responseCode: http.StatusOK,
 		},
 		{
 			Name:         "Given the wrong body key should ignore it and give the sum of correct one",
 			body:         []byte(`{"nums": [2, 3], "wrongNums": 20}`),
 			responseBody: "Sum of 2,3 equal 5 \n",
-			responseCode: 200,
+			responseCode: http.StatusOK,
 		},
 		{
 			Name:         "Given the wrong body key only should return 400",

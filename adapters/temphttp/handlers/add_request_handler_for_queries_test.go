@@ -15,11 +15,36 @@ func TestAddRequestHandlerForQueries(t *testing.T) {
 		responseBody string
 		responseCode int
 	}{
-		{Name: "Given one number in query should return the message with the same number", queries: "?num=2", responseBody: "Sum of 2 equal 2 \n", responseCode: 200},
-		{Name: "Given two numbers in query should return the message with the correct sum of them", queries: "?num=2&num=3", responseBody: "Sum of 2,3 equal 5 \n", responseCode: 200},
-		{Name: "Given the wrong query key should ignore it and give the sum of correct one", queries: "?num=2&num=3&wrongNum=20", responseBody: "Sum of 2,3 equal 5 \n", responseCode: 200},
-		{Name: "Given the wrong query key only should return 400", queries: "?wrongNum=20", responseBody: "", responseCode: 400},
-		{Name: "Given and empty query should return 400", queries: "", responseBody: "", responseCode: 400},
+		{
+			Name:         "Given one number in query should return the message with the same number",
+			queries:      "?num=2",
+			responseBody: "Sum of 2 equal 2 \n",
+			responseCode: http.StatusOK,
+		},
+		{
+			Name:         "Given two numbers in query should return the message with the correct sum of them",
+			queries:      "?num=2&num=3",
+			responseBody: "Sum of 2,3 equal 5 \n",
+			responseCode: http.StatusOK,
+		},
+		{
+			Name:         "Given the wrong query key should ignore it and give the sum of correct one",
+			queries:      "?num=2&num=3&wrongNum=20",
+			responseBody: "Sum of 2,3 equal 5 \n",
+			responseCode: http.StatusOK,
+		},
+		{
+			Name:         "Given the wrong query key only should return 400",
+			queries:      "?wrongNum=20",
+			responseBody: "",
+			responseCode: http.StatusBadRequest,
+		},
+		{
+			Name:         "Given and empty query should return 400",
+			queries:      "",
+			responseBody: "",
+			responseCode: http.StatusBadRequest,
+		},
 	}
 
 	for _, tt := range addRequestsHandlersForQueriesTests {
