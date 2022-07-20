@@ -1,4 +1,4 @@
-package temphttp
+package middlewares
 
 import (
 	"math/rand"
@@ -13,7 +13,7 @@ const (
 	max = 1.0
 )
 
-func flakinessMiddleware(next http.Handler) http.Handler {
+func FlakinessMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		flakiness := r.URL.Query()["flakiness"]
 		if len(flakiness) != 0 {
@@ -24,7 +24,7 @@ func flakinessMiddleware(next http.Handler) http.Handler {
 				responseStatus = http.StatusInternalServerError
 			)
 
-			if len(flakinessSlice) == 2 {
+			if len(flakinessSlice) >= 2 {
 				responseStatus, _ = strconv.Atoi(flakinessSlice[1])
 			}
 

@@ -1,4 +1,4 @@
-package temphttp
+package middlewares
 
 import (
 	"encoding/json"
@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-func VerifyTokenMiddleware(next http.Handler) http.Handler {
+func AuthenticationMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var (
 			authorization = r.Header.Get("Authorization")
