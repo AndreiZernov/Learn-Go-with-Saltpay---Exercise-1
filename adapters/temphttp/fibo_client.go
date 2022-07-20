@@ -1,4 +1,4 @@
-package http
+package temphttp
 
 import (
 	"fmt"
@@ -15,11 +15,11 @@ func NewFiboClient() *FiboClient {
 	return &FiboClient{}
 }
 
-func (f FiboClient) Call() {
+func (f FiboClient) Call(arg string) {
 	var (
 		serverPort  = os.Getenv("SERVER_PORT")
 		apiEndpoint = os.Getenv("API_ENDPOINT")
-		requestURL  = fmt.Sprintf("%s:%s/fibonacci/8", apiEndpoint, serverPort)
+		requestURL  = fmt.Sprintf("%s:%s/fibonacci/%s", apiEndpoint, serverPort, arg)
 	)
 
 	req, err := http.NewRequest(http.MethodGet, requestURL, nil)
