@@ -59,7 +59,12 @@ func AddRequestHandlerForFormUrlEncoded(w http.ResponseWriter, req *http.Request
 	error_handler.HandleStatusBadRequest(w, err)
 
 	data := req.PostForm["num"]
-	AddResponseHandler(w, data)
+	if len(data) == 0 {
+		err := errors.New("400 Bad Request")
+		error_handler.HandleStatusBadRequest(w, err)
+	} else {
+		AddResponseHandler(w, data)
+	}
 }
 
 func AddRequestHandlerForJson(w http.ResponseWriter, req *http.Request) {

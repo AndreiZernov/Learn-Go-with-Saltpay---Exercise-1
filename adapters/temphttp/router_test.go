@@ -5,6 +5,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
+	"net/url"
+	"strings"
 	"testing"
 )
 
@@ -63,17 +65,88 @@ func TestAddRequestHandlerForQueries(t *testing.T) {
 	}{
 		{Name: "Given one number in query should return the message with the same number", queries: "?num=2", responseBody: "Sum of 2 equal 2 \n", responseCode: 200},
 		{Name: "Given two numbers in query should return the message with the correct sum of them", queries: "?num=2&num=3", responseBody: "Sum of 2,3 equal 5 \n", responseCode: 200},
-		{Name: "Given the wrong query key should ignore it and give the sum of correct one", queries: "?num=2&num=3&sum=20", responseBody: "Sum of 2,3 equal 5 \n", responseCode: 200},
-		{Name: "Given the wrong query key only should return 400", queries: "?sum=20", responseBody: "", responseCode: 400},
+		{Name: "Given the wrong query key should ignore it and give the sum of correct one", queries: "?num=2&num=3&wrongNum=20", responseBody: "Sum of 2,3 equal 5 \n", responseCode: 200},
+		{Name: "Given the wrong query key only should return 400", queries: "?wrongNum=20", responseBody: "", responseCode: 400},
 		{Name: "Given and empty query should return 400", queries: "", responseBody: "", responseCode: 400},
 	}
 
 	for _, tt := range addRequestsHandlersForQueriesTests {
 		t.Run(tt.Name, func(t *testing.T) {
-			request, _ := http.NewRequest(http.MethodGet, "/add/"+tt.queries, nil)
+			request, _ := http.NewRequest(http.MethodPost, "/add/"+tt.queries, nil)
 			response := httptest.NewRecorder()
 
 			temphttp.AddRequestHandlerForQueries(response, request)
+
+			gotBody := response.Body.String()
+			gotCode := response.Code
+
+			assert.Equal(t, tt.responseBody, gotBody)
+			assert.Equal(t, tt.responseCode, gotCode)
+		})
+	}
+}
+
+func TestAddRequestHandlerForFormUrlEncoded(t *testing.T) {
+	AddRequestHandlerForFormUrlEncodedTests := []struct {
+		Name         string
+		body         url.Values
+		responseBody string
+		responseCode int
+	}{
+		{
+			Name: "Given one number in query should return the message with the same number",
+			body: url.Values{
+				"num": []string{"2"},
+			},
+			responseBody: "Sum of 2 equal 2 \n",
+			responseCode: 200,
+		},
+		{
+			Name: "Given two numbers in query should return the message with the correct sum of them",
+			body: url.Values{
+				"num": []string{"2", "3"},
+			},
+			responseBody: "Sum of 2,3 equal 5 \n",
+			responseCode: 200,
+		},
+		{
+			Name: "Given the wrong query key should ignore it and give the sum of correct one",
+			body: url.Values{
+				"num":      []string{"2", "3"},
+				"wrongNum": []string{"20"},
+			},
+			responseBody: "Sum of 2,3 equal 5 \n",
+			responseCode: 200,
+		},
+		{
+			Name: "Given the wrong query key only should return 400",
+			body: url.Values{
+				"wrongNum": []string{"2", "3"},
+			},
+			responseBody: "",
+			responseCode: 400,
+		},
+		{
+			Name: "Given and empty query should return 400",
+			body: url.Values{
+				"wrongNum": []string{},
+			},
+			responseBody: "",
+			responseCode: 400,
+		},
+	}
+
+	for _, tt := range AddRequestHandlerForFormUrlEncodedTests {
+		t.Run(tt.Name, func(t *testing.T) {
+			data := tt.body
+			bodyReader := strings.NewReader(data.Encode())
+
+			request, _ := http.NewRequest(http.MethodPost, "/add", bodyReader)
+			response := httptest.NewRecorder()
+
+			request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
+
+			temphttp.AddRequestHandlerForFormUrlEncoded(response, request)
 
 			gotBody := response.Body.String()
 			gotCode := response.Code
