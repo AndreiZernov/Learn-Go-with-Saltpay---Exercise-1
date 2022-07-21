@@ -33,5 +33,5 @@ func (f FiboClient) Call(arg string) {
 	resBody, err := ioutil.ReadAll(res.Body)
 	error_handler.HandlePanic(err)
 
-	fmt.Printf("fibo %s: %s", arg, resBody)
+	fmt.Printf("fibo %s: %s \n", arg, resBody)
 }

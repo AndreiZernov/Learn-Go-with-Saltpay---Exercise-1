@@ -18,8 +18,8 @@ import (
 func TestLoggingMiddleware(t *testing.T) {
 	loggingMiddlewareTests := []struct {
 		Name         string
-		queries      string
-		responseCode int
+		Queries      string
+		ResponseCode int
 		RequestURI   string
 	}{
 		{

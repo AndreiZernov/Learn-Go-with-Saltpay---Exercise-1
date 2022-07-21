@@ -2,8 +2,7 @@ package file_reader_test
 
 import (
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/file_reader"
-	"path/filepath"
-	"runtime"
+	"github.com/stretchr/testify/assert"
 	"testing"
 )
 
@@ -27,31 +26,23 @@ func TestReadFile(t *testing.T) {
 			t.Errorf("got %q, want %q", got, expected)
 		}
 	})
+
+	t.Run("Should through the panic if file not found", func(t *testing.T) {
+		pathname := "data/input22.csv"
+		out := testPanic(func() {
+			file_reader.ReadFile(pathname)
+		})
+
+		assert.True(t, out)
+	})
 }
 
-var (
-	_, b, _, _ = runtime.Caller(0)
-	Root       = filepath.Join(filepath.Dir(b), "../..")
-)
-
-func TestGetFilePathname(t *testing.T) {
-	t.Run("get file pathname data/input.txt in the file system", func(t *testing.T) {
-		path := "/data/input.txt"
-		expected := Root + path
-		got := file_reader.GetFilePathname(path)
-
-		if got != expected {
-			t.Errorf("got %q, want %q", got, expected)
+func testPanic(testFunc func()) (isPanic bool) {
+	defer func() {
+		if err := recover(); err != nil {
+			isPanic = true
 		}
-	})
-
-	t.Run("get file pathname data/input2.csv in the file system", func(t *testing.T) {
-		path := "/data/input2.csv"
-		expected := Root + path
-		got := file_reader.GetFilePathname(path)
-
-		if got != expected {
-			t.Errorf("got %q, want %q", got, expected)
-		}
-	})
+	}()
+	testFunc()
+	return false
 }

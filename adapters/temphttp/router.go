@@ -7,7 +7,7 @@ import (
 	"net/http"
 )
 
-func NewRouter() http.Handler {
+func NewRouter() *mux.Router {
 	router := mux.NewRouter().StrictSlash(true)
 
 	router.Use(middlewares.FlakinessMiddleware)
