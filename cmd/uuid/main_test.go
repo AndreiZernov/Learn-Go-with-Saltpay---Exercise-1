@@ -25,7 +25,7 @@ func TestMainUUID(t *testing.T) {
 		files.RemoveFile(pathname)
 
 		assert.Equal(t, 74, len(data))
-		assert.Equal(t, "Successfully generated 2 uuid keys in test_authorised_api_access_keys.txt \n", out)
+		assert.Equal(t, "Successfully generated 2 uuid keys in test_authorised_api_access_keys.txt \nTo generate 2 keys it took 0 Seconds \n", out)
 	})
 
 	t.Run("By not specifying a number should not generate new keys", func(t *testing.T) {
