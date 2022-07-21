@@ -7,6 +7,7 @@ import (
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/calculator"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/strings_helper"
+	"html"
 	"io"
 	"net/http"
 	"strconv"
@@ -58,6 +59,6 @@ func AddRequestHandler(w http.ResponseWriter, req *http.Request) {
 	formattedResult := format.GroupsOfThousands(result, len(formatQuery) > 0 && formatQuery[0] == "thousands")
 	responseMessage := fmt.Sprintf("Sum of %s equal %s \n", cleanData, formattedResult)
 
-	_, err = fmt.Fprintf(w, "%s", responseMessage)
+	_, err = fmt.Fprintf(w, "%s", html.EscapeString(responseMessage))
 	error_handler.HandleStatusBadRequest(w, err)
 }
