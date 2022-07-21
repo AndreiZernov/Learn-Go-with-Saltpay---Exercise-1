@@ -21,20 +21,17 @@ func main() {
 
 	if len(toGetAllArgs) > 0 {
 		number, _ := strconv.Atoi(toGetAllArgs[0])
+
 		_, err = os.Stat(authKeysPathname)
 		if err == nil {
 			files.RemoveFile(authKeysPathname)
 		}
-		for i := 0; i < number; i++ {
-			err = files.UUIDGenerator()
-		}
-		if err != nil {
-			fmt.Println(err.Error())
-		} else {
-			fmt.Printf("Successfully generated %d uuid keys in %s \n", number, authKeysPathname)
-			seconds := int(time.Since(startTime) / time.Second)
-			fmt.Printf("To generate %s keys it took %d Seconds \n", toGetAllArgs[0], seconds)
-		}
+
+		files.UUIDGenerator(number)
+
+		fmt.Printf("Successfully generated %d uuid keys in %s \n", number, authKeysPathname)
+		seconds := int(time.Since(startTime) / time.Second)
+		fmt.Printf("To generate %s keys it took %d Seconds \n", toGetAllArgs[0], seconds)
 	} else {
 		fmt.Printf(keysNotGeneratedErrorMessage)
 	}

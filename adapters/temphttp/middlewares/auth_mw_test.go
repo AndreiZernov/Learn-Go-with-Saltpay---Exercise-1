@@ -1,7 +1,6 @@
 package middlewares_test
 
 import (
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/temphttp/handlers"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/temphttp/middlewares"
@@ -16,8 +15,7 @@ func TestAuthenticationMiddleware(t *testing.T) {
 	pathname := "test_authorised_api_access_keys.txt"
 	t.Setenv("AUTH_KEYS_PATHNAME", "test_authorised_api_access_keys.txt")
 
-	err := files.UUIDGenerator()
-	error_handler.HandlePanic(err)
+	files.UUIDGenerator(1)
 
 	data := files.ReadFile(pathname)
 	authKeys := strings.Split(data, "\n")

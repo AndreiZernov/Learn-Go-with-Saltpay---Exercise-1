@@ -1,15 +1,27 @@
 package files
 
 import (
+	"bufio"
+	"github.com/pborman/uuid"
 	"os"
-	"os/exec"
+	"path/filepath"
+	"strings"
 )
 
 const envAuthKeysPathname = "AUTH_KEYS_PATHNAME"
 
-func UUIDGenerator() error {
+func UUIDGenerator(number int) {
 	authKeysPathname := os.Getenv(envAuthKeysPathname)
-	newUUID, err := exec.Command("uuidgen").Output()
-	WriteFile(authKeysPathname, string(newUUID))
-	return err
+	path := filepath.Join(Root, authKeysPathname)
+	file, _ := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	dataWriter := bufio.NewWriter(file)
+
+	var result []string
+	for i := 0; i < number; i++ {
+		result = append(result, uuid.New()+"\n")
+	}
+	finalResult := strings.Join(result, "")
+	dataWriter.WriteString(finalResult)
+	dataWriter.Flush()
+	file.Close()
 }
