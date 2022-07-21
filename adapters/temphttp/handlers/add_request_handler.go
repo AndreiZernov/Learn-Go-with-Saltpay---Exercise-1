@@ -58,6 +58,6 @@ func AddRequestHandler(w http.ResponseWriter, req *http.Request) {
 	formattedResult := format.GroupsOfThousands(result, len(formatQuery) > 0 && formatQuery[0] == "thousands")
 	responseMessage := fmt.Sprintf("Sum of %s equal %s \n", cleanData, formattedResult)
 
-	_, err = w.Write([]byte(responseMessage))
+	_, err = fmt.Fprintf(w, "%s", responseMessage)
 	error_handler.HandleStatusBadRequest(w, err)
 }

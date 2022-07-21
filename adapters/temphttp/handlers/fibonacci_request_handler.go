@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"fmt"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/fibonacci"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
@@ -23,7 +24,6 @@ func FibonacciRequestHandler(w http.ResponseWriter, req *http.Request) {
 	format := formatter.New()
 	stringFibNumber := format.GroupsOfThousands(int(fibNumber), len(formatQuery) > 0 && formatQuery[0] == "thousands")
 
-	_, err = w.Write([]byte((stringFibNumber)))
-
+	_, err = fmt.Fprintf(w, "%s", stringFibNumber)
 	error_handler.HandleStatusBadRequest(w, err)
 }

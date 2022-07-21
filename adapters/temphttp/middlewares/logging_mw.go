@@ -34,15 +34,17 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 			TimeFormat    = "2006-02-01T15:04:05Z"
 		)
 
+		escapedKey := strings.Replace(key, "\n", "", -1)
+		escapedKey = strings.Replace(escapedKey, "\r", "", -1)
+
 		logData := fmt.Sprintf("%s %s %s %s %s %s %d",
 			time.Now().Format(TimeFormat),
 			r.Method,
 			r.RequestURI,
-			key[0:9],
+			escapedKey[0:9],
 			strconv.FormatInt(r.ContentLength, 10),
 			strconv.Itoa(statusCode),
-			time.Since(start).Milliseconds(),
-		)
+			time.Since(start).Milliseconds())
 
 		files.WriteFile("access_log.txt", logData)
 		fmt.Println(logData)
