@@ -1,7 +1,8 @@
 package middlewares
 
 import (
-	"log"
+	"fmt"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	"net/http"
 	"strconv"
 	"strings"
@@ -30,9 +31,11 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 			statusCode    = lrw.statusCode
 			authorization = r.Header.Get("Authorization")
 			key           = strings.TrimPrefix(authorization, "Bearer ")
+			TimeFormat    = "2006-02-01T15:04:05Z"
 		)
 
-		log.Println(
+		logData := fmt.Sprintf("%s %s %s %s %s %s %d",
+			time.Now().Format(TimeFormat),
 			r.Method,
 			r.RequestURI,
 			key[0:9],
@@ -40,6 +43,9 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 			strconv.Itoa(statusCode),
 			time.Since(start).Milliseconds(),
 		)
+
+		files.WriteFile("access_log.txt", logData)
+		fmt.Println(logData)
 
 		next.ServeHTTP(w, r)
 	})
