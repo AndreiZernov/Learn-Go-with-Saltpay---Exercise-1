@@ -1,16 +1,28 @@
 package middlewares_test
 
 import (
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/temphttp/handlers"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/temphttp/middlewares"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
 )
 
 func TestAuthenticationMiddleware(t *testing.T) {
-	t.Setenv("AUTH_TOKEN", "SUPER_SECRET_API_KEY_1,SUPER_SECRET_API_KEY_2,SUPER_SECRET_API_KEY_3,SUPER_SECRET_API_KEY_4,SUPER_SECRET_API_KEY_5")
+	pathname := "test_authorised_api_access_keys.txt"
+	t.Setenv("AUTH_KEYS_PATHNAME", "test_authorised_api_access_keys.txt")
+
+	err := files.UUIDGenerator()
+	error_handler.HandlePanic(err)
+
+	data := files.ReadFile(pathname)
+	authKeys := strings.Split(data, "\n")
+	authKey := authKeys[0]
+	defer files.RemoveFile(pathname)
 
 	authenticationMiddlewareTests := []struct {
 		Name         string
@@ -22,13 +34,13 @@ func TestAuthenticationMiddleware(t *testing.T) {
 			Name:         "Given a correct auth key should return 200 response",
 			Queries:      "?num=2&num=3",
 			ResponseCode: http.StatusOK,
-			AuthKey:      "SUPER_SECRET_API_KEY_1",
+			AuthKey:      authKey,
 		},
 		{
 			Name:         "Given a another correct auth key should return 200 response",
 			Queries:      "?num=2&num=3",
 			ResponseCode: http.StatusOK,
-			AuthKey:      "SUPER_SECRET_API_KEY_2",
+			AuthKey:      authKey,
 		},
 		{
 			Name:         "Given a wrong auth key should return 403 response",
@@ -46,7 +58,6 @@ func TestAuthenticationMiddleware(t *testing.T) {
 
 	for _, tt := range authenticationMiddlewareTests {
 		t.Run(tt.Name, func(t *testing.T) {
-
 			request, _ := http.NewRequest(http.MethodPost, "/add"+tt.Queries, nil)
 			response := httptest.NewRecorder()
 

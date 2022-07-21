@@ -13,7 +13,8 @@ func WriteFile(path, data string) {
 	error_handler.HandlePanic(err)
 
 	dataWriter := bufio.NewWriter(file)
-	dataWriter.WriteString(data + "\n")
-	dataWriter.Flush()
-	file.Close()
+	_, err = dataWriter.WriteString(data)
+	err = dataWriter.Flush()
+	err = file.Close()
+	error_handler.HandlePanic(err)
 }

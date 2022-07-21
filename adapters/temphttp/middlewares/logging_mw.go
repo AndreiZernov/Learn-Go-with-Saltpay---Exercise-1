@@ -37,16 +37,20 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 		escapedKey := strings.Replace(key, "\n", "", -1)
 		escapedKey = strings.Replace(escapedKey, "\r", "", -1)
 
+		if len(escapedKey) > 10 {
+			escapedKey = escapedKey[0:10]
+		}
+
 		logData := fmt.Sprintf("%s %s %s %s %s %s %d",
 			time.Now().Format(TimeFormat),
 			r.Method,
 			r.RequestURI,
-			escapedKey[0:9],
+			escapedKey,
 			strconv.FormatInt(r.ContentLength, 10),
 			strconv.Itoa(statusCode),
 			time.Since(start).Milliseconds())
 
-		files.WriteFile("access_log.txt", logData)
+		files.WriteFile("access_log.txt", logData+"\n")
 		fmt.Println(logData)
 
 		next.ServeHTTP(w, r)
