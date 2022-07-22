@@ -13,8 +13,8 @@ import (
 const binName = "add"
 
 func TestMainAdd(t *testing.T) {
-	dir, err := os.Getwd()
-	error_handler.HandlePanic(err)
+	dir, dirErr := os.Getwd()
+	error_handler.AnnotatingError(dirErr, "Cannot get current directory")
 	cmdPath := filepath.Join(dir, binName)
 
 	adderTest := []struct {
@@ -59,14 +59,14 @@ func TestMainAdd(t *testing.T) {
 
 func CommandLineOutput(t testing.TB, cmd *exec.Cmd) string {
 	t.Helper()
-	cmdStdIn, err := cmd.StdinPipe()
-	error_handler.HandlePanic(err)
+	cmdStdIn, createErr := cmd.StdinPipe()
+	error_handler.AnnotatingError(createErr, "Cannot create stdin pipe")
 
-	err = cmdStdIn.Close()
-	error_handler.HandlePanic(err)
+	closeErr := cmdStdIn.Close()
+	error_handler.AnnotatingError(closeErr, "Cannot close stdin pipe")
 
-	out, err := cmd.CombinedOutput()
-	error_handler.HandlePanic(err)
+	out, executeErr := cmd.CombinedOutput()
+	error_handler.AnnotatingError(executeErr, "Cannot execute command")
 
 	return string(out)
 }
@@ -76,9 +76,8 @@ func TestMain(m *testing.M) {
 
 	build := exec.Command("go", "build", "-o", binName)
 
-	if err := build.Run(); err != nil {
-		_, err := fmt.Fprintf(os.Stderr, "Cannot build tool %s: %s", binName, err)
-		error_handler.HandlePanic(err)
+	if buildErr := build.Run(); buildErr != nil {
+		error_handler.AnnotatingError(buildErr, "Cannot build tool")
 		os.Exit(1)
 	}
 
@@ -86,7 +85,7 @@ func TestMain(m *testing.M) {
 	result := m.Run()
 
 	fmt.Println("Cleaning up...")
-	err := os.Remove(binName)
-	error_handler.HandlePanic(err)
+	removeToolErr := os.Remove(binName)
+	error_handler.AnnotatingError(removeToolErr, "Cannot remove tool")
 	os.Exit(result)
 }

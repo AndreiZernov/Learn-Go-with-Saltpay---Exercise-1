@@ -2,6 +2,7 @@ package files_test
 
 import (
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/internals/testing_helpers"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )
@@ -23,22 +24,12 @@ func TestReadFile(t *testing.T) {
 		assert.Equal(t, expected, got)
 	})
 
-	t.Run("Should through the panic if file not found", func(t *testing.T) {
+	t.Run("Should through the error if file not found", func(t *testing.T) {
 		pathname := "data/input22.csv"
-		out := testPanic(func() {
+		out := testing_helpers.CaptureOutput(func() {
 			files.ReadFile(pathname)
 		})
 
-		assert.True(t, out)
+		assert.Contains(t, out, "Failed to read file")
 	})
-}
-
-func testPanic(testFunc func()) (isPanic bool) {
-	defer func() {
-		if err := recover(); err != nil {
-			isPanic = true
-		}
-	}()
-	testFunc()
-	return false
 }

@@ -14,7 +14,7 @@ var (
 
 func ReadFile(path string) string {
 	path = filepath.Join(Root, path)
-	content, err := os.ReadFile(path)
-	error_handler.HandlePanic(err)
+	content, readErr := os.ReadFile(path)
+	error_handler.AnnotatingError(readErr, "Failed to read file")
 	return string(content)
 }

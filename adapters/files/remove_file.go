@@ -8,6 +8,6 @@ import (
 
 func RemoveFile(path string) {
 	path = filepath.Join(Root, path)
-	err := os.Remove(path)
-	error_handler.HandlePanic(err)
+	removeErr := os.Remove(path)
+	error_handler.AnnotatingError(removeErr, "Failed to remove file")
 }

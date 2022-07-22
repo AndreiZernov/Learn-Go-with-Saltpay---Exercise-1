@@ -22,16 +22,16 @@ func (f FiboClient) Call(arg string) {
 		requestURL  = fmt.Sprintf("%s:%s/fibonacci/%s", apiEndpoint, serverPort, arg)
 	)
 
-	req, err := http.NewRequest(http.MethodGet, requestURL, nil)
-	error_handler.HandlePanic(err)
+	req, requestErr := http.NewRequest(http.MethodGet, requestURL, nil)
+	error_handler.AnnotatingError(requestErr, "Failed to create request")
 
 	req.Header.Set("Authorization", "Bearer SUPER_SECRET_API_KEY_1")
 
-	res, err := http.DefaultClient.Do(req)
-	error_handler.HandlePanic(err)
+	res, clientErr := http.DefaultClient.Do(req)
+	error_handler.AnnotatingError(clientErr, "Failed to send request")
 
-	resBody, err := ioutil.ReadAll(res.Body)
-	error_handler.HandlePanic(err)
+	resBody, readErr := ioutil.ReadAll(res.Body)
+	error_handler.AnnotatingError(readErr, "Failed to read response")
 
 	fmt.Printf("fibo %s: %s \n", arg, resBody)
 }
