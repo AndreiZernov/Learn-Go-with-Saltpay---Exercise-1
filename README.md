@@ -1,9 +1,85 @@
 # Learn Go with Saltpay - Exercise 1
 
-[Github Link](https://github.com/saltpay/learn-go-with-salt/blob/master/book/exercise1.md) 
+[Github Link to the exercise](https://github.com/saltpay/learn-go-with-salt/blob/master/book/exercise1.md) 
+
+<img src="internals/golang_exercise_one.drawio.png" width="600" height="400" alt="golang diagram" />
+
+This repository contains an exercise one from Learn Go with Saltpay.
+4 projects can be found here:
+1. `add` program for adding numbers from cli or local files. 
+2. `math` program for running server and handle two endpoints (/add and /fibonacci).
+3. `fibo` program is a fiboclient for triggering the request for server and expecting to get the fibonacci number based on the input.
+4. `uuid` program is for generating the auth keys. Number of keys will be depended on user input. 
 
 
+## How to clone the repository
 
+```
+$ git clone git@github.com:AndreiZernov/learn_go_with_saltpay_exercise_one.git
+$ cd learn_go_with_saltpay_exercise_one
+```
+
+## How to build the programs
+
+#### For the first program, we need to build the `add` program.
+```
+go build -o add cmd/add/main.go
+```
+
+#### For the second program, we need to build the `math` program.
+```
+go build -o math cmd/math/main.go
+```
+
+#### For the third program, we need to build the `fibo` program.
+```
+go build -o fibo cmd/fibo/main.go
+```
+
+#### For the fourth program, we need to build the `uuid` program.
+```
+go build -o uuid cmd/uuid/main.go
+```
+
+## How to Run the programs
+
+#### To run `add` program, we need to run the following command:
+```
+./add
+```
+Specify arguments to generate the sum:
+    1. Can be ```./add 1 2 3 4 5```. It will calculate the sum of the numbers.
+    2. Can be ```./add --input-file /data/input2.csv```. It will calculate the sum of the numbers from the file.
+    3. Can be ```./add```. It will calculate the sum of the numbers from the default file `/data/input.txt`.
+
+#### To run `math` program, we need to run the following command:
+```
+./math --web-server 
+```
+It will run the server and handle two endpoints:
+    1. `/add` - it will add the numbers from the input file.
+    2. `/fibonacci` - it will calculate the fibonacci number based on the input.
+
+#### To run `fibo` program, we need to run the following command:
+```
+./fibo
+```
+It will trigger the request for server and expecting to get the fibonacci number based on the input.
+
+#### To run `uuid` program, we need to run the following command:
+```
+./uuid {{arguments}}
+```
+It will generate the auth keys. Number of keys will be depended on user input(arguments).
+
+
+## How to Test
+```
+go test ./...
+```
+
+
+# Notes: 
 ## Part 26
 
 Run the command below to generate the benchmarking data.
@@ -55,7 +131,7 @@ Percentage of the requests served within a certain time (ms)
 ## Part 29
 
 Findings: 
-### UUIDs Optimization:
+#### UUIDs Optimization:
 1. First I used the uuid generator package through the `uuidgen` module. ```exec.Command("uuidgen").Output()```.
     Was not able to finish the generation of the 1 billion uuids as it took too long.
 2. Replaced the ```uuidgen``` with ```github.com/google/uuid``` which increase the speed of the generation of 100000 uuids from 17 seconds to 4 seconds
@@ -67,7 +143,7 @@ Findings:
 5. I was trying also use strings.Builder. Not much of improvements over previous method.
 6. I tried another uuid generator ```github.com/pborman/uuid```. It gave few seconds improvements over previous package.
 
-### UUID Search Optimization:
+#### UUID Search Optimization:
 1. For search, I replace brute force for loop to generic binary search algorithm with ```sort.Search```. It did give only more time delay as the slice need to be sorted first.
     But still not acceptable performance. Request still was taken too long. 
 2. For search the uuid in the file, I used the `grep` command. It did not increase the performance, the delay was too big, I interrupt the request.
