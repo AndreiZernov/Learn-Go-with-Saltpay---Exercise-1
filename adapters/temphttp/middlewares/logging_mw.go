@@ -3,6 +3,7 @@ package middlewares
 import (
 	"fmt"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
+	"log"
 	"net/http"
 	"os"
 	"strconv"
@@ -53,9 +54,12 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 			strconv.FormatInt(r.ContentLength, 10),
 			strconv.Itoa(statusCode),
 			time.Since(start).Milliseconds())
-
-		files.WriteFile(accessLogPathname, logData+"\n")
 		fmt.Println(logData)
+
+		err := files.WriteFile(accessLogPathname, logData+"\n")
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		next.ServeHTTP(w, r)
 	})

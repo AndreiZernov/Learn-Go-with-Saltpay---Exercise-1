@@ -11,10 +11,11 @@ func TestUUIDGenerator(t *testing.T) {
 	t.Run("Should generate uuid", func(t *testing.T) {
 		t.Setenv("AUTH_KEYS_PATHNAME", testAuthKeysPathname)
 
-		UUIDGenerator(1)
-		data := ReadFile(testAuthKeysPathname)
+		err := UUIDGenerator(1)
+		data, _ := ReadFile(testAuthKeysPathname)
 		defer RemoveFile(testAuthKeysPathname)
 
+		assert.NoError(t, err)
 		assert.Equal(t, 37, len(data))
 	})
 }

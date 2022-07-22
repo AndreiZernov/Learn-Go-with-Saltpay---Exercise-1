@@ -2,8 +2,8 @@ package temphttp
 
 import (
 	"fmt"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
+	"github.com/pkg/errors"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -19,7 +19,7 @@ func NewFiboClient() *FiboClient {
 	return &FiboClient{}
 }
 
-func (f FiboClient) Call(arg string) {
+func (f FiboClient) Call(arg string) error {
 	var (
 		serverPort       = os.Getenv("SERVER_PORT")
 		apiEndpoint      = os.Getenv("API_ENDPOINT")
@@ -27,19 +27,30 @@ func (f FiboClient) Call(arg string) {
 		requestURL       = fmt.Sprintf("%s:%s/fibonacci/%s", apiEndpoint, serverPort, arg)
 	)
 
-	req, requestErr := http.NewRequest(http.MethodGet, requestURL, nil)
-	error_handler.AnnotatingError(requestErr, "Failed to create request")
+	req, err := http.NewRequest(http.MethodGet, requestURL, nil)
+	if err != nil {
+		return errors.Wrap(err, "failed to call new request in fibonacci client")
+	}
 
-	authKeys := files.ReadFile(authKeysPathname)
+	authKeys, err := files.ReadFile(authKeysPathname)
+	if err != nil {
+		return errors.Wrap(err, "failed to call new request in fibonacci client")
+	}
+
 	authKey := strings.Split(authKeys, "\n")[0]
 
 	req.Header.Set("Authorization", authKey)
 
-	res, clientErr := http.DefaultClient.Do(req)
-	error_handler.AnnotatingError(clientErr, "Failed to send request")
+	res, err := http.DefaultClient.Do(req)
+	if err != nil {
+		return errors.Wrap(err, "failed to call new request in fibonacci client")
+	}
 
-	resBody, readErr := ioutil.ReadAll(res.Body)
-	error_handler.AnnotatingError(readErr, "Failed to read response")
+	resBody, err := ioutil.ReadAll(res.Body)
+	if err != nil {
+		return errors.Wrap(err, "failed to call new request in fibonacci client")
+	}
 
 	fmt.Printf("fibo %s: %s \n", arg, resBody)
+	return nil
 }

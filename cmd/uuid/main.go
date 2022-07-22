@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
+	"log"
 	"os"
 	"strconv"
 	"time"
@@ -21,12 +22,18 @@ func main() {
 	if len(toGetAllArgs) > 0 {
 		number, _ := strconv.Atoi(toGetAllArgs[0])
 
-		err := files.FindFile(authKeysPathname)
-		if err == nil {
-			files.RemoveFile(authKeysPathname)
+		errFindFile := files.FindFile(authKeysPathname)
+		if errFindFile == nil {
+			err := files.RemoveFile(authKeysPathname)
+			if err != nil {
+				log.Fatal(err)
+			}
 		}
 
-		files.UUIDGenerator(number)
+		err := files.UUIDGenerator(number)
+		if err != nil {
+			log.Fatal(err)
+		}
 
 		fmt.Printf("Successfully generated %d uuid keys in %s \n", number, authKeysPathname)
 		seconds := int(time.Since(startTime) / time.Second)

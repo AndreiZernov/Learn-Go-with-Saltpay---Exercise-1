@@ -8,10 +8,17 @@ import (
 
 func TestWriteFile(t *testing.T) {
 	t.Run("Should create, write, read and then delete file test_access_log.txt", func(t *testing.T) {
-		files.WriteFile(testAccessLogPathname, "test-data")
-		data := files.ReadFile(testAccessLogPathname)
-		defer files.RemoveFile(testAccessLogPathname)
+		err := files.WriteFile(testAccessLogPathname, "test-data")
+		if err != nil {
+			t.Fatal(err)
+		}
+		data, _ := files.ReadFile(testAccessLogPathname)
 
+		errRemove := files.RemoveFile(testAccessLogPathname)
+		if err != nil {
+			t.Fatal(errRemove)
+		}
 		assert.Equal(t, "test-data", data)
+
 	})
 }

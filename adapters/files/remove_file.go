@@ -1,13 +1,13 @@
 package files
 
 import (
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
+	"github.com/pkg/errors"
 	"os"
 	"path/filepath"
 )
 
-func RemoveFile(path string) {
+func RemoveFile(path string) error {
 	path = filepath.Join(Root, path)
-	removeErr := os.Remove(path)
-	error_handler.AnnotatingError(removeErr, "Failed to remove file")
+	err := os.Remove(path)
+	return errors.Wrap(err, "failed to remove file")
 }

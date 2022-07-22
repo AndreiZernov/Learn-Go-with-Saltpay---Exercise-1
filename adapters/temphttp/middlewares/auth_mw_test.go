@@ -20,7 +20,10 @@ func TestAuthenticationMiddleware(t *testing.T) {
 
 	files.UUIDGenerator(1)
 
-	data := files.ReadFile(pathname)
+	data, err := files.ReadFile(pathname)
+	if err != nil {
+		t.Fatal(err)
+	}
 	authKeys := strings.Split(data, "\n")
 	authKey := authKeys[0]
 	defer files.RemoveFile(pathname)

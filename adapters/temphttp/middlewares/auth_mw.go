@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/slices"
+	"log"
 	"net/http"
 	"os"
 	"strings"
@@ -17,9 +18,14 @@ func AuthenticationMiddleware(next http.Handler) http.Handler {
 			authorization    = r.Header.Get("Authorization")
 			token            = strings.TrimPrefix(authorization, "Bearer ")
 			authKeysPathname = os.Getenv(envAuthKeysEnvName)
-			stringOfKeys     = files.ReadFile(authKeysPathname)
-			sliceOfKeys      = strings.Split(stringOfKeys, "\n")
 		)
+		stringOfKeys, err := files.ReadFile(authKeysPathname)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		sliceOfKeys := strings.Split(stringOfKeys, "\n")
+
 		json.NewEncoder(w).Encode(r)
 
 		switch {

@@ -47,8 +47,6 @@ func TestLoggingMiddleware(t *testing.T) {
 
 			outputSlice := strings.Split(out, " ")
 			assert.Equal(t, tt.RequestURI, outputSlice[2])
-
 		})
 	}
-
 }

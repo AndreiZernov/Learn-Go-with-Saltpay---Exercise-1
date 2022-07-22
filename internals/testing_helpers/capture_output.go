@@ -2,7 +2,6 @@ package testing_helpers
 
 import (
 	"bytes"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"io"
 	"log"
 	"os"
@@ -11,7 +10,9 @@ import (
 
 func CaptureOutput(f func()) string {
 	reader, writer, err := os.Pipe()
-	error_handler.AnnotatingError(err, "Pipe error")
+	if err != nil {
+		log.Fatal("Failed to create pipe: ", err)
+	}
 	stdout := os.Stdout
 	stderr := os.Stderr
 	defer func() {

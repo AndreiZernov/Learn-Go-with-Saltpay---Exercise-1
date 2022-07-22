@@ -2,10 +2,10 @@ package main_test
 
 import (
 	"fmt"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	router "github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/temphttp"
 	"github.com/stretchr/testify/assert"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -72,7 +72,10 @@ func TestMainMath(t *testing.T) {
 		cmdPath := filepath.Join(dir, binName)
 		exec.Command(cmdPath, "--web-server")
 
-		authKeys := files.ReadFile(testAuthKeysPathname)
+		authKeys, err := files.ReadFile(testAuthKeysPathname)
+		if err != nil {
+			t.Fatal(err)
+		}
 		authKey := strings.Split(authKeys, "\n")[0]
 
 		request, _ := http.NewRequest(http.MethodPost, "/add?num=2", nil)
@@ -95,16 +98,18 @@ func TestMain(m *testing.M) {
 
 	build := exec.Command("go", "build", "-o", binName)
 
-	if buildErr := build.Run(); buildErr != nil {
-		error_handler.AnnotatingError(buildErr, "Cannot build tool")
-		os.Exit(1)
+	if err := build.Run(); err != nil {
+		log.Fatal("Cannot build tool")
 	}
 
 	fmt.Println("Running tests....")
 	result := m.Run()
 
 	fmt.Println("Cleaning up...")
-	removeToolErr := os.Remove(binName)
-	error_handler.AnnotatingError(removeToolErr, "Cannot remove tool")
+
+	if err := os.Remove(binName); err != nil {
+		log.Fatal("Cannot remove tool")
+	}
+
 	os.Exit(result)
 }

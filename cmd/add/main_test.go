@@ -2,8 +2,8 @@ package main_test
 
 import (
 	"fmt"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"github.com/stretchr/testify/assert"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -14,7 +14,10 @@ const binName = "add"
 
 func TestMainAdd(t *testing.T) {
 	dir, dirErr := os.Getwd()
-	error_handler.AnnotatingError(dirErr, "Cannot get current directory")
+	if dirErr != nil {
+		t.Fatal("cannot get current directory")
+	}
+
 	cmdPath := filepath.Join(dir, binName)
 
 	adderTest := []struct {
@@ -59,14 +62,17 @@ func TestMainAdd(t *testing.T) {
 
 func CommandLineOutput(t testing.TB, cmd *exec.Cmd) string {
 	t.Helper()
-	cmdStdIn, createErr := cmd.StdinPipe()
-	error_handler.AnnotatingError(createErr, "Cannot create stdin pipe")
+	cmdStdIn, err := cmd.StdinPipe()
+	if err != nil {
+		t.Fatal("cannot create stdin pipe")
+	}
 
-	closeErr := cmdStdIn.Close()
-	error_handler.AnnotatingError(closeErr, "Cannot close stdin pipe")
+	cmdStdIn.Close()
 
-	out, executeErr := cmd.CombinedOutput()
-	error_handler.AnnotatingError(executeErr, "Cannot execute command")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		t.Fatal("cannot execute command")
+	}
 
 	return string(out)
 }
@@ -76,16 +82,18 @@ func TestMain(m *testing.M) {
 
 	build := exec.Command("go", "build", "-o", binName)
 
-	if buildErr := build.Run(); buildErr != nil {
-		error_handler.AnnotatingError(buildErr, "Cannot build tool")
-		os.Exit(1)
+	if err := build.Run(); err != nil {
+		log.Fatal("Cannot build tool")
 	}
 
 	fmt.Println("Running tests....")
 	result := m.Run()
 
 	fmt.Println("Cleaning up...")
-	removeToolErr := os.Remove(binName)
-	error_handler.AnnotatingError(removeToolErr, "Cannot remove tool")
+
+	if err := os.Remove(binName); err != nil {
+		log.Fatal("Cannot remove tool")
+	}
+
 	os.Exit(result)
 }

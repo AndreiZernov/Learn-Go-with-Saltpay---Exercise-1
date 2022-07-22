@@ -2,10 +2,10 @@ package main_test
 
 import (
 	"fmt"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/internals/testing_helpers"
 	"github.com/stretchr/testify/assert"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -54,16 +54,18 @@ func TestMain(m *testing.M) {
 
 	build := exec.Command("go", "build", "-o", binName)
 
-	if buildErr := build.Run(); buildErr != nil {
-		error_handler.AnnotatingError(buildErr, "Cannot build tool")
-		os.Exit(1)
+	if err := build.Run(); err != nil {
+		log.Fatal("Cannot build tool")
 	}
 
 	fmt.Println("Running tests....")
 	result := m.Run()
 
 	fmt.Println("Cleaning up...")
-	removeToolErr := os.Remove(binName)
-	error_handler.AnnotatingError(removeToolErr, "Cannot remove tool")
+
+	if err := os.Remove(binName); err != nil {
+		log.Fatal("Cannot remove tool")
+	}
+
 	os.Exit(result)
 }

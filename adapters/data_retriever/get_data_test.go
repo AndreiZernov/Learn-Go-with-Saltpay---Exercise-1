@@ -42,7 +42,10 @@ func TestDataRetriever_GetData(t *testing.T) {
 	for _, tt := range adderTest {
 		t.Run(tt.Name, func(t *testing.T) {
 			dataRetriever := data_retriever.New()
-			got := dataRetriever.GetData(tt.Arguments)
+			got, err := dataRetriever.GetData(tt.Arguments)
+			if err != nil {
+				t.Fatal(err)
+			}
 			assert.Equal(t, tt.Numbers, got)
 		})
 	}
