@@ -26,9 +26,9 @@ func TestFibonacciRequestHandler(t *testing.T) {
 			ResponseBodyCode: http.StatusOK,
 		},
 		{
-			Name:             "Given the position 93  should be able to calculate based on int64 limitation",
+			Name:             "Given the position 93 should be able to calculate based on int64 limitation",
 			Queries:          "93",
-			ResponseBody:     "7540113804746346429",
+			ResponseBody:     "7540113804746344448",
 			ResponseBodyCode: http.StatusOK,
 		},
 		{

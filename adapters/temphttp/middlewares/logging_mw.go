@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const envAuthKeysName = "LOG_PATHNAME"
+const envLogName = "LOG_PATHNAME"
 
 type loggingResponseWriter struct {
 	http.ResponseWriter
@@ -32,7 +32,7 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 			start             = time.Now()
 			lrw               = newLoggingResponseWriter(w)
 			statusCode        = lrw.statusCode
-			accessLogPathname = os.Getenv(envAuthKeysName)
+			accessLogPathname = os.Getenv(envLogName)
 			authorization     = r.Header.Get("Authorization")
 			key               = strings.TrimPrefix(authorization, "Bearer ")
 			TimeFormat        = "2006-02-01T15:04:05Z"

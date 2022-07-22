@@ -41,7 +41,6 @@ func TestLoggingMiddleware(t *testing.T) {
 			out := testing_helpers.CaptureOutput(func() {
 				request, _ := http.NewRequest(http.MethodPost, tt.RequestURI, nil)
 
-				request.Header.Set("Authorization", "Bearer SUPER_SECRET_API_KEY_1")
 				request.RequestURI = tt.RequestURI
 				middlewares.LoggingMiddleware(http.HandlerFunc(handlers.AddRequestHandler)).ServeHTTP(response, request)
 			})

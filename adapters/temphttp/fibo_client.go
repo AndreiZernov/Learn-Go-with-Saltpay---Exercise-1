@@ -3,10 +3,14 @@ package temphttp
 import (
 	"fmt"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	"io/ioutil"
 	"net/http"
 	"os"
+	"strings"
 )
+
+const envAuthKeysName = "AUTH_KEYS_PATHNAME"
 
 type FiboClient struct {
 }
@@ -17,15 +21,19 @@ func NewFiboClient() *FiboClient {
 
 func (f FiboClient) Call(arg string) {
 	var (
-		serverPort  = os.Getenv("SERVER_PORT")
-		apiEndpoint = os.Getenv("API_ENDPOINT")
-		requestURL  = fmt.Sprintf("%s:%s/fibonacci/%s", apiEndpoint, serverPort, arg)
+		serverPort       = os.Getenv("SERVER_PORT")
+		apiEndpoint      = os.Getenv("API_ENDPOINT")
+		authKeysPathname = os.Getenv(envAuthKeysName)
+		requestURL       = fmt.Sprintf("%s:%s/fibonacci/%s", apiEndpoint, serverPort, arg)
 	)
 
 	req, requestErr := http.NewRequest(http.MethodGet, requestURL, nil)
 	error_handler.AnnotatingError(requestErr, "Failed to create request")
 
-	req.Header.Set("Authorization", "Bearer SUPER_SECRET_API_KEY_1")
+	authKeys := files.ReadFile(authKeysPathname)
+	authKey := strings.Split(authKeys, "\n")[0]
+
+	req.Header.Set("Authorization", authKey)
 
 	res, clientErr := http.DefaultClient.Do(req)
 	error_handler.AnnotatingError(clientErr, "Failed to send request")
