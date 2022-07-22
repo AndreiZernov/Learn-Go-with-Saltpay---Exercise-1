@@ -2,9 +2,8 @@ package calculator
 
 import (
 	"errors"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/slices"
 	"math"
-	"strconv"
-	"strings"
 )
 
 type Calculator struct {
@@ -21,25 +20,30 @@ const (
 
 var ErrOverflow = errors.New("integer overflow")
 
-func (c Calculator) Add(n string) (int, error) {
-	sum := 0
-	newArray := strings.Split(n, ",")
+func (c Calculator) Add(numbers []int64) (int64, error) {
+	var (
+		numbersWithNoDuplications []int64
+		sum                       int64
+	)
 
-	for _, number := range newArray {
-		x, err := strconv.Atoi(number)
-
-		if err == nil {
-			if x > 0 {
-				if sum > maxInt-x {
-					return 0, ErrOverflow
-				}
-			} else {
-				if sum < minInt-x {
-					return 0, ErrOverflow
-				}
-			}
-			sum += x
+	// Removing duplications
+	for _, number := range numbers {
+		if slices.Contains(numbersWithNoDuplications, number) == false {
+			numbersWithNoDuplications = append(numbersWithNoDuplications, number)
 		}
+	}
+
+	for _, number := range numbersWithNoDuplications {
+		if number > 0 {
+			if sum > maxInt-number {
+				return 0, ErrOverflow
+			}
+		} else {
+			if sum < minInt-number {
+				return 0, ErrOverflow
+			}
+		}
+		sum += number
 	}
 
 	return sum, nil

@@ -28,27 +28,27 @@ func TestMainAdd(t *testing.T) {
 		{
 			Name:            "Given a one number",
 			CommandExecuted: exec.Command(cmdPath, "2"),
-			Expected:        "Sum of 2, equal 2 \n",
+			Expected:        "2\n",
 		},
 		{
 			Name:            "Given a multiple number",
 			CommandExecuted: exec.Command(cmdPath, "2", "3", "5"),
-			Expected:        "Sum of 2,3,5, equal 10 \n",
+			Expected:        "10\n",
 		},
 		{
 			Name:            "Given the --input-file data/input.txt should return the calculation from input.txt",
 			CommandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt"),
-			Expected:        "Sum of 4,5,32,100,867543, equal 867,684 \n",
+			Expected:        "867,684\n",
 		},
 		{
-			Name:            "Given the few files should return the sum of the all numbers in files",
+			Name:            "Given the few files should return the sum of the all integers in files",
 			CommandExecuted: exec.Command(cmdPath, "--input-file", "data/input.txt", "--input-file", "data/input2.csv"),
-			Expected:        "Sum of 4,5,32,100,867543, equal 867,684 \n",
+			Expected:        "867,684\n",
 		},
 		{
 			Name:            "Given no arguments should return calculation from data/input.txt file",
 			CommandExecuted: exec.Command(cmdPath),
-			Expected:        "Sum of 4,5,32,100,867543 equal 867,684 \n",
+			Expected:        "867,684\n",
 		},
 	}
 

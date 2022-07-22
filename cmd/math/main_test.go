@@ -88,7 +88,7 @@ func TestMainMath(t *testing.T) {
 		gotBody := response.Body.String()
 		gotCode := response.Code
 
-		assert.Equal(t, "Sum of 2 equal 2 \n", gotBody)
+		assert.Equal(t, "2", gotBody)
 		assert.Equal(t, 200, gotCode)
 	})
 }

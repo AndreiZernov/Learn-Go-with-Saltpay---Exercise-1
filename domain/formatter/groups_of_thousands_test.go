@@ -9,7 +9,7 @@ import (
 func TestFormatter(t *testing.T) {
 	formaterTest := []struct {
 		Name            string
-		Number          int
+		Number          int64
 		FormattedNumber string
 	}{
 		{

@@ -3,10 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/error_handler"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/data_retriever"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/calculator"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/strings_helper"
 	"html"
 	"io"
 	"net/http"
@@ -26,7 +25,10 @@ func AddRequestHandler(w http.ResponseWriter, req *http.Request) {
 
 	case strings.Contains(contentType, "application/x-www-form-urlencoded"):
 		err := req.ParseForm()
-		error_handler.HandleStatusBadRequest(w, err)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
 		data = req.PostForm["num"]
 
 	case strings.Contains(contentType, "application/json"):
@@ -35,7 +37,10 @@ func AddRequestHandler(w http.ResponseWriter, req *http.Request) {
 		}
 		body, err := io.ReadAll(req.Body)
 		err = json.Unmarshal(body, &jsonBody)
-		error_handler.HandleStatusBadRequest(w, err)
+		if err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
 
 		for _, num := range jsonBody.Nums {
 			data = append(data, strconv.Itoa(num))
@@ -47,18 +52,24 @@ func AddRequestHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	numbers := strings.Join(data[:], ",")
-	cleanData := strings_helper.DataCleaner(numbers)
+	dataRetriever := data_retriever.New()
+	numbers, err := dataRetriever.GetNumbers(data)
 
 	calculate := calculator.New()
 	format := formatter.New()
 
-	result, err := calculate.Add(cleanData)
-	error_handler.HandleStatusBadRequest(w, err)
+	result, err := calculate.Add(numbers)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	formattedResult := format.GroupsOfThousands(result, len(formatQuery) > 0 && formatQuery[0] == "thousands")
-	responseMessage := fmt.Sprintf("Sum of %s equal %s \n", cleanData, formattedResult)
+	responseMessage := fmt.Sprintf("%s", formattedResult)
 
 	_, err = fmt.Fprintf(w, "%s", html.EscapeString(responseMessage))
-	error_handler.HandleStatusBadRequest(w, err)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 }

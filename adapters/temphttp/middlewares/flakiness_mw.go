@@ -27,10 +27,14 @@ func FlakinessMiddleware(next http.Handler) http.Handler {
 			probability, _ = strconv.ParseFloat(flakinessSlice[0], 64)
 			random         = min + rand.Float64()*(max-min)
 			responseStatus = http.StatusInternalServerError
+			err            error
 		)
 
 		if len(flakinessSlice) >= 2 {
-			responseStatus, _ = strconv.Atoi(flakinessSlice[1])
+			responseStatus, err = strconv.Atoi(flakinessSlice[1])
+			if err != nil {
+				responseStatus = http.StatusBadRequest
+			}
 		}
 
 		if len(flakinessSlice) == 3 {

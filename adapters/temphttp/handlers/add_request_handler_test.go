@@ -23,7 +23,7 @@ func TestAddRequestHandler(t *testing.T) {
 			Body: url.Values{
 				"num": []string{"2"},
 			},
-			ResponseBody: "Sum of 2 equal 2 \n",
+			ResponseBody: "2",
 			ResponseCode: http.StatusOK,
 		},
 		{
@@ -32,7 +32,7 @@ func TestAddRequestHandler(t *testing.T) {
 				"num":      []string{"2", "3"},
 				"wrongNum": []string{"20"},
 			},
-			ResponseBody: "Sum of 2,3 equal 5 \n",
+			ResponseBody: "5",
 			ResponseCode: http.StatusOK,
 		},
 		{
@@ -74,13 +74,13 @@ func TestAddRequestHandler(t *testing.T) {
 		{
 			Name:         "For JSON array - Given one number in Body should return the message with the same number",
 			Body:         []byte(`{"nums": [2]}`),
-			ResponseBody: "Sum of 2 equal 2 \n",
+			ResponseBody: "2",
 			ResponseCode: http.StatusOK,
 		},
 		{
 			Name:         "For JSON array - Given the wrong Body key should ignore it and give the sum of correct one",
 			Body:         []byte(`{"nums": [2, 3], "wrongNums": 20}`),
-			ResponseBody: "Sum of 2,3 equal 5 \n",
+			ResponseBody: "5",
 			ResponseCode: http.StatusOK,
 		},
 		{
@@ -120,7 +120,7 @@ func TestAddRequestHandler(t *testing.T) {
 		{
 			Name:         "For Queries - Given one number in query should return the message with the same number",
 			queries:      "?num=2",
-			ResponseBody: "Sum of 2 equal 2 \n",
+			ResponseBody: "2",
 			ResponseCode: http.StatusOK,
 		},
 		{

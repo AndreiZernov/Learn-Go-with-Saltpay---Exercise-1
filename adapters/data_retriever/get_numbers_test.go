@@ -6,45 +6,45 @@ import (
 	"testing"
 )
 
-func TestDataRetriever_GetData(t *testing.T) {
-	adderTest := []struct {
+func TestGetNumbers(t *testing.T) {
+	getNumbersTest := []struct {
 		Name      string
 		Arguments []string
-		Numbers   string
+		Numbers   []int64
 	}{
 		{
 			Name:      "Given an Arguments --input-file data/input.txt should return Numbers inside",
 			Arguments: []string{"--input-file", "data/input.txt"},
-			Numbers:   "4\n5\n32\n100\n867543,",
+			Numbers:   []int64{4, 5, 32, 100, 867543},
 		},
 		{
 			Name:      "Given an Arguments --input-file twice should return string of Numbers merged from both files",
 			Arguments: []string{"--input-file", "data/input.txt", "--input-file", "data/input2.csv"},
-			Numbers:   "4\n5\n32\n100\n867543,4,5,32,100,867543,",
+			Numbers:   []int64{4, 5, 32, 100, 867543, 4, 5, 32, 100, 867543},
 		},
 		{
 			Name:      "Given an Arguments as Numbers in one string should return string of Numbers as it is",
 			Arguments: []string{"-2, 3, 4"},
-			Numbers:   "-2, 3, 4,",
+			Numbers:   []int64{-2, 3, 4},
 		},
 		{
 			Name:      "Given an Arguments as Numbers in wto string should return merged string of Numbers",
-			Arguments: []string{"-2, 3, 4", "-2, 3, 4"},
-			Numbers:   "-2, 3, 4,-2, 3, 4,",
+			Arguments: []string{"-2, 3 4", "-2, 3, 4"},
+			Numbers:   []int64{-2, 3, 4, -2, 3, 4},
 		},
 		{
 			Name:      "Given no Arguments should return default Numbers from data/input.txt file",
 			Arguments: []string{},
-			Numbers:   "4\n5\n32\n100\n867543",
+			Numbers:   []int64{4, 5, 32, 100, 867543},
 		},
 	}
 
-	for _, tt := range adderTest {
+	for _, tt := range getNumbersTest {
 		t.Run(tt.Name, func(t *testing.T) {
 			dataRetriever := data_retriever.New()
-			got, err := dataRetriever.GetData(tt.Arguments)
+			got, err := dataRetriever.GetNumbers(tt.Arguments)
 			if err != nil {
-				t.Errorf("DataRetriever.GetData() error = %v", err)
+				t.Errorf("DataRetriever.GetNumbers() error = %v", err)
 			}
 			assert.Equal(t, tt.Numbers, got)
 		})
