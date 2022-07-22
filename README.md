@@ -48,17 +48,17 @@ go build -o uuid cmd/uuid/main.go
 ./add
 ```
 Specify arguments to generate the sum:
-    1. Can be ```./add 1 2 3 4 5```. It will calculate the sum of the numbers.
-    2. Can be ```./add --input-file /data/input2.csv```. It will calculate the sum of the numbers from the file.
-    3. Can be ```./add```. It will calculate the sum of the numbers from the default file `/data/input.txt`.
+1. Can be ```./add 1 2 3 4 5```. It will calculate the sum of the numbers.
+2. Can be ```./add --input-file /data/input2.csv```. It will calculate the sum of the numbers from the file.
+3. Can be ```./add```. It will calculate the sum of the numbers from the default file `/data/input.txt`.
 
 #### To run `math` program, we need to run the following command:
 ```
 ./math --web-server 
 ```
 It will run the server and handle two endpoints:
-    1. `/add` - it will add the numbers from the input file.
-    2. `/fibonacci` - it will calculate the fibonacci number based on the input.
+1. `/add` - it will add the numbers from the input file.
+2. `/fibonacci` - it will calculate the fibonacci number based on the input.
 
 #### To run `fibo` program, we need to run the following command:
 ```
