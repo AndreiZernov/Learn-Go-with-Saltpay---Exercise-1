@@ -33,7 +33,7 @@ func TestMainFibo(t *testing.T) {
 
 		dir, err := os.Getwd()
 		if err != nil {
-			t.Fatal(err)
+			t.Errorf("Cannot get current directory")
 		}
 
 		cmdServer := filepath.Join(dir, "math")

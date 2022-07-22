@@ -18,7 +18,7 @@ const testAuthKeysPathname = "test_authorised_api_access_keys.txt"
 func TestMainUUID(t *testing.T) {
 	dir, err := os.Getwd()
 	if err != nil {
-		t.Fatal(err)
+		t.Errorf("Cannot get current directory")
 	}
 
 	cmdPath := filepath.Join(dir, binName)
@@ -29,7 +29,7 @@ func TestMainUUID(t *testing.T) {
 
 		data, err := files.ReadFile(testAuthKeysPathname)
 		if err != nil {
-			t.Fatal("Cannot read file")
+			t.Errorf("Cannot read file %s", testAuthKeysPathname)
 		}
 		files.RemoveFile(testAuthKeysPathname)
 
@@ -48,14 +48,14 @@ func CommandLineOutput(t testing.TB, cmd *exec.Cmd) string {
 	t.Helper()
 	cmdStdIn, err := cmd.StdinPipe()
 	if err != nil {
-		t.Fatal("cannot create stdin pipe")
+		t.Errorf("Cannot create stdin pipe")
 	}
 
 	cmdStdIn.Close()
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatal("cannot execute command")
+		t.Errorf("Cannot run command")
 	}
 
 	return string(out)

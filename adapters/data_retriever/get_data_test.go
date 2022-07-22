@@ -44,7 +44,7 @@ func TestDataRetriever_GetData(t *testing.T) {
 			dataRetriever := data_retriever.New()
 			got, err := dataRetriever.GetData(tt.Arguments)
 			if err != nil {
-				t.Fatal(err)
+				t.Errorf("DataRetriever.GetData() error = %v", err)
 			}
 			assert.Equal(t, tt.Numbers, got)
 		})

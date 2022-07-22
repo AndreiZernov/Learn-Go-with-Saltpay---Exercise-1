@@ -22,7 +22,7 @@ func TestAuthenticationMiddleware(t *testing.T) {
 
 	data, err := files.ReadFile(pathname)
 	if err != nil {
-		t.Fatal(err)
+		t.Errorf("Error reading file %s: %v", pathname, err)
 	}
 	authKeys := strings.Split(data, "\n")
 	authKey := authKeys[0]

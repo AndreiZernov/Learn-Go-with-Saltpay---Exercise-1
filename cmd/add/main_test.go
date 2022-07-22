@@ -15,7 +15,7 @@ const binName = "add"
 func TestMainAdd(t *testing.T) {
 	dir, dirErr := os.Getwd()
 	if dirErr != nil {
-		t.Fatal("cannot get current directory")
+		t.Errorf("Cannot get current directory")
 	}
 
 	cmdPath := filepath.Join(dir, binName)
@@ -64,14 +64,14 @@ func CommandLineOutput(t testing.TB, cmd *exec.Cmd) string {
 	t.Helper()
 	cmdStdIn, err := cmd.StdinPipe()
 	if err != nil {
-		t.Fatal("cannot create stdin pipe")
+		t.Errorf("Cannot create stdin pipe")
 	}
 
 	cmdStdIn.Close()
 
 	out, err := cmd.CombinedOutput()
 	if err != nil {
-		t.Fatal("cannot execute command")
+		t.Errorf("Cannot execute command")
 	}
 
 	return string(out)

@@ -36,7 +36,7 @@ func TestMainMath(t *testing.T) {
 
 		dir, err := os.Getwd()
 		if err != nil {
-			t.Fatal(err)
+			t.Errorf("Cannot get current directory")
 		}
 
 		cmdPath := filepath.Join(dir, binName)
@@ -51,7 +51,7 @@ func TestMainMath(t *testing.T) {
 
 		dir, err := os.Getwd()
 		if err != nil {
-			t.Fatal(err)
+			t.Errorf("Cannot get current directory")
 		}
 
 		cmdPath := filepath.Join(dir, binName)
@@ -66,7 +66,7 @@ func TestMainMath(t *testing.T) {
 
 		dir, err := os.Getwd()
 		if err != nil {
-			t.Fatal(err)
+			t.Errorf("Cannot get current directory")
 		}
 
 		cmdPath := filepath.Join(dir, binName)
@@ -74,7 +74,7 @@ func TestMainMath(t *testing.T) {
 
 		authKeys, err := files.ReadFile(testAuthKeysPathname)
 		if err != nil {
-			t.Fatal(err)
+			t.Errorf("Cannot read auth keys file")
 		}
 		authKey := strings.Split(authKeys, "\n")[0]
 
