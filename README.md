@@ -21,29 +21,29 @@ $ cd learn_go_with_saltpay_exercise_one
 
 ## How to build the programs
 
-#### For the first program, we need to build the `add` program.
+##### For the first program, we need to build the `add` program.
 ```
 go build -o add cmd/add/main.go
 ```
 
-#### For the second program, we need to build the `math` program.
+##### For the second program, we need to build the `math` program.
 ```
 go build -o math cmd/math/main.go
 ```
 
-#### For the third program, we need to build the `fibo` program.
+##### For the third program, we need to build the `fibo` program.
 ```
 go build -o fibo cmd/fibo/main.go
 ```
 
-#### For the fourth program, we need to build the `uuid` program.
+##### For the fourth program, we need to build the `uuid` program.
 ```
 go build -o uuid cmd/uuid/main.go
 ```
 
 ## How to Run the programs
 
-#### To run `add` program, we need to run the following command:
+##### To run `add` program, we need to run the following command:
 ```
 ./add
 ```
@@ -52,7 +52,7 @@ Specify arguments to generate the sum:
 2. Can be ```./add --input-file /data/input2.csv```. It will calculate the sum of the numbers from the file.
 3. Can be ```./add```. It will calculate the sum of the numbers from the default file `/data/input.txt`.
 
-#### To run `math` program, we need to run the following command:
+##### To run `math` program, we need to run the following command:
 ```
 ./math --web-server 
 ```
@@ -60,13 +60,13 @@ It will run the server and handle two endpoints:
 1. `/add` - it will add the numbers from the input file.
 2. `/fibonacci` - it will calculate the fibonacci number based on the input.
 
-#### To run `fibo` program, we need to run the following command:
+##### To run `fibo` program, we need to run the following command:
 ```
 ./fibo
 ```
 It will trigger the request for server and expecting to get the fibonacci number based on the input.
 
-#### To run `uuid` program, we need to run the following command:
+##### To run `uuid` program, we need to run the following command:
 ```
 ./uuid {{arguments}}
 ```
@@ -131,7 +131,7 @@ Percentage of the requests served within a certain time (ms)
 ## Part 29
 
 Findings: 
-#### UUIDs Optimization:
+##### UUIDs Optimization:
 1. First I used the uuid generator package through the `uuidgen` module. ```exec.Command("uuidgen").Output()```.
     Was not able to finish the generation of the 1 billion uuids as it took too long.
 2. Replaced the ```uuidgen``` with ```github.com/google/uuid``` which increase the speed of the generation of 100000 uuids from 17 seconds to 4 seconds
@@ -143,7 +143,7 @@ Findings:
 5. I was trying also use strings.Builder. Not much of improvements over previous method.
 6. I tried another uuid generator ```github.com/pborman/uuid```. It gave few seconds improvements over previous package.
 
-#### UUID Search Optimization:
+##### UUID Search Optimization:
 1. For search, I replace brute force for loop to generic binary search algorithm with ```sort.Search```. It did give only more time delay as the slice need to be sorted first.
     But still not acceptable performance. Request still was taken too long. 
 2. For search the uuid in the file, I used the `grep` command. It did not increase the performance, the delay was too big, I interrupt the request.
