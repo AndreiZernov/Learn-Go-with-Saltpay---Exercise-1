@@ -5,6 +5,8 @@ import (
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/slices"
 )
 
+const defaultFilePathname = "/data/input.txt"
+
 type DataRetriever struct{}
 
 func New() *DataRetriever {
@@ -15,7 +17,7 @@ func (dr DataRetriever) GetData(arguments []string) string {
 	var numbers string
 	switch {
 	case len(arguments) == 0:
-		return files.ReadFile("/data/input.txt")
+		return files.ReadFile(defaultFilePathname)
 
 	case slices.Contains(arguments, "--input-file"):
 		for i := 0; i < len(arguments); i++ {

@@ -11,9 +11,12 @@ import (
 	"testing"
 )
 
+const envAuthKeysEnvName = "AUTH_KEYS_PATHNAME"
+const testAuthKeysPathname = "test_authorised_api_access_keys.txt"
+
 func TestAuthenticationMiddleware(t *testing.T) {
 	pathname := "test_authorised_api_access_keys.txt"
-	t.Setenv("AUTH_KEYS_PATHNAME", "test_authorised_api_access_keys.txt")
+	t.Setenv(envAuthKeysEnvName, testAuthKeysPathname)
 
 	files.UUIDGenerator(1)
 

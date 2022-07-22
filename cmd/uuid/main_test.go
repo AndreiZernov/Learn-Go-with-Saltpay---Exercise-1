@@ -11,12 +11,14 @@ import (
 	"testing"
 )
 
+const binName = "uuid"
+const pathname = "test_authorised_api_access_keys.txt"
+
 func TestMainUUID(t *testing.T) {
 	dir, err := os.Getwd()
 	error_handler.HandlePanic(err)
 	cmdPath := filepath.Join(dir, binName)
-	pathname := "test_authorised_api_access_keys.txt"
-	t.Setenv("AUTH_KEYS_PATHNAME", "test_authorised_api_access_keys.txt")
+	t.Setenv("AUTH_KEYS_PATHNAME", pathname)
 
 	t.Run("Given a number 1 should generate a test_authorised_api_access_keys file with one UUID", func(t *testing.T) {
 		out := CommandLineOutput(t, exec.Command(cmdPath, "2"))
@@ -48,10 +50,6 @@ func CommandLineOutput(t testing.TB, cmd *exec.Cmd) string {
 
 	return string(out)
 }
-
-var (
-	binName = "uuid"
-)
 
 func TestMain(m *testing.M) {
 	fmt.Println("Building tool...")

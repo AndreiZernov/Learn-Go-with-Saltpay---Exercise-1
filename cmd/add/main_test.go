@@ -10,6 +10,8 @@ import (
 	"testing"
 )
 
+const binName = "add"
+
 func TestMainAdd(t *testing.T) {
 	dir, err := os.Getwd()
 	error_handler.HandlePanic(err)
@@ -68,10 +70,6 @@ func CommandLineOutput(t testing.TB, cmd *exec.Cmd) string {
 
 	return string(out)
 }
-
-var (
-	binName = "add"
-)
 
 func TestMain(m *testing.M) {
 	fmt.Println("Building tool...")

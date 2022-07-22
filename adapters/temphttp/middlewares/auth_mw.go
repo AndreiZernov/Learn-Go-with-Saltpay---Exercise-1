@@ -9,14 +9,14 @@ import (
 	"strings"
 )
 
-const envAuthKeysPathname = "AUTH_KEYS_PATHNAME"
+const envAuthKeysEnvName = "AUTH_KEYS_PATHNAME"
 
 func AuthenticationMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var (
 			authorization    = r.Header.Get("Authorization")
 			token            = strings.TrimPrefix(authorization, "Bearer ")
-			authKeysPathname = os.Getenv(envAuthKeysPathname)
+			authKeysPathname = os.Getenv(envAuthKeysEnvName)
 			stringOfKeys     = files.ReadFile(authKeysPathname)
 			sliceOfKeys      = strings.Split(stringOfKeys, "\n")
 		)

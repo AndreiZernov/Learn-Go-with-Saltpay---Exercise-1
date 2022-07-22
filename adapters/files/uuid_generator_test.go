@@ -5,15 +5,15 @@ import (
 	"testing"
 )
 
-func TestUUIDGenerator(t *testing.T) {
+const testAuthKeysPathname = "test_authorised_api_access_keys.txt"
 
+func TestUUIDGenerator(t *testing.T) {
 	t.Run("Should generate uuid", func(t *testing.T) {
-		pathname := "test_authorised_api_access_keys.txt"
-		t.Setenv("AUTH_KEYS_PATHNAME", pathname)
+		t.Setenv("AUTH_KEYS_PATHNAME", testAuthKeysPathname)
 
 		UUIDGenerator(1)
-		data := ReadFile(pathname)
-		defer RemoveFile(pathname)
+		data := ReadFile(testAuthKeysPathname)
+		defer RemoveFile(testAuthKeysPathname)
 
 		assert.Equal(t, 37, len(data))
 	})

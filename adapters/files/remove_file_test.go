@@ -8,9 +8,11 @@ import (
 	"testing"
 )
 
+const testAccessLogPathname = "adapters/files/test_access_log.txt"
+
 func TestRemoveFile(t *testing.T) {
 	t.Run("Should remove file", func(t *testing.T) {
-		pathname := "adapters/files/test_access_log.txt"
+		pathname := testAccessLogPathname
 
 		files.WriteFile(pathname, "test-data")
 		files.RemoveFile(pathname)
@@ -21,7 +23,7 @@ func TestRemoveFile(t *testing.T) {
 	})
 
 	t.Run("Should exist file", func(t *testing.T) {
-		pathname := "adapters/files/test_access_log.txt"
+		pathname := testAccessLogPathname
 
 		files.WriteFile(pathname, "test-data")
 		defer files.RemoveFile(pathname)
