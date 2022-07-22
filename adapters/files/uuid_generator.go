@@ -8,10 +8,10 @@ import (
 	"strings"
 )
 
-const envAuthKeysPathname = "AUTH_KEYS_PATHNAME"
+const envAuthKeysEnvName = "AUTH_KEYS_PATHNAME"
 
 func UUIDGenerator(number int) {
-	authKeysPathname := os.Getenv(envAuthKeysPathname)
+	authKeysPathname := os.Getenv(envAuthKeysEnvName)
 	path := filepath.Join(Root, authKeysPathname)
 	file, _ := os.OpenFile(path, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
 	dataWriter := bufio.NewWriter(file)

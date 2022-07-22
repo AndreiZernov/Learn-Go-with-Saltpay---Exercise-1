@@ -1,6 +1,7 @@
 package middlewares_test
 
 import (
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/temphttp/handlers"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/temphttp/middlewares"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/internals/testing_helpers"
@@ -11,7 +12,13 @@ import (
 	"testing"
 )
 
+const testLogName = "LOG_PATHNAME"
+const testAccessLogPathname = "adapters/files/test_access_log.txt"
+
 func TestLoggingMiddleware(t *testing.T) {
+	t.Setenv(testLogName, testAccessLogPathname)
+	defer files.RemoveFile(testAccessLogPathname)
+
 	loggingMiddlewareTests := []struct {
 		Name         string
 		Queries      string

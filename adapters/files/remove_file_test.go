@@ -4,7 +4,6 @@ import (
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	"github.com/stretchr/testify/assert"
 	"os"
-	"path/filepath"
 	"testing"
 )
 
@@ -17,8 +16,7 @@ func TestRemoveFile(t *testing.T) {
 		files.WriteFile(pathname, "test-data")
 		files.RemoveFile(pathname)
 
-		path := filepath.Join(files.Root, pathname)
-		_, err := os.Stat(path)
+		err := files.FindFile(pathname)
 		assert.Equal(t, true, os.IsNotExist(err))
 	})
 
@@ -28,8 +26,7 @@ func TestRemoveFile(t *testing.T) {
 		files.WriteFile(pathname, "test-data")
 		defer files.RemoveFile(pathname)
 
-		path := filepath.Join(files.Root, pathname)
-		_, err := os.Stat(path)
+		err := files.FindFile(pathname)
 		assert.Equal(t, false, os.IsNotExist(err))
 	})
 }

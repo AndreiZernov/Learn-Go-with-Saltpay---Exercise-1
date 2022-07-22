@@ -12,19 +12,20 @@ import (
 )
 
 const binName = "uuid"
-const pathname = "test_authorised_api_access_keys.txt"
+const envAuthKeysEnvName = "AUTH_KEYS_PATHNAME"
+const testAuthKeysPathname = "test_authorised_api_access_keys.txt"
 
 func TestMainUUID(t *testing.T) {
 	dir, dirErr := os.Getwd()
 	error_handler.AnnotatingError(dirErr, "Cannot get current directory")
 	cmdPath := filepath.Join(dir, binName)
-	t.Setenv("AUTH_KEYS_PATHNAME", pathname)
+	t.Setenv(envAuthKeysEnvName, testAuthKeysPathname)
 
 	t.Run("Given a number 1 should generate a test_authorised_api_access_keys file with one UUID", func(t *testing.T) {
 		out := CommandLineOutput(t, exec.Command(cmdPath, "2"))
 
-		data := files.ReadFile(pathname)
-		files.RemoveFile(pathname)
+		data := files.ReadFile(testAuthKeysPathname)
+		files.RemoveFile(testAuthKeysPathname)
 
 		assert.Equal(t, 74, len(data))
 		assert.Equal(t, "Successfully generated 2 uuid keys in test_authorised_api_access_keys.txt \nTo generate 2 keys it took 0 Seconds \n", out)

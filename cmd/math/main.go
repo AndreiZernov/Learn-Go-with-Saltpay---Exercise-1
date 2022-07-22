@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	router "github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/temphttp"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/slices"
 	"log"
@@ -11,7 +12,7 @@ import (
 	"time"
 )
 
-const envAuthKeysPathname = "AUTH_KEYS_PATHNAME"
+const envAuthKeysName = "AUTH_KEYS_PATHNAME"
 const serverSuccessfullyStartedMessage = "Web server is running on port 8080 \n"
 const serverDidNotStartMessage = "Web server did not start. Please check the command, should contain --web-server \n"
 const command = "go run cmd/uuid/main.go 1000"
@@ -21,11 +22,11 @@ const colorGreen = "\033[0;32m"
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
 	var (
-		authKeysPathname = os.Getenv(envAuthKeysPathname)
+		authKeysPathname = os.Getenv(envAuthKeysName)
 		serverPort       = os.Getenv("SERVER_PORT")
 	)
 
-	_, err := os.Stat(authKeysPathname)
+	err := files.FindFile(authKeysPathname)
 	if err != nil {
 		fmt.Fprintf(os.Stdout, "Keys was not generated yet, please run the command to generate auth keys %s %s %s and try it again", colorGreen, command, colorNone)
 		return

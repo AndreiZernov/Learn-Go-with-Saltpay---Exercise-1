@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/files"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"time"
 )
+
+const envAuthKeysName = "LOG_PATHNAME"
 
 type loggingResponseWriter struct {
 	http.ResponseWriter
@@ -26,12 +29,13 @@ func (lrw *loggingResponseWriter) WriteHeader(code int) {
 func LoggingMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var (
-			start         = time.Now()
-			lrw           = newLoggingResponseWriter(w)
-			statusCode    = lrw.statusCode
-			authorization = r.Header.Get("Authorization")
-			key           = strings.TrimPrefix(authorization, "Bearer ")
-			TimeFormat    = "2006-02-01T15:04:05Z"
+			start             = time.Now()
+			lrw               = newLoggingResponseWriter(w)
+			statusCode        = lrw.statusCode
+			accessLogPathname = os.Getenv(envAuthKeysName)
+			authorization     = r.Header.Get("Authorization")
+			key               = strings.TrimPrefix(authorization, "Bearer ")
+			TimeFormat        = "2006-02-01T15:04:05Z"
 		)
 
 		escapedKey := strings.Replace(key, "\n", "", -1)
@@ -50,7 +54,7 @@ func LoggingMiddleware(next http.Handler) http.Handler {
 			strconv.Itoa(statusCode),
 			time.Since(start).Milliseconds())
 
-		files.WriteFile("access_log.txt", logData+"\n")
+		files.WriteFile(accessLogPathname, logData+"\n")
 		fmt.Println(logData)
 
 		next.ServeHTTP(w, r)

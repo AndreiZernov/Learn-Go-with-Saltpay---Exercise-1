@@ -13,7 +13,6 @@ const keysNotGeneratedErrorMessage = "Keys was not generated, please specify the
 
 func main() {
 	var (
-		err              error
 		startTime        = time.Now()
 		toGetAllArgs     = os.Args[1:]
 		authKeysPathname = os.Getenv(envAuthKeysPathname)
@@ -22,7 +21,7 @@ func main() {
 	if len(toGetAllArgs) > 0 {
 		number, _ := strconv.Atoi(toGetAllArgs[0])
 
-		_, err = os.Stat(authKeysPathname)
+		err := files.FindFile(authKeysPathname)
 		if err == nil {
 			files.RemoveFile(authKeysPathname)
 		}
