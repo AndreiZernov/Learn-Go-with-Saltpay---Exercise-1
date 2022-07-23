@@ -14,6 +14,7 @@ import (
 )
 
 func TestFiboClient(t *testing.T) {
+	t.Skip("Skipping test")
 	t.Setenv("SERVER_PORT", "8080")
 	t.Setenv("API_ENDPOINT", "http://localhost")
 	t.Setenv(envAuthKeysEnvName, testAuthKeysPathname)
