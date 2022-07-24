@@ -3,9 +3,9 @@ package handlers
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/adapters/data_retriever"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/calculator"
 	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/domain/formatter"
+	"github.com/AndreiZernov/learn_go_with_saltpay_exercise_one/helpers/slices"
 	"html"
 	"io"
 	"net/http"
@@ -52,8 +52,11 @@ func AddRequestHandler(w http.ResponseWriter, req *http.Request) {
 		return
 	}
 
-	dataRetriever := data_retriever.New()
-	numbers, err := dataRetriever.GetNumbers(data)
+	numbers, err := slices.ConvertToSliceOfNumbers(data)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
 	calculate := calculator.New()
 	format := formatter.New()
