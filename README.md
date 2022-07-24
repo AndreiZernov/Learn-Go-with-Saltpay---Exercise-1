@@ -1,8 +1,8 @@
 # Learn Go with Saltpay - Exercise 1
 
-[Github Link to the exercise](https://github.com/saltpay/learn-go-with-salt/blob/master/book/exercise1.md) 
+[GitHub Link to the exercise](https://github.com/saltpay/learn-go-with-salt/blob/master/book/exercise1.md) 
 
-<img src="internals/golang_exercise_one.drawio.png" width="600" height="400" alt="golang diagram" />
+<img src="documents/golang_exercise_one.drawio.png" width="600" height="400" alt="golang diagram" />
 
 This repository contains an exercise one from Learn Go with Saltpay.
 4 projects can be found here:
