@@ -6,8 +6,10 @@ import (
 	"path/filepath"
 )
 
+const failedToFindFileErrorMessage = "failed to find file"
+
 func FindFile(path string) error {
 	path = filepath.Join(Root, path)
 	_, err := os.Stat(path)
-	return errors.Wrap(err, "failed to find file")
+	return errors.Wrap(err, failedToFindFileErrorMessage)
 }
