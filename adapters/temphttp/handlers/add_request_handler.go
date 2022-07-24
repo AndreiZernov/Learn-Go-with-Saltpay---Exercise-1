@@ -59,18 +59,17 @@ func AddRequestHandler(w http.ResponseWriter, req *http.Request) {
 	}
 
 	calculate := calculator.New()
-	format := formatter.New()
-
 	result, err := calculate.Add(numbers)
+
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
+	format := formatter.New()
 	formattedResult := format.GroupsOfThousands(result, len(formatQuery) > 0 && formatQuery[0] == "thousands")
-	responseMessage := fmt.Sprintf("%s", formattedResult)
 
-	_, err = fmt.Fprintf(w, "%s", html.EscapeString(responseMessage))
+	_, err = fmt.Fprintf(w, "%s", html.EscapeString(fmt.Sprintf("%s", formattedResult)))
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		return

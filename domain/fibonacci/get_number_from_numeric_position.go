@@ -12,17 +12,17 @@ func New() *Fibonacci {
 	return &Fibonacci{}
 }
 
-var ErrOverflow = errors.New("integer overflow")
-var ErrOutsideOfSequence = errors.New("position outside of fibonacci sequence")
+var ErrOverflow = "integer overflow"
+var ErrOutsideOfSequence = "position outside of fibonacci sequence"
 
 func (c Fibonacci) GetNumberFromNumericPosition(position int64) (int64, error) {
 	switch {
 	case position <= 0:
-		return 0, ErrOutsideOfSequence
+		return 0, errors.New(ErrOutsideOfSequence)
 	case position == 1:
 		return 0, nil
 	case position >= 94:
-		return 0, ErrOverflow
+		return 0, errors.New(ErrOverflow)
 	default:
 		numericPosition := position - 1
 

@@ -8,6 +8,9 @@ import (
 )
 
 const defaultFilePathname = "/data/input.txt"
+const failedToReadFileDefaultErrorMessage = "failed to read file from default path"
+const failedToReadFileFromSpecifiedPathErrorMessage = "failed to read file from specified path"
+const failedToConvertToStringErrorMessage = "failed to convert string to int"
 
 type DataRetriever struct{}
 
@@ -18,27 +21,28 @@ func New() *DataRetriever {
 func (dr DataRetriever) GetNumbers(arguments []string) ([]int64, error) {
 	var numbers []int64
 	switch {
-	case len(arguments) == 0:
+
+	case len(arguments) == 0: // If no arguments are passed, read from default file
 		data, err := files.ReadFile(defaultFilePathname)
 		if err != nil {
-			return nil, errors.Wrap(err, "failed to read file from default path")
+			return nil, errors.Wrap(err, failedToReadFileDefaultErrorMessage)
 		}
 
 		splittedData := strings.FieldsFunc(data, dr.split)
 		return slices.ConvertToSliceOfNumbers(splittedData)
 
-	case slices.Contains(arguments, "--input-file"):
+	case slices.Contains(arguments, "--input-file"): // If arguments are passed with --input-file, read from specified file
 		for i := 0; i < len(arguments); i++ {
 			if arguments[i] == "--input-file" && i+1 < len(arguments) {
 				data, err := files.ReadFile("/" + arguments[i+1])
 				if err != nil {
-					return nil, errors.Wrap(err, "failed to read file from specified path")
+					return nil, errors.Wrap(err, failedToReadFileFromSpecifiedPathErrorMessage)
 				}
 
 				splittedData := strings.FieldsFunc(data, dr.split)
 				convertedData, err := slices.ConvertToSliceOfNumbers(splittedData)
 				if err != nil {
-					return nil, errors.Wrap(err, "failed to convert string to int")
+					return nil, errors.Wrap(err, failedToConvertToStringErrorMessage)
 				}
 
 				numbers = append(numbers, convertedData[:]...)
@@ -46,12 +50,12 @@ func (dr DataRetriever) GetNumbers(arguments []string) ([]int64, error) {
 		}
 		return numbers, nil
 
-	default:
+	default: // If arguments are passed as numbers
 		for _, argument := range arguments {
 			splittedData := strings.FieldsFunc(argument, dr.split)
 			convertedData, err := slices.ConvertToSliceOfNumbers(splittedData)
 			if err != nil {
-				return nil, errors.Wrap(err, "failed to convert string to int")
+				return nil, errors.Wrap(err, failedToConvertToStringErrorMessage)
 			}
 
 			numbers = append(numbers, convertedData[:]...)

@@ -35,7 +35,7 @@ func main() {
 			log.Fatal(err)
 		}
 
-		fmt.Printf("Successfully generated %d uuid keys in %s \n", number, authKeysPathname)
+		fmt.Printf("Successfully generated %d uuid keys \n", number)
 		seconds := int(time.Since(startTime) / time.Second)
 		fmt.Printf("To generate %s keys it took %d Seconds \n", toGetAllArgs[0], seconds)
 	} else {

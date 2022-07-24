@@ -11,6 +11,8 @@ import (
 )
 
 const envAuthKeysEnvName = "AUTH_KEYS_PATHNAME"
+const missingAuthTokenErrorMessage = "Missing authentication token"
+const invalidAuthTokenErrorMessage = "Invalid authentication token"
 
 func AuthenticationMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -33,11 +35,11 @@ func AuthenticationMiddleware(next http.Handler) http.Handler {
 			next.ServeHTTP(w, r)
 		case token == "":
 			w.WriteHeader(http.StatusForbidden)
-			json.NewEncoder(w).Encode("Missing auth token")
+			json.NewEncoder(w).Encode(missingAuthTokenErrorMessage)
 			return
 		default:
 			w.WriteHeader(http.StatusForbidden)
-			json.NewEncoder(w).Encode("Invalid token")
+			json.NewEncoder(w).Encode(invalidAuthTokenErrorMessage)
 			return
 		}
 	})

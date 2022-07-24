@@ -11,6 +11,9 @@ import (
 )
 
 const envAuthKeysName = "AUTH_KEYS_PATHNAME"
+const envBaseURLName = "API_ENDPOINT"
+const envServerPotName = "SERVER_PORT"
+const failedToCallFiboClientErrorMessage = "failed to call new request in fibonacci client"
 
 type FiboClient struct {
 	baseURL string
@@ -26,20 +29,20 @@ func NewFiboClient(baseURL string, client *http.Client) *FiboClient {
 
 func (f FiboClient) Call(arg string) (*http.Request, error) {
 	var (
-		serverPort       = os.Getenv("SERVER_PORT")
-		apiEndpoint      = os.Getenv("API_ENDPOINT")
+		serverPort       = os.Getenv(envServerPotName)
+		apiEndpoint      = os.Getenv(envBaseURLName)
 		authKeysPathname = os.Getenv(envAuthKeysName)
 		requestURL       = fmt.Sprintf("%s:%s/fibonacci/%s", apiEndpoint, serverPort, arg)
 	)
 
 	req, err := http.NewRequest(http.MethodGet, requestURL, nil)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to call new request in fibonacci client")
+		return nil, errors.Wrap(err, failedToCallFiboClientErrorMessage)
 	}
 
 	authKeys, err := files.ReadFile(authKeysPathname)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to call new request in fibonacci client")
+		return nil, errors.Wrap(err, failedToCallFiboClientErrorMessage)
 	}
 
 	authKey := strings.Split(authKeys, "\n")[0]
@@ -47,12 +50,12 @@ func (f FiboClient) Call(arg string) (*http.Request, error) {
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to call new request in fibonacci client")
+		return nil, errors.Wrap(err, failedToCallFiboClientErrorMessage)
 	}
 
 	resBody, err := ioutil.ReadAll(res.Body)
 	if err != nil {
-		return nil, errors.Wrap(err, "failed to call new request in fibonacci client")
+		return nil, errors.Wrap(err, failedToCallFiboClientErrorMessage)
 	}
 
 	fmt.Printf("fibo %s: %s \n", arg, resBody)
