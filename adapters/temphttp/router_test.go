@@ -21,6 +21,7 @@ func TestRouter(t *testing.T) {
 
 	files.UUIDGenerator(1)
 	defer files.RemoveFile(testAuthKeysPathname)
+	defer files.RemoveFile(testAccessLogPathname)
 
 	routerTests := []struct {
 		Name, Queries, ResponseBody string
