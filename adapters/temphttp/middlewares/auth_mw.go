@@ -10,9 +10,11 @@ import (
 	"strings"
 )
 
-const envAuthKeysEnvName = "AUTH_KEYS_PATHNAME"
-const missingAuthTokenErrorMessage = "Missing authentication token"
-const invalidAuthTokenErrorMessage = "Invalid authentication token"
+const (
+	envAuthKeysEnvName           = "AUTH_KEYS_PATHNAME"
+	missingAuthTokenErrorMessage = "Missing authentication token"
+	invalidAuthTokenErrorMessage = "Invalid authentication token"
+)
 
 func AuthenticationMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {

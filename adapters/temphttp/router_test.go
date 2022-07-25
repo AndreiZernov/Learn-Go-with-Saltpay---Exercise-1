@@ -10,10 +10,12 @@ import (
 	"testing"
 )
 
-const envAuthKeysEnvName = "AUTH_KEYS_PATHNAME"
-const envLogPathname = "LOG_PATHNAME"
-const testAuthKeysPathname = "test_authorised_api_access_keys.txt"
-const testAccessLogPathname = "adapters/files/test_access_log.txt"
+const (
+	envAuthKeysEnvName    = "AUTH_KEYS_PATHNAME"
+	envLogPathname        = "LOG_PATHNAME"
+	testAuthKeysPathname  = "test_authorised_api_access_keys.txt"
+	testAccessLogPathname = "adapters/files/test_access_log.txt"
+)
 
 func TestRouter(t *testing.T) {
 	t.Setenv(envAuthKeysEnvName, testAuthKeysPathname)

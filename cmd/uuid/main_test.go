@@ -11,9 +11,11 @@ import (
 	"testing"
 )
 
-const binName = "uuid"
-const envAuthKeysEnvName = "AUTH_KEYS_PATHNAME"
-const testAuthKeysPathname = "test_authorised_api_access_keys.txt"
+const (
+	binName              = "uuid"
+	envAuthKeysEnvName   = "AUTH_KEYS_PATHNAME"
+	testAuthKeysPathname = "test_authorised_api_access_keys.txt"
+)
 
 func TestMainUUID(t *testing.T) {
 	dir, err := os.Getwd()

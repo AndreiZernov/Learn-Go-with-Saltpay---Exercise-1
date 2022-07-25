@@ -12,12 +12,14 @@ import (
 	"time"
 )
 
-const envAuthKeysName = "AUTH_KEYS_PATHNAME"
-const serverSuccessfullyStartedMessage = "Web server is running on port 8080 \n"
-const serverDidNotStartMessage = "Web server did not start. Please check the command, should contain --web-server \n"
-const command = "go run cmd/uuid/main.go 1000"
-const colorNone = "\033[0m"
-const colorGreen = "\033[0;32m"
+const (
+	envAuthKeysName                  = "AUTH_KEYS_PATHNAME"
+	serverSuccessfullyStartedMessage = "Web server is running on port 8080 \n"
+	serverDidNotStartMessage         = "Web server did not start. Please check the command, should contain --web-server \n"
+	command                          = "go run cmd/uuid/main.go 1000"
+	colorNone                        = "\033[0m"
+	colorGreen                       = "\033[0;32m"
+)
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())

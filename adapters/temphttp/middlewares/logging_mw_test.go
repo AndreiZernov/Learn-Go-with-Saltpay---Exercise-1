@@ -12,8 +12,10 @@ import (
 	"testing"
 )
 
-const testLogName = "LOG_PATHNAME"
-const testAccessLogPathname = "adapters/files/test_access_log.txt"
+const (
+	testLogName           = "LOG_PATHNAME"
+	testAccessLogPathname = "adapters/files/test_access_log.txt"
+)
 
 func TestLoggingMiddleware(t *testing.T) {
 	t.Setenv(testLogName, testAccessLogPathname)

@@ -11,9 +11,11 @@ func New() *Formatter {
 	return &Formatter{}
 }
 
-const max = 9999
-const min = -9999
-const thousandCommasFrequency = 3
+const (
+	max                     = 9999
+	min                     = -9999
+	thousandCommasFrequency = 3
+)
 
 func (f Formatter) GroupsOfThousands(number int64, format bool) string {
 	strNumber := fmt.Sprint(number)

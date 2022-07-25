@@ -9,8 +9,10 @@ import (
 	"time"
 )
 
-const envAuthKeysPathname = "AUTH_KEYS_PATHNAME"
-const keysNotGeneratedErrorMessage = "Keys was not generated, please specify the amount of keys to generate (go run uuid 1000) \n"
+const (
+	envAuthKeysPathname          = "AUTH_KEYS_PATHNAME"
+	keysNotGeneratedErrorMessage = "Keys was not generated, please specify the amount of keys to generate (go run uuid 1000) \n"
+)
 
 func main() {
 	var (

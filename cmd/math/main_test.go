@@ -15,11 +15,13 @@ import (
 	"testing"
 )
 
-const binName = "math"
-const envAuthKeysEnvName = "AUTH_KEYS_PATHNAME"
-const envLogPathname = "LOG_PATHNAME"
-const testAuthKeysPathname = "test_authorised_api_access_keys.txt"
-const testAccessLogPathname = "adapters/files/test_access_log.txt"
+const (
+	binName               = "math"
+	envAuthKeysEnvName    = "AUTH_KEYS_PATHNAME"
+	envLogPathname        = "LOG_PATHNAME"
+	testAuthKeysPathname  = "test_authorised_api_access_keys.txt"
+	testAccessLogPathname = "adapters/files/test_access_log.txt"
+)
 
 func TestMainMath(t *testing.T) {
 	t.Setenv(envAuthKeysEnvName, testAuthKeysPathname)

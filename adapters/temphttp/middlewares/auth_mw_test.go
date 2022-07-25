@@ -11,8 +11,10 @@ import (
 	"testing"
 )
 
-const envAuthKeysEnvName = "AUTH_KEYS_PATHNAME"
-const testAuthKeysPathname = "test_authorised_api_access_keys.txt"
+const (
+	envAuthKeysEnvName   = "AUTH_KEYS_PATHNAME"
+	testAuthKeysPathname = "test_authorised_api_access_keys.txt"
+)
 
 func TestAuthenticationMiddleware(t *testing.T) {
 	pathname := "test_authorised_api_access_keys.txt"

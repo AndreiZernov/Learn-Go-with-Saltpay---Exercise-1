@@ -7,10 +7,12 @@ import (
 	"strings"
 )
 
-const defaultFilePathname = "/data/input.txt"
-const failedToReadFileDefaultErrorMessage = "failed to read file from default path"
-const failedToReadFileFromSpecifiedPathErrorMessage = "failed to read file from specified path"
-const failedToConvertToStringErrorMessage = "failed to convert string to int"
+const (
+	defaultFilePathname                           = "/data/input.txt"
+	failedToReadFileDefaultErrorMessage           = "failed to read file from default path"
+	failedToReadFileFromSpecifiedPathErrorMessage = "failed to read file from specified path"
+	failedToConvertToStringErrorMessage           = "failed to convert string to int"
+)
 
 type DataRetriever struct{}
 

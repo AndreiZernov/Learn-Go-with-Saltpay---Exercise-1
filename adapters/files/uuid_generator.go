@@ -8,8 +8,10 @@ import (
 	"strings"
 )
 
-const envAuthKeyName = "AUTH_KEYS_PATHNAME"
-const failedToOpenFileErrorMessage = "failed to open file"
+const (
+	envAuthKeyName               = "AUTH_KEYS_PATHNAME"
+	failedToOpenFileErrorMessage = "failed to open file"
+)
 
 func UUIDGenerator(number int) error {
 	var (

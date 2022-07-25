@@ -10,10 +10,12 @@ import (
 	"strings"
 )
 
-const envAuthKeysName = "AUTH_KEYS_PATHNAME"
-const envBaseURLName = "API_ENDPOINT"
-const envServerPotName = "SERVER_PORT"
-const failedToCallFiboClientErrorMessage = "failed to call new request in fibonacci client"
+const (
+	envAuthKeysName                    = "AUTH_KEYS_PATHNAME"
+	envBaseURLName                     = "API_ENDPOINT"
+	envServerPotName                   = "SERVER_PORT"
+	failedToCallFiboClientErrorMessage = "failed to call new request in fibonacci client"
+)
 
 type FiboClient struct {
 	baseURL string
